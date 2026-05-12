@@ -43,7 +43,7 @@ class PassengerLoginController extends GetxController {
   void verify() {
     final otp = otpControllers.map((e) => e.text).join();
     debugPrint('Verifying OTP: $otp');
-    Get.offAllNamed<void>(AppRoutes.passengerHome);
+    Get.offAllNamed<void>(AppRoutes.passengerWhereTo);
   }
 
   void changeNumber() {

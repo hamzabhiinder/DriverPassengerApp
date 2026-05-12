@@ -4,6 +4,12 @@ import '../modules/driver_home/driver_home_binding.dart';
 import '../modules/driver_home/driver_home_view.dart';
 import '../modules/passenger_home/passenger_home_binding.dart';
 import '../modules/passenger_home/passenger_home_view.dart';
+import '../modules/passenger_confirm_ride/binding/passenger_confirm_ride_binding.dart';
+import '../modules/passenger_confirm_ride/screen/passenger_confirm_ride_screen.dart';
+import '../modules/passenger_select_vehicle/binding/passenger_select_vehicle_binding.dart';
+import '../modules/passenger_select_vehicle/screen/passenger_select_vehicle_screen.dart';
+import '../modules/passenger_where_to/binding/passenger_where_to_binding.dart';
+import '../modules/passenger_where_to/screen/passenger_where_to_screen.dart';
 import '../modules/passenger_login/binding/passenger_login_binding.dart';
 import '../modules/passenger_login/binding/passenger_otp_binding.dart';
 import '../modules/passenger_login/screen/passenger_login_view.dart';
@@ -40,6 +46,21 @@ abstract final class AppPages {
       name: AppRoutes.passengerOtpScreen,
       page: PassengerOtpScreenView.new,
       binding: PassengerOtpBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.passengerConfirmRide,
+      page: PassengerConfirmRideScreen.new,
+      binding: PassengerConfirmRideBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.passengerSelectVehicle,
+      page: PassengerSelectVehicleScreen.new,
+      binding: PassengerSelectVehicleBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.passengerWhereTo,
+      page: PassengerWhereToScreen.new,
+      binding: PassengerWhereToBinding(),
     ),
     GetPage<void>(
       name: AppRoutes.passengerHome,

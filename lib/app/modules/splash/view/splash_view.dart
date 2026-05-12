@@ -62,7 +62,7 @@ class _PremiumSplashContent extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Image.asset(
-          'assets/images/car_image.png',
+          'assets/images/splash_background.png',
           fit: BoxFit.cover,
           width: double.infinity,
           height: double.infinity,

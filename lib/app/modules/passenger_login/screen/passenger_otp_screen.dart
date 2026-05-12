@@ -18,9 +18,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
           child: Column(
             children: [
               const SizedBox(height: 40),
-
               Center(child: Image.asset('assets/images/logo.png', width: 180)),
-
               const Spacer(),
               Text(
                 'Welcome Back',
@@ -41,37 +39,29 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
                   height: 1.4,
                 ),
               ),
-
               const SizedBox(height: 40),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(4, (index) => _buildOtpBox(index)),
               ),
-
               const SizedBox(height: 40),
-
               GoldGradientCtaButton(
                 label: 'Verify & Continue',
                 onPressed: controller.verify,
               ),
-
               const SizedBox(height: 25),
-
-              // 5. Change Number Link
               TextButton(
                 onPressed: controller.changeNumber,
                 child: const Text(
                   'Change Number',
                   style: TextStyle(
-                    color: Color(0xFFC39E4D), // Gold color
+                    color: Color(0xFFC39E4D),
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
-
-              const Spacer(flex: 2), // Gives more space at bottom
+              const Spacer(flex: 2),
             ],
           ),
         ),
@@ -79,13 +69,12 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
     );
   }
 
-  // OTP Square Box Widget
   Widget _buildOtpBox(int index) {
     return Container(
       width: 65,
       height: 65,
       decoration: BoxDecoration(
-        color: const Color(0xFF1A1A1A), // Very dark grey
+        color: const Color(0xFF1A1A1A),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
@@ -93,7 +82,6 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
         focusNode: controller.focusNodes[index],
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
-
         maxLength: 1,
         style: const TextStyle(
           color: Colors.white,
@@ -101,7 +89,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
           fontWeight: FontWeight.bold,
         ),
         decoration: const InputDecoration(
-          counterText: "",
+          counterText: '',
           border: InputBorder.none,
           contentPadding: EdgeInsets.only(top: 12),
         ),
@@ -110,57 +98,6 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
             controller.focusNodes[index + 1].requestFocus();
           }
         },
-      ),
-    );
-  }
-
-  // Premium Button matching the image
-  Widget _buildVerifyButton() {
-    return GestureDetector(
-      onTap: controller.verify,
-      child: Container(
-        height: 70,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
-          gradient: const LinearGradient(
-            colors: [Color(0xFF8B6B22), Color(0xFFC39E4D)],
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            children: [
-              const Expanded(
-                child: Center(
-                  child: Text(
-                    "Verify & Continue",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              // Reusing your Animated Arrow Circle here
-              Container(
-                height: 55,
-                width: 55,
-                decoration: const BoxDecoration(
-                  color: Colors.black,
-                  shape: BoxShape.circle,
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.keyboard_double_arrow_right,
-                    color: Colors.white,
-                  ),
-                  // Note: Swap this Icon with the AnimatedChevron widget from previous step
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
