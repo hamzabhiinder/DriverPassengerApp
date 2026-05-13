@@ -4,6 +4,8 @@ import '../modules/driver_home/driver_home_binding.dart';
 import '../modules/driver_home/driver_home_view.dart';
 import '../modules/passenger_home/passenger_home_binding.dart';
 import '../modules/passenger_home/passenger_home_view.dart';
+import '../modules/passenger_chauffeur_assigned/binding/passenger_chauffeur_assigned_binding.dart';
+import '../modules/passenger_chauffeur_assigned/screen/passenger_chauffeur_assigned_screen.dart';
 import '../modules/passenger_confirm_ride/binding/passenger_confirm_ride_binding.dart';
 import '../modules/passenger_confirm_ride/screen/passenger_confirm_ride_screen.dart';
 import '../modules/passenger_select_vehicle/binding/passenger_select_vehicle_binding.dart';
@@ -46,6 +48,11 @@ abstract final class AppPages {
       name: AppRoutes.passengerOtpScreen,
       page: PassengerOtpScreenView.new,
       binding: PassengerOtpBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.passengerChauffeurAssigned,
+      page: PassengerChauffeurAssignedScreen.new,
+      binding: PassengerChauffeurAssignedBinding(),
     ),
     GetPage<void>(
       name: AppRoutes.passengerConfirmRide,

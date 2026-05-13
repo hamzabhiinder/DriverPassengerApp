@@ -19,7 +19,7 @@ class PassengerSelectVehicleController extends GetxController {
       VehicleOption(
         categoryLabel: 'Executive Sedan',
         name: 'BMW i5 or Similar',
-        luggageLabel: 'Luggage: 2 large suitcases',
+        luggageLabel: '2 large suitcases',
         passengersLabel: 'Passengers: 1–3',
         priceLabel: '\$120',
         imageAsset: _car1,
@@ -27,7 +27,7 @@ class PassengerSelectVehicleController extends GetxController {
       VehicleOption(
         categoryLabel: 'Elite SUV',
         name: 'Chevrolet Tahoe or Similar',
-        luggageLabel: 'Luggage: 4 large suitcases',
+        luggageLabel: '4 large suitcases',
         passengersLabel: 'Passengers: 1–6',
         priceLabel: '\$180',
         imageAsset: _car2,
@@ -35,7 +35,7 @@ class PassengerSelectVehicleController extends GetxController {
       VehicleOption(
         categoryLabel: 'VIP SUV',
         name: 'Mercedes-Maybach GLS or Similar',
-        luggageLabel: 'Luggage: 4 large suitcases',
+        luggageLabel: '4 large suitcases',
         passengersLabel: 'Passengers: 1–4',
         priceLabel: '\$220',
         imageAsset: _car2,

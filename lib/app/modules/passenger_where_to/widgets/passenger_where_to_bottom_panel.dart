@@ -20,9 +20,7 @@ class PassengerWhereToBottomPanel extends GetView<PassengerWhereToController> {
         decoration: const BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-          border: Border(
-            top: BorderSide(color: AppColors.outline, width: 1),
-          ),
+          border: Border(top: BorderSide(color: AppColors.outline, width: 1)),
         ),
         child: SingleChildScrollView(
           padding: EdgeInsets.fromLTRB(20, 22, 20, 16 + bottomSafe),
@@ -55,20 +53,39 @@ class PassengerWhereToBottomPanel extends GetView<PassengerWhereToController> {
               _LocationField(
                 controller: controller.pickupController,
                 hint: 'Current Location',
-                icon: Icons.location_on_outlined,
+                prefixIcon: UnconstrainedBox(
+                  child: Image.asset(
+                    'assets/icons/location_icon.png',
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
               ),
               const SizedBox(height: 12),
               _LocationField(
                 controller: controller.destinationController,
                 hint: 'Where would you like to go?',
-                icon: Icons.turn_right_rounded,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: UnconstrainedBox(
+                    child: Image.asset(
+                      'assets/icons/plane_icon.png',
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(height: 22),
               Row(
                 children: [
                   Expanded(
                     child: _ShortcutTile(
-                      icon: Icons.event_available_rounded,
+                      icon: const Icon(
+                        Icons.event_available,
+                        color: AppColors.goldMid,
+                        size: 26,
+                      ),
                       label: 'Schedule',
                       onTap: controller.onScheduleTap,
                     ),
@@ -76,7 +93,11 @@ class PassengerWhereToBottomPanel extends GetView<PassengerWhereToController> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: _ShortcutTile(
-                      icon: Icons.bookmark_outline_rounded,
+                      icon: const Icon(
+                        Icons.bookmark,
+                        color: AppColors.goldMid,
+                        size: 26,
+                      ),
                       label: 'Saved',
                       onTap: controller.onSavedTap,
                     ),
@@ -84,7 +105,12 @@ class PassengerWhereToBottomPanel extends GetView<PassengerWhereToController> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: _ShortcutTile(
-                      icon: Icons.flight_takeoff_rounded,
+                      icon: Image.asset(
+                        'assets/icons/plane_icon.png',
+                        width: 26,
+                        height: 26,
+                        color: AppColors.goldMid,
+                      ),
                       label: 'Airport',
                       onTap: controller.onAirportTap,
                     ),
@@ -108,12 +134,12 @@ class _LocationField extends StatelessWidget {
   const _LocationField({
     required this.controller,
     required this.hint,
-    required this.icon,
+    required this.prefixIcon,
   });
 
   final TextEditingController controller;
   final String hint;
-  final IconData icon;
+  final Widget prefixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -133,18 +159,22 @@ class _LocationField extends StatelessWidget {
           fontWeight: FontWeight.w400,
           color: AppColors.hint,
         ),
-        prefixIcon: Icon(icon, color: AppColors.onSurfaceMuted, size: 22),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+
+        prefixIcon: prefixIcon,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 18,
+        ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(50),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(50),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(50),
           borderSide: const BorderSide(color: AppColors.outline),
         ),
       ),
@@ -159,7 +189,7 @@ class _ShortcutTile extends StatelessWidget {
     required this.onTap,
   });
 
-  final IconData icon;
+  final Widget icon;
   final String label;
   final VoidCallback onTap;
 
@@ -172,18 +202,19 @@ class _ShortcutTile extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, color: AppColors.goldMid, size: 26),
+              icon,
               const SizedBox(height: 8),
               Text(
                 label,
                 textAlign: TextAlign.center,
                 style: AppTypography.geist(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
                   color: AppColors.onSurface,
                 ),
               ),

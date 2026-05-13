@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../routes/app_routes.dart';
 import '../models/confirm_ride_args.dart';
 
 class PassengerConfirmRideController extends GetxController {
@@ -25,14 +26,11 @@ class PassengerConfirmRideController extends GetxController {
   }
 
   void onConfirmBooking() {
-    Get.back<void>();
-    Future<void>.microtask(() {
-      Get.snackbar(
-        'Booking',
-        'Your ride is confirmed.',
-        snackPosition: SnackPosition.BOTTOM,
-        margin: const EdgeInsets.all(16),
-      );
-    });
+    Get.offNamed<void>(
+      AppRoutes.passengerChauffeurAssigned,
+      arguments: <String, dynamic>{
+        'vehicleModel': args.vehicleName,
+      },
+    );
   }
 }

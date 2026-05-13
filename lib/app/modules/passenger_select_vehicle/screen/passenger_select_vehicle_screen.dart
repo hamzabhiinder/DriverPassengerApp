@@ -87,8 +87,9 @@ class PassengerSelectVehicleScreen
               );
             }),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 12 + bottom),
+          Container(
+            padding: EdgeInsets.fromLTRB(20, 22, 20, 12 + bottom),
+
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
