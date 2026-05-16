@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/gold_gradient_cta_button.dart';
 import '../controller/passenger_chauffeur_assigned_controller.dart';
 import '../widgets/chauffeur_assigned_map_layer.dart';
 
@@ -84,8 +85,7 @@ class PassengerChauffeurAssignedScreen
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  PassengerChauffeurAssignedController
-                                      .chauffeurName,
+                                  controller.chauffeurName,
                                   style: AppTypography.geist(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w700,
@@ -154,6 +154,11 @@ class PassengerChauffeurAssignedScreen
                             ],
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 22),
+                      GoldGradientCtaButton(
+                        label: 'Ride complete',
+                        onPressed: controller.onRideComplete,
                       ),
                     ],
                   ),

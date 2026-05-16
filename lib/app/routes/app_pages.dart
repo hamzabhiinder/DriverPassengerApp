@@ -6,6 +6,10 @@ import '../modules/passenger_home/passenger_home_binding.dart';
 import '../modules/passenger_home/passenger_home_view.dart';
 import '../modules/passenger_chauffeur_assigned/binding/passenger_chauffeur_assigned_binding.dart';
 import '../modules/passenger_chauffeur_assigned/screen/passenger_chauffeur_assigned_screen.dart';
+import '../modules/passenger_payment_summary/binding/passenger_payment_summary_binding.dart';
+import '../modules/passenger_payment_summary/screen/passenger_payment_summary_screen.dart';
+import '../modules/passenger_rate_ride/binding/passenger_rate_ride_binding.dart';
+import '../modules/passenger_rate_ride/screen/passenger_rate_ride_screen.dart';
 import '../modules/passenger_confirm_ride/binding/passenger_confirm_ride_binding.dart';
 import '../modules/passenger_confirm_ride/screen/passenger_confirm_ride_screen.dart';
 import '../modules/passenger_select_vehicle/binding/passenger_select_vehicle_binding.dart';
@@ -53,6 +57,16 @@ abstract final class AppPages {
       name: AppRoutes.passengerChauffeurAssigned,
       page: PassengerChauffeurAssignedScreen.new,
       binding: PassengerChauffeurAssignedBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.passengerPaymentSummary,
+      page: PassengerPaymentSummaryScreen.new,
+      binding: PassengerPaymentSummaryBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.passengerRateRide,
+      page: PassengerRateRideScreen.new,
+      binding: PassengerRateRideBinding(),
     ),
     GetPage<void>(
       name: AppRoutes.passengerConfirmRide,

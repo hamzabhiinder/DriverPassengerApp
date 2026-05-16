@@ -30,6 +30,9 @@ class PassengerConfirmRideController extends GetxController {
       AppRoutes.passengerChauffeurAssigned,
       arguments: <String, dynamic>{
         'vehicleModel': args.vehicleName,
+        'baseFareUsd': args.baseFareUsd,
+        'serviceFeeUsd': args.serviceFeeUsd,
+        'cardMask': paymentMask,
       },
     );
   }

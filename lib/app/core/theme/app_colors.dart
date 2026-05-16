@@ -12,6 +12,9 @@ abstract final class AppColors {
   /// [ColorScheme.primaryContainer] (dark surfaces / nested panels).
   static const Color primaryContainer = Color(0xFF1A1A1A);
 
+  /// Payment summary / method tiles (design #1C1C1E).
+  static const Color paymentSummaryCard = Color(0xFF1C1C1E);
+
   /// [ColorScheme.secondaryContainer].
   static const Color secondaryContainer = Color(0xFF222222);
   static const Color onSurface = Color(0xFFF2F2F2);
