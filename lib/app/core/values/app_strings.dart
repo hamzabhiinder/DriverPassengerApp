@@ -1,4 +1,3 @@
-/// Central copy for UI; extend per feature module as needed.
 abstract final class AppStrings {
   static const appName = 'Driver Passenger';
   static const splashTagline = 'Rides, your way';

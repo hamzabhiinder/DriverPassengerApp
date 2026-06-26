@@ -21,7 +21,6 @@ class SplashController extends GetxController {
   Future<void> _runIntroSequence() async {
     final context = Get.context;
     if (context != null && context.mounted) {
-      // Fire-and-forget: tests / slow IO must not block the intro transition.
       precacheImage(const AssetImage('assets/images/car_image.png'), context);
     }
     await Future<void>.delayed(const Duration(milliseconds: 900));

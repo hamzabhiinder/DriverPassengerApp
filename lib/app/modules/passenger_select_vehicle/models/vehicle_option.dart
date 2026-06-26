@@ -1,4 +1,3 @@
-/// One row on the “Select vehicle” list.
 class VehicleOption {
   const VehicleOption({
     required this.categoryLabel,

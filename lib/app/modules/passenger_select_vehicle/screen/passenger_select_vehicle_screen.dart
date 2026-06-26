@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -23,21 +24,21 @@ class PassengerSelectVehicleScreen
         backgroundColor: AppColors.background,
         elevation: 0,
         scrolledUnderElevation: 0,
-        toolbarHeight: 72,
-        leadingWidth: 56,
+        toolbarHeight: 68.h,
+        leadingWidth: 56.w,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 8, top: 8, bottom: 8),
+          padding: EdgeInsets.only(left: 8.w, top: 8.h, bottom: 8.h),
           child: Material(
             color: AppColors.primaryContainer,
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: BorderRadius.circular(999.r),
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: Get.back<void>,
-              child: const Center(
+              child: Center(
                 child: Icon(
                   Icons.arrow_back_ios_new_rounded,
                   color: AppColors.onBackgroundBright,
-                  size: 18,
+                  size: 18.sp,
                 ),
               ),
             ),
@@ -54,7 +55,7 @@ class PassengerSelectVehicleScreen
                 color: AppColors.onBackgroundBright,
               ),
             ),
-            const SizedBox(height: 2),
+            SizedBox(height: 2.h),
             Text(
               'Choose your premium ride',
               style: AppTypography.geist(
@@ -71,11 +72,10 @@ class PassengerSelectVehicleScreen
         children: [
           Expanded(
             child: Obx(() {
-              // Read Rx here (not only inside itemBuilder) so GetX tracks the subscription.
               final selected = controller.selectedIndex.value;
               final items = controller.vehicles;
               return ListView.builder(
-                padding: const EdgeInsets.only(top: 8, bottom: 8),
+                padding: EdgeInsets.only(top: 8.h, bottom: 8.h),
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   return VehicleSelectCard(
@@ -88,8 +88,7 @@ class PassengerSelectVehicleScreen
             }),
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(20, 22, 20, 12 + bottom),
-
+            padding: EdgeInsets.fromLTRB(20.w, 22.h, 20.w, 12.h + bottom),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -97,7 +96,7 @@ class PassengerSelectVehicleScreen
                   label: 'Continue',
                   onPressed: controller.onContinue,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
               ],
             ),
           ),

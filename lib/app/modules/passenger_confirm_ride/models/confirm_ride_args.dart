@@ -1,4 +1,3 @@
-/// Passed from [PassengerSelectVehicleController.onContinue] via [Get.arguments].
 class ConfirmRideArgs {
   const ConfirmRideArgs({
     required this.pickupLabel,

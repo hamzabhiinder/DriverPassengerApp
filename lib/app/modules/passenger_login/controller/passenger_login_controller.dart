@@ -35,8 +35,6 @@ class PassengerLoginController extends GetxController {
         c.clear();
       }
     }
-    // TODO: integrate OTP API; navigate after success.
-    // Keep login route under OTP so this controller is not disposed (offAllNamed would dispose it).
     Get.toNamed<void>(AppRoutes.passengerOtpScreen);
   }
 

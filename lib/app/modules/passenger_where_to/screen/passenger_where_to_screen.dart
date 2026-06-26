@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_responsive.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../routes/app_routes.dart';
 import '../controller/passenger_where_to_controller.dart';
@@ -14,8 +16,7 @@ class PassengerWhereToScreen extends GetView<PassengerWhereToController> {
 
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.sizeOf(context).height;
-    final panelHeight = (h * 0.56).clamp(380.0, 520.0);
+    final panelHeight = AppResponsive.whereToPanelHeight();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -23,11 +24,11 @@ class PassengerWhereToScreen extends GetView<PassengerWhereToController> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          const PassengerWhereToMapLayer(), 
+          const PassengerWhereToMapLayer(),
           SafeArea(
             bottom: false,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -57,15 +58,18 @@ class PassengerWhereToScreen extends GetView<PassengerWhereToController> {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.surfaceElevated,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       builder: (ctx) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: const Icon(Icons.swap_horiz_rounded, color: AppColors.onSurface),
+              leading: const Icon(
+                Icons.swap_horiz_rounded,
+                color: AppColors.onSurface,
+              ),
               title: Text(
                 'Switch role',
                 style: AppTypography.geist(
@@ -80,7 +84,10 @@ class PassengerWhereToScreen extends GetView<PassengerWhereToController> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.home_outlined, color: AppColors.onSurfaceMuted),
+              leading: const Icon(
+                Icons.home_outlined,
+                color: AppColors.onSurfaceMuted,
+              ),
               title: Text(
                 'Passenger home',
                 style: AppTypography.geist(
@@ -107,11 +114,11 @@ class _WelcomeGuestPill extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.background.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(999.r),
         border: Border.all(color: AppColors.outline),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
         child: Text(
           'Welcome, Guest',
           style: AppTypography.geist(
@@ -139,12 +146,12 @@ class _ProfileButton extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         customBorder: const CircleBorder(),
-        child: const Padding(
-          padding: EdgeInsets.all(12),
+        child: Padding(
+          padding: EdgeInsets.all(12.w),
           child: Icon(
             Icons.person_rounded,
             color: AppColors.onBackgroundBright,
-            size: 24,
+            size: 24.sp,
           ),
         ),
       ),

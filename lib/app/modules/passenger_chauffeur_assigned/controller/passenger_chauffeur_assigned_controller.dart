@@ -7,7 +7,6 @@ import '../../../routes/app_routes.dart';
 class PassengerChauffeurAssignedController extends GetxController {
   final MapController mapController = MapController();
 
-  /// Shown under chauffeur name (from booking confirm args when passed).
   late final String vehicleModel;
   late final String chauffeurName;
   late final int baseFareUsd;
@@ -56,7 +55,6 @@ class PassengerChauffeurAssignedController extends GetxController {
     );
   }
 
-  /// Called when the passenger marks the ride as finished (pay / summary).
   void onRideComplete() {
     Get.offNamed<void>(
       AppRoutes.passengerPaymentSummary,

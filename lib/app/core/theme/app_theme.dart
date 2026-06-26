@@ -5,7 +5,6 @@ import 'app_colors.dart';
 import 'app_typography.dart';
 
 abstract final class AppTheme {
-  /// App is dark-only; use this for [GetMaterialApp.theme].
   static ThemeData dark() {
     final baseText = AppTypography.textThemeFor(Brightness.dark);
 

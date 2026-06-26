@@ -1,6 +1,6 @@
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -21,63 +21,62 @@ class PassengerRateRideScreen extends GetView<PassengerRateRideController> {
         child: Column(
           children: [
             Expanded(
-              child: Column(
-                children: [
-                  const SizedBox(height: kToolbarHeight),
-                  _AvatarHeader(),
-                  const SizedBox(height: 22),
-                  Text(
-                    'Rate Your Experience',
-                    textAlign: TextAlign.center,
-                    style: AppTypography.castoro(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.onBackgroundBright,
-                      height: 1.2,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  children: [
+                    SizedBox(height: 8.h),
+                    const _AvatarHeader(),
+                    SizedBox(height: 22.h),
+                    Text(
+                      'Rate Your Experience',
+                      textAlign: TextAlign.center,
+                      style: AppTypography.castoro(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.onBackgroundBright,
+                        height: 1.2,
+                      ),
                     ),
-                  ),
-
-                  Text(
-                    'How was your ride with ${controller.args.chauffeurName}?',
-                    textAlign: TextAlign.center,
-                    style: AppTypography.geist(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w200,
-                      color: AppColors.onBackgroundBright,
-                      height: 1.35,
+                    Text(
+                      'How was your ride with ${controller.args.chauffeurName}?',
+                      textAlign: TextAlign.center,
+                      style: AppTypography.geist(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w200,
+                        color: AppColors.onBackgroundBright,
+                        height: 1.35,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 28),
-                  Obx(() {
-                    final r = controller.rating.value;
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(5, (i) {
-                        final filled = i < r;
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2),
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () => controller.setRating(i + 1),
-                            child: Icon(
-                              filled
-                                  ? Icons.star_rounded
-                                  : Icons.star_outline_rounded,
-                              size: 44,
-                              color: filled
-                                  ? AppColors.goldRing
-                                  : AppColors.outline,
+                    SizedBox(height: 28.h),
+                    Obx(() {
+                      final rating = controller.rating.value;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(5, (i) {
+                          final filled = i < rating;
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 2.w),
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () => controller.setRating(i + 1),
+                              child: Icon(
+                                filled
+                                    ? Icons.star_rounded
+                                    : Icons.star_outline_rounded,
+                                size: 40.sp,
+                                color: filled
+                                    ? AppColors.goldRing
+                                    : AppColors.outline,
+                              ),
                             ),
-                          ),
-                        );
-                      }),
-                    );
-                  }),
-                  const SizedBox(height: 32),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                          );
+                        }),
+                      );
+                    }),
+                    SizedBox(height: 32.h),
+                    Align(
+                      alignment: Alignment.centerLeft,
                       child: Text(
                         'Additional Feedback (optional)',
                         style: AppTypography.geist(
@@ -87,12 +86,8 @@ class PassengerRateRideScreen extends GetView<PassengerRateRideController> {
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-
-                    child: TextField(
+                    SizedBox(height: 10.h),
+                    TextField(
                       controller: controller.feedbackController,
                       maxLines: 5,
                       style: AppTypography.geist(
@@ -110,21 +105,21 @@ class PassengerRateRideScreen extends GetView<PassengerRateRideController> {
                         ),
                         filled: true,
                         fillColor: AppColors.paymentSummaryCard,
-                        contentPadding: const EdgeInsets.all(16),
+                        contentPadding: EdgeInsets.all(16.w),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                           borderSide: BorderSide(
                             color: AppColors.outline.withValues(alpha: 0.9),
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                           borderSide: BorderSide(
                             color: AppColors.outline.withValues(alpha: 0.9),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                           borderSide: const BorderSide(
                             color: AppColors.goldRing,
                             width: 1.2,
@@ -132,30 +127,32 @@ class PassengerRateRideScreen extends GetView<PassengerRateRideController> {
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 18),
-                  Obx(() {
-                    final selected = Set<String>.from(controller.selectedTags);
-                    return Wrap(
-                      spacing: 5,
-                      runSpacing: 10,
-                      alignment: WrapAlignment.start,
-                      children: [
-                        for (final tag in PassengerRateRideController.quickTags)
-                          _FeedbackChip(
-                            label: tag,
-                            selected: selected.contains(tag),
-                            onTap: () => controller.toggleTag(tag),
-                          ),
-                      ],
-                    );
-                  }),
-                  SizedBox(height: 24 + bottom * 0.25),
-                ],
+                    SizedBox(height: 18.h),
+                    Obx(() {
+                      final selected =
+                          Set<String>.from(controller.selectedTags);
+                      return Wrap(
+                        spacing: 8.w,
+                        runSpacing: 10.h,
+                        alignment: WrapAlignment.start,
+                        children: [
+                          for (final tag
+                              in PassengerRateRideController.quickTags)
+                            _FeedbackChip(
+                              label: tag,
+                              selected: selected.contains(tag),
+                              onTap: () => controller.toggleTag(tag),
+                            ),
+                        ],
+                      );
+                    }),
+                    SizedBox(height: 24.h),
+                  ],
+                ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(22, 0, 22, 8 + bottom),
+              padding: EdgeInsets.fromLTRB(22.w, 0, 22.w, 8.h + bottom),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -163,7 +160,7 @@ class PassengerRateRideScreen extends GetView<PassengerRateRideController> {
                     label: 'Submit Rating',
                     onPressed: controller.onSubmitRating,
                   ),
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14.h),
                   TextButton(
                     onPressed: controller.onSkip,
                     child: Text(
@@ -186,11 +183,15 @@ class PassengerRateRideScreen extends GetView<PassengerRateRideController> {
 }
 
 class _AvatarHeader extends GetView<PassengerRateRideController> {
+  const _AvatarHeader();
+
   @override
   Widget build(BuildContext context) {
+    final size = 88.w;
+
     return Container(
-      width: 100,
-      height: 100,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppColors.primaryContainer,
@@ -199,7 +200,11 @@ class _AvatarHeader extends GetView<PassengerRateRideController> {
           width: 1.5,
         ),
       ),
-      child: Icon(CupertinoIcons.person, color: AppColors.goldMid, size: 50),
+      child: Icon(
+        CupertinoIcons.person,
+        color: AppColors.goldMid,
+        size: size * 0.5,
+      ),
     );
   }
 }
@@ -221,10 +226,10 @@ class _FeedbackChip extends StatelessWidget {
       color: AppColors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(999.r),
         child: Ink(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: BorderRadius.circular(999.r),
             border: Border.all(
               color: selected ? AppColors.goldRing : AppColors.onSurfaceMuted,
               width: selected ? 1.5 : 1,
@@ -234,7 +239,7 @@ class _FeedbackChip extends StatelessWidget {
                 : AppColors.transparent,
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             child: Text(
               label,
               style: AppTypography.geist(

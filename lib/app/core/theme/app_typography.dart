@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Product typography: **Castoro** for headings, **Geist** for body/UI.
 abstract final class AppTypography {
   static TextTheme textThemeFor(Brightness brightness) {
     final base = ThemeData(brightness: brightness).textTheme;
@@ -30,7 +30,7 @@ abstract final class AppTypography {
     TextDecoration? decoration,
   }) {
     return GoogleFonts.castoro(
-      fontSize: fontSize,
+      fontSize: fontSize?.sp,
       fontWeight: fontWeight,
       color: color,
       height: height,
@@ -49,7 +49,7 @@ abstract final class AppTypography {
   }) {
     return TextStyle(
       fontFamily: 'Geist',
-      fontSize: fontSize,
+      fontSize: fontSize?.sp,
       fontWeight: fontWeight,
       color: color,
       height: height,

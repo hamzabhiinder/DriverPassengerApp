@@ -7,7 +7,6 @@ import '../../../core/theme/app_colors.dart';
 import '../../passenger_where_to/controller/passenger_where_to_controller.dart';
 import '../controller/passenger_chauffeur_assigned_controller.dart';
 
-/// Dark map + nearby grey cars + centered pickup glow (same region as where-to).
 class ChauffeurAssignedMapLayer
     extends GetView<PassengerChauffeurAssignedController> {
   const ChauffeurAssignedMapLayer({super.key});

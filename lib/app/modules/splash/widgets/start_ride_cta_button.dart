@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../core/widgets/gold_gradient_cta_button.dart';
 
-/// Splash “Start ride” — uses shared gold pill CTA.
 class StartRideCtaButton extends StatelessWidget {
   const StartRideCtaButton({super.key, required this.onPressed});
 

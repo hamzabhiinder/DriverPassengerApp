@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
@@ -19,10 +20,10 @@ class GoldGradientCtaButton extends StatelessWidget {
       color: AppColors.transparent,
       child: InkWell(
         onTap: onPressed,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(999.r),
         child: Ink(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: BorderRadius.circular(999.r),
             gradient: const LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
@@ -34,13 +35,15 @@ class GoldGradientCtaButton extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 6, 6, 6),
+            padding: EdgeInsets.fromLTRB(18.w, 6.h, 6.w, 6.h),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
                     label,
                     textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: AppTypography.geist(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -50,8 +53,8 @@ class GoldGradientCtaButton extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: 48,
-                  height: 48,
+                  width: 44.w,
+                  height: 44.w,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: AppColors.background,
@@ -80,8 +83,7 @@ class _AnimatedDoubleChevronState extends State<_AnimatedDoubleChevron>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
-  static const double _travelPx =
-      9; // half-range; chevron moves from -travel to +travel
+  static const double _travelPx = 9;
   static const Duration _loop = Duration(milliseconds: 1300);
   static const double _phaseOffset = 0.45;
 
@@ -104,8 +106,8 @@ class _AnimatedDoubleChevronState extends State<_AnimatedDoubleChevron>
       builder: (context, _) {
         final t = _controller.value;
         return SizedBox(
-          width: 32,
-          height: 26,
+          width: 32.w,
+          height: 26.h,
           child: Stack(
             alignment: Alignment.center,
             clipBehavior: Clip.none,
@@ -123,10 +125,10 @@ class _AnimatedDoubleChevronState extends State<_AnimatedDoubleChevron>
       opacity: opacity,
       child: Transform.translate(
         offset: Offset(dx, 0),
-        child: const Icon(
+        child: Icon(
           Icons.chevron_right_rounded,
           color: AppColors.onSurface,
-          size: 22,
+          size: 22.sp,
         ),
       ),
     );

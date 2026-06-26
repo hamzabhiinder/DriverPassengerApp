@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -24,37 +25,37 @@ class PassengerChauffeurAssignedScreen
             child: Align(
               alignment: Alignment.topCenter,
               child: Padding(
-                padding: const EdgeInsets.only(top: 10),
+                padding: EdgeInsets.only(top: 10.h),
                 child: _StatusPill(),
               ),
             ),
           ),
           Positioned.fill(
             child: DraggableScrollableSheet(
-              initialChildSize: 0.24,
+              initialChildSize: 0.3,
               minChildSize: 0.2,
               maxChildSize: 0.58,
               builder: (context, scrollController) {
                 return Container(
                   decoration: BoxDecoration(
                     color: AppColors.surface,
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(24),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(24.r),
                     ),
                     border: Border.all(color: AppColors.outline),
                   ),
                   child: ListView(
                     controller: scrollController,
-                    padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+                    padding: EdgeInsets.fromLTRB(18.w, 8.h, 18.w, 24.h),
                     children: [
                       Center(
                         child: Container(
-                          width: 44,
-                          height: 4,
-                          margin: const EdgeInsets.only(bottom: 18),
+                          width: 44.w,
+                          height: 4.h,
+                          margin: EdgeInsets.only(bottom: 18.h),
                           decoration: BoxDecoration(
                             color: AppColors.outline,
-                            borderRadius: BorderRadius.circular(999),
+                            borderRadius: BorderRadius.circular(999.r),
                           ),
                         ),
                       ),
@@ -62,8 +63,8 @@ class PassengerChauffeurAssignedScreen
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: 56,
-                            height: 56,
+                            width: 56.w,
+                            height: 56.w,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: AppColors.primaryContainer,
@@ -76,10 +77,10 @@ class PassengerChauffeurAssignedScreen
                             child: Icon(
                               CupertinoIcons.person,
                               color: AppColors.goldMid,
-                              size: 30,
+                              size: 30.sp,
                             ),
                           ),
-                          const SizedBox(width: 14),
+                          SizedBox(width: 14.w),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,7 +93,7 @@ class PassengerChauffeurAssignedScreen
                                     color: AppColors.onBackgroundBright,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4.h),
                                 Text(
                                   controller.vehicleModel,
                                   style: AppTypography.geist(
@@ -101,23 +102,22 @@ class PassengerChauffeurAssignedScreen
                                     color: AppColors.onBackgroundBright,
                                   ),
                                 ),
-                                const SizedBox(height: 8),
+                                SizedBox(height: 8.h),
                                 Row(
                                   children: [
                                     ...List.generate(
                                       5,
                                       (i) => Icon(
                                         Icons.star_rounded,
-                                        size: 18,
-                                        color:
-                                            i <
+                                        size: 18.sp,
+                                        color: i <
                                                 PassengerChauffeurAssignedController
                                                     .ratingFilled
                                             ? AppColors.goldMid
                                             : AppColors.outline,
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
+                                    SizedBox(width: 10.w),
                                     Text(
                                       PassengerChauffeurAssignedController
                                           .plate,
@@ -135,19 +135,19 @@ class PassengerChauffeurAssignedScreen
                           Row(
                             children: [
                               _CircleIconButton(
-                                icon: const Icon(
+                                icon: Icon(
                                   CupertinoIcons.phone_fill,
                                   color: AppColors.goldMid,
-                                  size: 22,
+                                  size: 22.sp,
                                 ),
                                 onTap: controller.onCall,
                               ),
-                              const SizedBox(width: 8),
+                              SizedBox(width: 8.w),
                               _CircleIconButton(
                                 icon: Image.asset(
                                   'assets/icons/chat_bubble_icon.png',
-                                  width: 22,
-                                  height: 22,
+                                  width: 22.w,
+                                  height: 22.w,
                                 ),
                                 onTap: controller.onMessage,
                               ),
@@ -155,7 +155,7 @@ class PassengerChauffeurAssignedScreen
                           ),
                         ],
                       ),
-                      const SizedBox(height: 22),
+                      SizedBox(height: 22.h),
                       GoldGradientCtaButton(
                         label: 'Ride complete',
                         onPressed: controller.onRideComplete,
@@ -178,23 +178,23 @@ class _StatusPill extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.primaryContainer.withValues(alpha: 0.92),
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(999.r),
         border: Border.all(color: AppColors.outline),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 8,
-              height: 8,
+              width: 8.w,
+              height: 8.w,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColors.goldMid,
               ),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10.w),
             Text(
               'Chauffeur Assigned',
               style: AppTypography.geist(
@@ -223,7 +223,7 @@ class _CircleIconButton extends StatelessWidget {
       style: IconButton.styleFrom(
         backgroundColor: AppColors.primaryContainer,
         shape: const CircleBorder(),
-        fixedSize: const Size(46, 46),
+        fixedSize: Size(46.w, 46.w),
         padding: EdgeInsets.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
@@ -18,11 +19,13 @@ class VehicleSelectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final carWidth = (0.42.sw).clamp(120.0, 200.0);
+
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 12.h),
       child: Material(
         color: AppColors.primaryContainer,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(18.r),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,
@@ -30,7 +33,7 @@ class VehicleSelectCard extends StatelessWidget {
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeOutCubic,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(18.r),
               border: Border.all(
                 color: selected ? AppColors.goldRing : AppColors.transparent,
                 width: selected ? 1.5 : 0,
@@ -40,7 +43,7 @@ class VehicleSelectCard extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+                  padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 32.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -52,7 +55,7 @@ class VehicleSelectCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 _CategoryChip(label: option.categoryLabel),
-                                const SizedBox(height: 10),
+                                SizedBox(height: 10.h),
                                 Text(
                                   option.name,
                                   style: AppTypography.castoro(
@@ -62,34 +65,34 @@ class VehicleSelectCard extends StatelessWidget {
                                     height: 1.2,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4.h),
                                 Row(
                                   children: List.generate(
                                     option.starCount,
-                                    (_) => const Icon(
+                                    (_) => Icon(
                                       Icons.star_rounded,
-                                      size: 18,
+                                      size: 18.sp,
                                       color: AppColors.goldMid,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 16),
+                                SizedBox(height: 16.h),
                                 _DetailRow(
                                   icon: Image.asset(
                                     'assets/images/luggage.png',
-                                    width: 24,
-                                    height: 24,
+                                    width: 24.w,
+                                    height: 24.w,
                                     color: AppColors.goldMid,
                                   ),
                                   text: option.luggageLabel,
                                   title: 'Luggage',
                                 ),
-                                const SizedBox(height: 8),
+                                SizedBox(height: 8.h),
                                 _DetailRow(
                                   icon: Image.asset(
                                     'assets/images/person.png',
-                                    width: 24,
-                                    height: 24,
+                                    width: 24.w,
+                                    height: 24.w,
                                     color: AppColors.goldMid,
                                   ),
                                   text: option.passengersLabel,
@@ -98,7 +101,7 @@ class VehicleSelectCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8.w),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -111,7 +114,7 @@ class VehicleSelectCard extends StatelessWidget {
                                   height: 1.0,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4.h),
                               Text(
                                 'Estimated Price',
                                 style: AppTypography.geist(
@@ -128,20 +131,20 @@ class VehicleSelectCard extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  right: 16,
-                  bottom: 16,
+                  right: 12.w,
+                  bottom: 12.h,
                   child: Image.asset(
                     option.imageAsset,
-                    width: 200,
+                    width: carWidth,
                     fit: BoxFit.contain,
                     alignment: Alignment.bottomRight,
-                    errorBuilder: (_, __, ___) => const SizedBox(
-                      width: 168,
-                      height: 96,
+                    errorBuilder: (_, __, ___) => SizedBox(
+                      width: 168.w,
+                      height: 96.h,
                       child: Icon(
                         Icons.directions_car_filled_rounded,
                         color: AppColors.onSurfaceMuted,
-                        size: 48,
+                        size: 48.sp,
                       ),
                     ),
                   ),
@@ -163,9 +166,9 @@ class _CategoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(999.r),
         border: Border.all(
           color: AppColors.onSurfaceMuted.withValues(alpha: 0.45),
         ),
@@ -201,7 +204,7 @@ class _DetailRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         icon,
-        const SizedBox(width: 8),
+        SizedBox(width: 8.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

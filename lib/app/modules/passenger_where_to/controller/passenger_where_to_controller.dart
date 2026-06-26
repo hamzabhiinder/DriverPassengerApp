@@ -12,7 +12,6 @@ class PassengerWhereToController extends GetxController {
     destinationController = TextEditingController();
   }
 
-  /// Downtown Dubai — default camera & recenter target (swap with user GPS later).
   static final LatLng mapInitialCenter = LatLng(25.2048, 55.2708);
 
   static const double mapInitialZoom = 15;

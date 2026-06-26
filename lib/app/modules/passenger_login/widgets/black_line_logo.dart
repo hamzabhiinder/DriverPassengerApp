@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 
-/// Wordmark: “BLACK LINE” + ruled “CHAUFFEUR Co.” (login hero).
 class BlackLineLogo extends StatelessWidget {
   const BlackLineLogo({super.key});
 

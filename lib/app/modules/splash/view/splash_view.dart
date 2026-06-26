@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -37,12 +38,14 @@ class _BlackIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final logoWidth = (0.5.sw).clamp(140.0, 220.0);
+
     return ColoredBox(
       color: AppColors.background,
       child: Center(
         child: Image.asset(
           'assets/images/logo.png',
-          width: MediaQuery.of(context).size.width * 0.5,
+          width: logoWidth,
         ),
       ),
     );
@@ -89,7 +92,7 @@ class _PremiumSplashContent extends StatelessWidget {
         ),
         SafeArea(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(24, 16, 24, 24 + bottomInset),
+            padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 24.h + bottomInset),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -99,7 +102,7 @@ class _PremiumSplashContent extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: AppTypography.castoro(
                     color: AppColors.onSurface,
-                    fontSize: 40,
+                    fontSize: 36,
                     fontWeight: FontWeight.w600,
                     height: 1.05,
                     letterSpacing: 0.5,
@@ -110,23 +113,23 @@ class _PremiumSplashContent extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: AppTypography.castoro(
                     color: AppColors.onSurface,
-                    fontSize: 40,
+                    fontSize: 36,
                     fontWeight: FontWeight.w600,
                     height: 1.05,
                     letterSpacing: 0.5,
                   ),
                 ),
-                const SizedBox(height: 14),
+                SizedBox(height: 14.h),
                 Text(
                   'Begin Your Premium Journey.',
                   textAlign: TextAlign.center,
                   style: AppTypography.geist(
                     color: AppColors.onSurface.withValues(alpha: 0.92),
-                    fontSize: 21,
+                    fontSize: 18,
                     letterSpacing: 0.15,
                   ),
                 ),
-                const SizedBox(height: 28),
+                SizedBox(height: 28.h),
                 StartRideCtaButton(onPressed: controller.onStartRide),
               ],
             ),

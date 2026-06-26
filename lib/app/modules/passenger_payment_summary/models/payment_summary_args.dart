@@ -1,4 +1,3 @@
-/// Shown after ride completion; amounts usually match [ConfirmRideArgs].
 class PaymentSummaryArgs {
   const PaymentSummaryArgs({
     required this.baseFareUsd,

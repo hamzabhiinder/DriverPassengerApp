@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user_role.dart';
 
-/// Persists the last selected [UserRole] for cold start routing.
 class RoleService extends GetxService {
   static const _prefsKey = 'user_role';
 

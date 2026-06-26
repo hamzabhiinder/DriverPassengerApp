@@ -47,7 +47,6 @@ class PassengerWhereToMapLayer extends GetView<PassengerWhereToController> {
                     angle: -0.35,
                     child: Icon(
                       Icons.directions_car_rounded,
-                      // Car icon ko light grey ya goldish white rakhein
                       color: Colors.white.withOpacity(0.8),
                       size: 30,
                     ),
@@ -84,13 +83,13 @@ class PassengerWhereToMapLayer extends GetView<PassengerWhereToController> {
                   colors: [
                     AppColors.background.withValues(
                       alpha: 0.1,
-                    ), // 0.35 se 0.1 kar dein
+                    ),
                     AppColors.background.withValues(
                       alpha: 0.3,
-                    ), // 0.55 se 0.3 kar dein
+                    ),
                     AppColors.background.withValues(
                       alpha: 0.5,
-                    ), // 0.72 se 0.5 kar dein
+                    ),
                   ],
                   stops: const [0.0, 0.52, 1.0],
                 ),

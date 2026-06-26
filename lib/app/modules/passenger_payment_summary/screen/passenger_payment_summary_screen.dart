@@ -1,5 +1,6 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -13,59 +14,47 @@ class PassengerPaymentSummaryScreen
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.paddingOf(context).bottom;
-
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 22),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 12),
-                    const _PaymentSuccessMark(),
-                    const SizedBox(height: 32),
-                    _PaymentSummaryCard(controller: controller),
-                    const SizedBox(height: 20),
-                    Obx(
-                      () => _PaymentMethodBlock(
-                        controller: controller,
-                        // Read Rx here so Obx registers a listener (not inside child build).
-                        selectedMethod: controller.method.value,
-                      ),
-                    ),
-                  ],
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 22.w),
+          child: Column(
+            children: [
+              SizedBox(height: 12.h),
+              const _PaymentSuccessMark(),
+              SizedBox(height: 24.h),
+              _PaymentSummaryCard(controller: controller),
+              SizedBox(height: 20.h),
+              Obx(
+                () => _PaymentMethodBlock(
+                  controller: controller,
+                  selectedMethod: controller.method.value,
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(22, 8, 22, 16 + bottom),
-              child: GoldGradientCtaButton(
+              SizedBox(height: 12.h),
+              GoldGradientCtaButton(
                 label: 'Pay \$${controller.args.totalUsd}',
                 onPressed: controller.onPay,
               ),
-            ),
-          ],
+              SizedBox(height: 16.h),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-/// Gold disc + black check, faint rings, soft gold pulse via [AvatarGlow].
 class _PaymentSuccessMark extends StatelessWidget {
   const _PaymentSuccessMark();
 
   @override
   Widget build(BuildContext context) {
-    const centerSize = 88.0;
-    final ringSpecs = <double>[200, 168, 136, 108];
+    final ringSpecs = [200.0, 168.0, 136.0, 108.0];
 
     return SizedBox(
-      height: 220,
+      height: 220.h,
       width: double.infinity,
       child: Stack(
         alignment: Alignment.center,
@@ -74,8 +63,8 @@ class _PaymentSuccessMark extends StatelessWidget {
           for (final d in ringSpecs)
             IgnorePointer(
               child: Container(
-                width: d,
-                height: d,
+                width: d.w,
+                height: d.w,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -95,25 +84,25 @@ class _PaymentSuccessMark extends StatelessWidget {
             duration: const Duration(milliseconds: 2400),
             curve: Curves.easeInOutCubic,
             child: SizedBox(
-              width: centerSize,
-              height: centerSize,
+              width: 88.w,
+              height: 88.w,
               child: DecoratedBox(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: AppColors.goldRing,
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0x664A3D0A),
-                      blurRadius: 26,
+                      color: const Color(0x664A3D0A),
+                      blurRadius: 26.r,
                       spreadRadius: 1,
                     ),
                   ],
                 ),
-                child: const Center(
+                child: Center(
                   child: Icon(
                     Icons.check_rounded,
                     color: AppColors.background,
-                    size: 52,
+                    size: 52.sp,
                   ),
                 ),
               ),
@@ -134,24 +123,24 @@ class _PaymentSummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final a = controller.args;
     TextStyle label() => AppTypography.geist(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
-          color: AppColors.bodySecondary,
-        );
+      fontSize: 15,
+      fontWeight: FontWeight.w400,
+      color: AppColors.bodySecondary,
+    );
     TextStyle value() => AppTypography.geist(
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
-          color: AppColors.onBackgroundBright,
-        );
+      fontSize: 15,
+      fontWeight: FontWeight.w500,
+      color: AppColors.onBackgroundBright,
+    );
 
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.paymentSummaryCard,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: AppColors.outline.withValues(alpha: 0.6)),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+        padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 18.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -163,7 +152,7 @@ class _PaymentSummaryCard extends StatelessWidget {
                 color: AppColors.onBackgroundBright,
               ),
             ),
-            const SizedBox(height: 18),
+            SizedBox(height: 18.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -171,7 +160,7 @@ class _PaymentSummaryCard extends StatelessWidget {
                 Text('\$${a.baseFareUsd}', style: value()),
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -179,12 +168,12 @@ class _PaymentSummaryCard extends StatelessWidget {
                 Text('\$${a.serviceFeeUsd}', style: value()),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Container(
               height: 1,
               color: AppColors.goldRing.withValues(alpha: 0.75),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -235,8 +224,8 @@ class _PaymentMethodBlock extends StatelessWidget {
           onTap: controller.selectCard,
           leading: Image.asset(
             'assets/icons/card_icon.png',
-            width: 28,
-            height: 28,
+            width: 28.w,
+            height: 28.w,
           ),
           title: 'Credit Card',
           subtitle: a.cardMask,
@@ -245,7 +234,7 @@ class _PaymentMethodBlock extends StatelessWidget {
                   onPressed: controller.onChangeCard,
                   style: TextButton.styleFrom(
                     foregroundColor: AppColors.goldRing,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
                     minimumSize: Size.zero,
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
@@ -260,18 +249,17 @@ class _PaymentMethodBlock extends StatelessWidget {
                 )
               : null,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         _PaymentMethodTile(
           selected: m == PassengerPaymentMethod.wallet,
           onTap: controller.selectWallet,
           leading: Icon(
             Icons.account_balance_wallet_rounded,
             color: AppColors.goldRing,
-            size: 28,
+            size: 28.sp,
           ),
           title: 'Wallet',
-          subtitle:
-              'Balance: \$${a.walletBalanceUsd.toStringAsFixed(2)}',
+          subtitle: 'Balance: \$${a.walletBalanceUsd.toStringAsFixed(2)}',
           trailing: null,
         ),
       ],
@@ -302,22 +290,22 @@ class _PaymentMethodTile extends StatelessWidget {
       color: AppColors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(18.r),
         child: Ink(
           decoration: BoxDecoration(
             color: AppColors.paymentSummaryCard,
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(18.r),
             border: Border.all(
               color: selected ? AppColors.goldRing : AppColors.outline,
               width: selected ? 1.5 : 1,
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
             child: Row(
               children: [
-                SizedBox(width: 36, child: Center(child: leading)),
-                const SizedBox(width: 12),
+                SizedBox(width: 36.w, child: Center(child: leading)),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,7 +318,7 @@ class _PaymentMethodTile extends StatelessWidget {
                           color: AppColors.onBackgroundBright,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         subtitle,
                         style: AppTypography.geist(

@@ -2,6 +2,9 @@ import 'package:get/get.dart';
 
 import '../modules/driver_home/driver_home_binding.dart';
 import '../modules/driver_home/driver_home_view.dart';
+import '../modules/driver_login/binding/driver_login_binding.dart'
+    show DriverLoginBinding;
+import '../modules/driver_login/screen/driver_login.dart';
 import '../modules/passenger_home/passenger_home_binding.dart';
 import '../modules/passenger_home/passenger_home_view.dart';
 import '../modules/passenger_chauffeur_assigned/binding/passenger_chauffeur_assigned_binding.dart';
@@ -37,6 +40,11 @@ abstract final class AppPages {
       name: AppRoutes.roleSelect,
       page: RoleSelectView.new,
       binding: RoleSelectBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.driverLogin,
+      page: DriverLoginView.new,
+      binding: DriverLoginBinding(),
     ),
     GetPage<void>(
       name: AppRoutes.driverHome,

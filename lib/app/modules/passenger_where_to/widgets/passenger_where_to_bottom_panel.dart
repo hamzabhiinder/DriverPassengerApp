@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -17,13 +18,13 @@ class PassengerWhereToBottomPanel extends GetView<PassengerWhereToController> {
       color: AppColors.transparent,
       child: Container(
         width: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-          border: Border(top: BorderSide(color: AppColors.outline, width: 1)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
+          border: const Border(top: BorderSide(color: AppColors.outline, width: 1)),
         ),
         child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(20, 22, 20, 16 + bottomSafe),
+          padding: EdgeInsets.fromLTRB(20.w, 22.h, 20.w, 16.h + bottomSafe),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -45,70 +46,70 @@ class PassengerWhereToBottomPanel extends GetView<PassengerWhereToController> {
                       backgroundColor: AppColors.primaryContainer,
                       foregroundColor: AppColors.onSurface,
                     ),
-                    icon: const Icon(Icons.my_location_rounded, size: 22),
+                    icon: Icon(Icons.my_location_rounded, size: 22.sp),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               _LocationField(
                 controller: controller.pickupController,
                 hint: 'Current Location',
                 prefixIcon: UnconstrainedBox(
                   child: Image.asset(
                     'assets/icons/location_icon.png',
-                    width: 24,
-                    height: 24,
+                    width: 24.w,
+                    height: 24.w,
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               _LocationField(
                 controller: controller.destinationController,
                 hint: 'Where would you like to go?',
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.only(left: 10.w),
                   child: UnconstrainedBox(
                     child: Image.asset(
                       'assets/icons/plane_icon.png',
-                      width: 24,
-                      height: 24,
+                      width: 24.w,
+                      height: 24.w,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 22),
+              SizedBox(height: 22.h),
               Row(
                 children: [
                   Expanded(
                     child: _ShortcutTile(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.event_available,
                         color: AppColors.goldMid,
-                        size: 26,
+                        size: 24.sp,
                       ),
                       label: 'Schedule',
                       onTap: controller.onScheduleTap,
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   Expanded(
                     child: _ShortcutTile(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.bookmark,
                         color: AppColors.goldMid,
-                        size: 26,
+                        size: 24.sp,
                       ),
                       label: 'Saved',
                       onTap: controller.onSavedTap,
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   Expanded(
                     child: _ShortcutTile(
                       icon: Image.asset(
                         'assets/icons/plane_icon.png',
-                        width: 26,
-                        height: 26,
+                        width: 24.w,
+                        height: 24.w,
                         color: AppColors.goldMid,
                       ),
                       label: 'Airport',
@@ -117,7 +118,7 @@ class PassengerWhereToBottomPanel extends GetView<PassengerWhereToController> {
                   ),
                 ],
               ),
-              const SizedBox(height: 22),
+              SizedBox(height: 22.h),
               GoldGradientCtaButton(
                 label: 'Select Vehicle',
                 onPressed: controller.onSelectVehicle,
@@ -159,22 +160,21 @@ class _LocationField extends StatelessWidget {
           fontWeight: FontWeight.w400,
           color: AppColors.hint,
         ),
-
         prefixIcon: prefixIcon,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 18,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 16.h,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(50.r),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(50.r),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(50.r),
           borderSide: const BorderSide(color: AppColors.outline),
         ),
       ),
@@ -197,25 +197,32 @@ class _ShortcutTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.secondaryContainer,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(16.r),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
+          padding: EdgeInsets.symmetric(
+            vertical: 14.h,
+            horizontal: 6.w,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon,
-              const SizedBox(height: 8),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                style: AppTypography.geist(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.onSurface,
+              SizedBox(height: 6.h),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  style: AppTypography.geist(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.onSurface,
+                  ),
                 ),
               ),
             ],

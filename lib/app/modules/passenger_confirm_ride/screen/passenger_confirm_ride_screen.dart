@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -21,25 +22,24 @@ class PassengerConfirmRideScreen
         backgroundColor: AppColors.background,
         elevation: 0,
         scrolledUnderElevation: 0,
-        toolbarHeight: 70,
-        leadingWidth: 70,
+        toolbarHeight: 68.h,
+        leadingWidth: 70.w,
         automaticallyImplyLeading: false,
         leading: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.w),
           child: IconButton(
             onPressed: () => Get.back<void>(),
             style: IconButton.styleFrom(
               backgroundColor: AppColors.primaryContainer,
               shape: const CircleBorder(),
             ),
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back,
               color: AppColors.onBackgroundBright,
-              size: 18,
+              size: 18.sp,
             ),
           ),
         ),
-
         title: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -51,7 +51,7 @@ class PassengerConfirmRideScreen
                 color: AppColors.onBackgroundBright,
               ),
             ),
-            const SizedBox(height: 2),
+            SizedBox(height: 2.h),
             Text(
               'Review your booking details',
               style: AppTypography.geist(
@@ -65,7 +65,7 @@ class PassengerConfirmRideScreen
         centerTitle: true,
       ),
       body: ListView(
-        padding: EdgeInsets.fromLTRB(16, 16, 16, 20 + bottom),
+        padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 20.h + bottom),
         children: [
           _SectionCard(
             child: _LocationTimeline(
@@ -73,7 +73,7 @@ class PassengerConfirmRideScreen
               destination: a.destinationLabel,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           _SectionCard(
             child: _VehicleSummary(
               category: a.vehicleCategory,
@@ -82,7 +82,7 @@ class PassengerConfirmRideScreen
               imageAsset: a.vehicleImageAsset,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           _SectionCard(
             child: _FareBreakdown(
               baseFare: a.baseFareUsd,
@@ -90,11 +90,11 @@ class PassengerConfirmRideScreen
               total: a.totalUsd,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           _SectionCard(
             child: _PaymentRow(onChange: controller.onChangePayment),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           GoldGradientCtaButton(
             label: 'Confirm Booking',
             onPressed: controller.onConfirmBooking,
@@ -114,8 +114,8 @@ class _SectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.primaryContainer,
-      borderRadius: BorderRadius.circular(18),
-      child: Padding(padding: const EdgeInsets.all(18), child: child),
+      borderRadius: BorderRadius.circular(18.r),
+      child: Padding(padding: EdgeInsets.all(18.w), child: child),
     );
   }
 }
@@ -136,28 +136,28 @@ class _LocationTimeline extends StatelessWidget {
           children: [
             Image.asset(
               'assets/icons/location_icon.png',
-              width: 28,
-              height: 28,
+              width: 28.w,
+              height: 28.w,
               color: AppColors.goldMid,
             ),
             Container(
-              width: 2,
-              height: 40,
-              margin: const EdgeInsets.symmetric(vertical: 4),
+              width: 2.w,
+              height: 40.h,
+              margin: EdgeInsets.symmetric(vertical: 4.h),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(2.r),
                 color: AppColors.goldMid.withValues(alpha: 0.85),
               ),
             ),
             Image.asset(
               'assets/icons/plane_icon.png',
-              width: 28,
-              height: 28,
+              width: 28.w,
+              height: 28.w,
               color: AppColors.goldMid,
             ),
           ],
         ),
-        const SizedBox(width: 14),
+        SizedBox(width: 14.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,7 +170,6 @@ class _LocationTimeline extends StatelessWidget {
                   color: AppColors.onSurfaceMuted,
                 ),
               ),
-
               Text(
                 pickup,
                 style: AppTypography.geist(
@@ -179,7 +178,7 @@ class _LocationTimeline extends StatelessWidget {
                   color: AppColors.onBackgroundBright,
                 ),
               ),
-              const SizedBox(height: 35),
+              SizedBox(height: 35.h),
               Text(
                 'Destination',
                 style: AppTypography.geist(
@@ -188,7 +187,6 @@ class _LocationTimeline extends StatelessWidget {
                   color: AppColors.onSurfaceMuted,
                 ),
               ),
-
               Text(
                 destination,
                 style: AppTypography.geist(
@@ -220,6 +218,9 @@ class _VehicleSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final columnWidth = (0.42.sw).clamp(130.0, 180.0);
+    final imageWidth = (0.38.sw).clamp(120.0, 170.0);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -227,9 +228,9 @@ class _VehicleSummary extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(999),
+                borderRadius: BorderRadius.circular(999.r),
                 border: Border.all(
                   color: AppColors.onSurfaceMuted.withValues(alpha: 0.45),
                 ),
@@ -249,22 +250,22 @@ class _VehicleSummary extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: List.generate(
                 5,
-                (_) => const Icon(
+                (_) => Icon(
                   Icons.star_rate,
-                  size: 18,
+                  size: 18.sp,
                   color: AppColors.goldMid,
                 ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 28),
+        SizedBox(height: 28.h),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.4,
+              width: columnWidth,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -276,7 +277,7 @@ class _VehicleSummary extends StatelessWidget {
                       color: AppColors.onSurfaceMuted,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     name,
                     style: AppTypography.geist(
@@ -286,7 +287,7 @@ class _VehicleSummary extends StatelessWidget {
                       height: 1.2,
                     ),
                   ),
-                  const SizedBox(height: 11),
+                  SizedBox(height: 11.h),
                   Text(
                     'ETA: $etaMinutes min',
                     style: AppTypography.geist(
@@ -299,25 +300,25 @@ class _VehicleSummary extends StatelessWidget {
               ),
             ),
             ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               child: Image.asset(
                 imageAsset,
-                width: MediaQuery.of(context).size.width * 0.4,
+                width: imageWidth,
                 fit: BoxFit.contain,
-                errorBuilder: (_, __, ___) => const SizedBox(
-                  height: 100,
-                  width: 160,
+                errorBuilder: (_, __, ___) => SizedBox(
+                  height: 100.h,
+                  width: 160.w,
                   child: Icon(
                     Icons.directions_car_filled_rounded,
                     color: AppColors.onSurfaceMuted,
-                    size: 48,
+                    size: 48.sp,
                   ),
                 ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
       ],
     );
   }
@@ -358,7 +359,7 @@ class _FareBreakdown extends StatelessWidget {
             color: AppColors.onBackgroundBright,
           ),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: 14.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -366,7 +367,7 @@ class _FareBreakdown extends StatelessWidget {
             Text('\$$baseFare', style: rowValue()),
           ],
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -374,9 +375,9 @@ class _FareBreakdown extends StatelessWidget {
             Text('\$$serviceFee', style: rowValue()),
           ],
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: 14.h),
         Container(height: 1, color: AppColors.goldMid.withValues(alpha: 0.55)),
-        const SizedBox(height: 14),
+        SizedBox(height: 14.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -421,12 +422,12 @@ class _PaymentRow extends StatelessWidget {
             color: AppColors.onBackgroundBright,
           ),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: 14.h),
         Row(
           children: [
             Container(
-              width: 44,
-              height: 44,
+              width: 44.w,
+              height: 44.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColors.background.withValues(alpha: 0.6),
@@ -437,13 +438,13 @@ class _PaymentRow extends StatelessWidget {
               child: UnconstrainedBox(
                 child: Image.asset(
                   'assets/icons/card_icon.png',
-                  width: 24,
-                  height: 24,
+                  width: 24.w,
+                  height: 24.w,
                   color: AppColors.goldMid,
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -456,7 +457,7 @@ class _PaymentRow extends StatelessWidget {
                       color: AppColors.onBackgroundBright,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2.h),
                   Text(
                     PassengerConfirmRideController.paymentMask,
                     style: AppTypography.geist(

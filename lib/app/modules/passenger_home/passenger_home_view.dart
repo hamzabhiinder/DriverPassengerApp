@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../core/values/app_strings.dart';
@@ -12,11 +13,14 @@ class PassengerHomeView extends GetView<PassengerHomeController> {
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.passengerHome)),
       body: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(24.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(AppStrings.comingSoon, style: Theme.of(context).textTheme.bodyLarge),
+            Text(
+              AppStrings.comingSoon,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
             const Spacer(),
             FilledButton.tonalIcon(
               onPressed: controller.switchRole,
