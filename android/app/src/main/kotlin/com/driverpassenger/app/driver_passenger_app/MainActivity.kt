@@ -1,4 +1,4 @@
-package com.driverpassenger.app.driver_passenger_app
+package com.app.blacklines
 
 import android.os.Bundle
 import androidx.core.view.WindowCompat
