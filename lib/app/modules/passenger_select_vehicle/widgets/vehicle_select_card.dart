@@ -19,89 +19,47 @@ class VehicleSelectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final carWidth = (0.42.sw).clamp(120.0, 200.0);
+    final carWidth = 0.5.sw;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 12.h),
-      child: Material(
-        color: AppColors.primaryContainer,
-        borderRadius: BorderRadius.circular(18.r),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeOutCubic,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18.r),
-              border: Border.all(
-                color: selected ? AppColors.goldRing : AppColors.transparent,
-                width: selected ? 1.5 : 0,
-              ),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFF0C0C0C),
+            borderRadius: BorderRadius.circular(18.r),
+            border: Border.all(
+              color: selected ? const Color(0xFFB88E2F) : Colors.white.withOpacity(0.06),
+              width: selected ? 1.5.w : 1.w,
             ),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(18.r),
             child: Stack(
-              clipBehavior: Clip.none,
               children: [
+                Positioned(
+                  right: 4.w,
+                  bottom: 8.h,
+                  child: Image.asset(
+                    option.imageAsset,
+                    width: carWidth,
+                    height: 140.h,
+                    fit: BoxFit.contain,
+                    errorBuilder: (_, __, ___) => const SizedBox(),
+                  ),
+                ),
+                
                 Padding(
-                  padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 32.h),
+                  padding: EdgeInsets.all(16.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _CategoryChip(label: option.categoryLabel),
-                                SizedBox(height: 10.h),
-                                Text(
-                                  option.name,
-                                  style: AppTypography.castoro(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.onBackgroundBright,
-                                    height: 1.2,
-                                  ),
-                                ),
-                                SizedBox(height: 4.h),
-                                Row(
-                                  children: List.generate(
-                                    option.starCount,
-                                    (_) => Icon(
-                                      Icons.star_rounded,
-                                      size: 18.sp,
-                                      color: AppColors.goldMid,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 16.h),
-                                _DetailRow(
-                                  icon: Image.asset(
-                                    'assets/images/luggage.png',
-                                    width: 24.w,
-                                    height: 24.w,
-                                    color: AppColors.goldMid,
-                                  ),
-                                  text: option.luggageLabel,
-                                  title: 'Luggage',
-                                ),
-                                SizedBox(height: 8.h),
-                                _DetailRow(
-                                  icon: Image.asset(
-                                    'assets/images/person.png',
-                                    width: 24.w,
-                                    height: 24.w,
-                                    color: AppColors.goldMid,
-                                  ),
-                                  text: option.passengersLabel,
-                                  title: 'Passengers',
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 8.w),
+                          _CategoryChip(label: option.categoryLabel),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -110,43 +68,53 @@ class VehicleSelectCard extends StatelessWidget {
                                 style: AppTypography.castoro(
                                   fontSize: 24,
                                   fontWeight: FontWeight.w400,
-                                  color: AppColors.onBackgroundBright,
+                                  color: Colors.white,
                                   height: 1.0,
                                 ),
                               ),
-                              SizedBox(height: 4.h),
+                              SizedBox(height: 2.h),
                               Text(
                                 'Estimated Price',
                                 style: AppTypography.geist(
-                                  fontSize: 10,
+                                  fontSize: 9.sp,
                                   fontWeight: FontWeight.w300,
-                                  color: AppColors.onSurfaceMuted,
+                                  color: AppColors.bodySecondary.withValues(alpha: 0.5),
                                 ),
                               ),
                             ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  right: 12.w,
-                  bottom: 12.h,
-                  child: Image.asset(
-                    option.imageAsset,
-                    width: carWidth,
-                    fit: BoxFit.contain,
-                    alignment: Alignment.bottomRight,
-                    errorBuilder: (_, __, ___) => SizedBox(
-                      width: 168.w,
-                      height: 96.h,
-                      child: Icon(
-                        Icons.directions_car_filled_rounded,
-                        color: AppColors.onSurfaceMuted,
-                        size: 48.sp,
+                      
+                      SizedBox(height: 10.h),
+                      
+                      Text(
+                        option.name,
+                        style: AppTypography.castoro(
+                          fontSize: 21.sp,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
+                      
+                      SizedBox(height: 4.h),
+                      
+                      SizedBox(
+                        width: 0.52.sw,
+                        child: Text(
+                          _getVehicleDescription(option.name),
+                          style: AppTypography.geist(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w300,
+                            color: AppColors.bodySecondary.withValues(alpha: 0.5),
+                          ),
+                        ),
+                      ),
+                      
+                      SizedBox(height: 18.h),
+                      
+                      _buildVehicleSpecifications(),
+                    ],
                   ),
                 ),
               ],
@@ -155,6 +123,92 @@ class VehicleSelectCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildVehicleSpecifications() {
+    final name = option.name.toLowerCase();
+    
+    if (name.contains('sprinter')) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSpecRow(Icons.person_rounded, '6 â€“ 14', 'Guests'),
+          SizedBox(height: 10.h),
+          _buildSpecRow(Icons.business_center_rounded, 'Luggage', 'Varies'),
+          SizedBox(height: 10.h),
+          _buildSpecRow(Icons.ac_unit_rounded, 'Premium', 'Climate Control'),
+        ],
+      );
+    } else if (name.contains('bus') || name.contains('party')) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSpecRow(Icons.person_rounded, '12 â€“ 22', 'Guests'),
+          SizedBox(height: 10.h),
+          _buildSpecRow(Icons.music_note_rounded, 'Premium', 'Amenities'),
+          SizedBox(height: 10.h),
+          _buildSpecRow(Icons.volume_up_rounded, 'High-End', 'Sound System'),
+        ],
+      );
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSpecRow(Icons.person_rounded, option.passengersLabel, 'Guests'),
+          SizedBox(height: 10.h),
+          _buildSpecRow(Icons.business_center_rounded, option.luggageLabel, 'Luggage'),
+        ],
+      );
+    }
+  }
+
+  Widget _buildSpecRow(IconData icon, String value, String label) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(
+          icon,
+          color: const Color(0xFFC59341),
+          size: 20.sp,
+        ),
+        SizedBox(width: 12.w),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              value,
+              style: AppTypography.geist(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.white.withOpacity(0.9),
+                height: 1.1,
+              ),
+            ),
+            Text(
+              label,
+              style: AppTypography.geist(
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w300,
+                color: AppColors.bodySecondary.withValues(alpha: 0.5),
+                height: 1.1,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  String _getVehicleDescription(String name) {
+    final lowerName = name.toLowerCase();
+    if (lowerName.contains('sprinter')) {
+      return 'Luxury group travel. Elevated experience.';
+    } else if (lowerName.contains('bus') || lowerName.contains('party')) {
+      return 'Big moments. Unmatched experience.';
+    } else {
+      return 'Premium luxury options tailored for comfort.';
+    }
   }
 }
 
@@ -166,72 +220,24 @@ class _CategoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(999.r),
         border: Border.all(
-          color: AppColors.onSurfaceMuted.withValues(alpha: 0.45),
+          color: const Color(0xFFB88E2F).withOpacity(0.4),
+          width: 0.8.w,
         ),
-        color: AppColors.background.withValues(alpha: 0.35),
+        color: const Color(0xFFB88E2F).withOpacity(0.05),
       ),
       child: Text(
-        label,
+        label.toUpperCase(),
         style: AppTypography.geist(
-          fontSize: 11,
+          fontSize: 9.sp,
           fontWeight: FontWeight.w600,
-          color: AppColors.bodySecondary,
-          letterSpacing: 0.3,
+          color: const Color(0xFFC59341),
+          letterSpacing: 0.5,
         ),
       ),
-    );
-  }
-}
-
-class _DetailRow extends StatelessWidget {
-  const _DetailRow({
-    required this.icon,
-    required this.text,
-    required this.title,
-  });
-
-  final Widget icon;
-  final String text;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        icon,
-        SizedBox(width: 8.w),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                title,
-                style: AppTypography.geist(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
-                  color: AppColors.bodySecondary,
-                  height: 1.35,
-                ),
-              ),
-              Text(
-                text,
-                style: AppTypography.geist(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
-                  color: AppColors.bodySecondary,
-                  height: 1.35,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

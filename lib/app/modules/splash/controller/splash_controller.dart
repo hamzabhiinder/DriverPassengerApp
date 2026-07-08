@@ -7,7 +7,7 @@ import '../../../routes/app_routes.dart';
 
 class SplashController extends GetxController {
   final RoleService _roleService = Get.find<RoleService>();
- 
+
   final RxBool showPremiumSplash = false.obs;
 
   @override

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/glowing_divider.dart';
 import '../controller/splash_controller.dart';
 import '../widgets/start_ride_cta_button.dart';
 
@@ -38,14 +39,64 @@ class _BlackIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logoWidth = (0.5.sw).clamp(140.0, 220.0);
+    final logoWidth = (0.85.sw).clamp(260.0, 420.0);
 
     return ColoredBox(
       color: AppColors.background,
       child: Center(
-        child: Image.asset(
-          'assets/images/logo.png',
-          width: logoWidth,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset('assets/images/logo.png', width: logoWidth),
+
+            SizedBox(height: 12.h),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 36.w,
+                  height: 0.8.h,
+                  color: AppColors.onSurface.withValues(alpha: 0.15),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Text(
+                    'CHAUFFEUR CO.',
+                    textAlign: TextAlign.center,
+                    style: AppTypography.geist(
+                      color: AppColors.onSurface.withValues(alpha: 0.45),
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 3,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 36.w,
+                  height: 0.8.h,
+                  color: AppColors.onSurface.withValues(alpha: 0.15),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 24.h),
+
+            Text(
+              'LUXURY ON DEMAND.',
+              textAlign: TextAlign.center,
+              style: AppTypography.geist(
+                color: AppColors.onSurface.withValues(alpha: 0.65),
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+                letterSpacing: 4.5,
+              ),
+            ),
+
+            SizedBox(height: 28.h),
+
+            GlowingDivider(),
+          ],
         ),
       ),
     );
@@ -66,13 +117,13 @@ class _PremiumSplashContent extends StatelessWidget {
       children: [
         Image.asset(
           'assets/images/splash_background.png',
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: double.infinity,
+          fit: BoxFit.contain,
+
           alignment: Alignment.center,
           errorBuilder: (_, __, ___) =>
               const ColoredBox(color: AppColors.background),
         ),
+
         Positioned.fill(
           child: DecoratedBox(
             decoration: BoxDecoration(
@@ -80,59 +131,81 @@ class _PremiumSplashContent extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  AppColors.background.withValues(alpha: 0.45),
+                  AppColors.background.withValues(
+                    alpha: 0.65,
+                  ),
                   AppColors.transparent,
-                  AppColors.background.withValues(alpha: 0.2),
-                  AppColors.background.withValues(alpha: 0.92),
+                  AppColors.background.withValues(alpha: 0.3),
+                  AppColors.background.withValues(
+                    alpha: 0.95,
+                  ),
                 ],
                 stops: const [0.0, 0.35, 0.55, 1.0],
               ),
             ),
           ),
         ),
-        SafeArea(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 24.h + bottomInset),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'Elevate Your',
-                  textAlign: TextAlign.center,
-                  style: AppTypography.castoro(
-                    color: AppColors.onSurface,
-                    fontSize: 36,
-                    fontWeight: FontWeight.w600,
-                    height: 1.05,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                Text(
-                  'Travel',
-                  textAlign: TextAlign.center,
-                  style: AppTypography.castoro(
-                    color: AppColors.onSurface,
-                    fontSize: 36,
-                    fontWeight: FontWeight.w600,
-                    height: 1.05,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                SizedBox(height: 14.h),
-                Text(
-                  'Begin Your Premium Journey.',
-                  textAlign: TextAlign.center,
-                  style: AppTypography.geist(
-                    color: AppColors.onSurface.withValues(alpha: 0.92),
-                    fontSize: 18,
-                    letterSpacing: 0.15,
-                  ),
-                ),
-                SizedBox(height: 28.h),
-                StartRideCtaButton(onPressed: controller.onStartRide),
-              ],
+
+        Positioned(
+          top: 30.h,
+          left: 12.w,
+          right: 12.w,
+          child: Center(
+            child: Image.asset(
+              'assets/images/logo.png',
+              width: (0.2.sw).clamp(220.0, 320.0),
+              fit: BoxFit.contain,
             ),
+          ),
+        ),
+
+        Positioned(
+          bottom: 24.h + bottomInset,
+          left: 24.w,
+          right: 24.w,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Luxury On Demand',
+                textAlign: TextAlign.center,
+                style: AppTypography.castoro(
+                  color: AppColors.onSurface,
+                  fontSize: 40,
+                  fontWeight: FontWeight.w400,
+                  height: 1.15,
+                  letterSpacing: 0.5,
+                ),
+              ),
+
+              SizedBox(height: 12.h),
+
+              Center(
+                child: Container(
+                  width: 52.w,
+                  height: 1.2.h,
+                  color: const Color(0xFFC59341),
+                ),
+              ),
+
+              SizedBox(height: 16.h),
+
+              Text(
+                'Professional chauffeurs.\nPremium vehicles. Seamless booking.',
+                textAlign: TextAlign.center,
+                style: AppTypography.geist(
+                  color: AppColors.onSurface.withValues(alpha: 0.8),
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w300,
+                  height: 1.4,
+                  letterSpacing: 0.15,
+                ),
+              ),
+
+              SizedBox(height: 32.h),
+
+              StartRideCtaButton(onPressed: controller.onStartRide),
+            ],
           ),
         ),
       ],

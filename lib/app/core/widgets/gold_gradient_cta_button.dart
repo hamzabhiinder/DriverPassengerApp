@@ -23,15 +23,18 @@ class GoldGradientCtaButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(999.r),
         child: Ink(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999.r),
             gradient: const LinearGradient(
+              colors: [
+                Color(0xFFB88E2F),
+                Color(0xFF966C2D),
+              ],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
-              colors: [
-                AppColors.goldDeep,
-                AppColors.goldMid,
-                AppColors.goldLight,
-              ],
+            ),
+            borderRadius: BorderRadius.circular(999.r),
+            border: Border.all(
+              color: const Color(0xFFF1D18A).withOpacity(0.3),
+              width: 1.w,
             ),
           ),
           child: Padding(

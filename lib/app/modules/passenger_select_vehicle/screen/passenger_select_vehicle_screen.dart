@@ -12,11 +12,9 @@ class PassengerSelectVehicleScreen
     extends GetView<PassengerSelectVehicleController> {
   const PassengerSelectVehicleScreen({super.key});
 
-  static const _flowStepIndex = 1;
-
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.paddingOf(context).bottom;
+    final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -73,9 +71,10 @@ class PassengerSelectVehicleScreen
           Expanded(
             child: Obx(() {
               final selected = controller.selectedIndex.value;
-              final items = controller.vehicles;
+              final items = controller.activeVehicles;
+
               return ListView.builder(
-                padding: EdgeInsets.only(top: 8.h, bottom: 8.h),
+                padding: EdgeInsets.only(top: 12.h, bottom: 8.h),
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   return VehicleSelectCard(
@@ -88,19 +87,97 @@ class PassengerSelectVehicleScreen
             }),
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(20.w, 22.h, 20.w, 12.h + bottom),
+            padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 12.h + bottomInset),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Obx(
+                  () => _buildToggleBusesButton(
+                    isPartyBusView: controller.rxShowPartyBuses.value,
+                    onTap: controller.togglePartyBusView,
+                  ),
+                ),
+
+                SizedBox(height: 16.h),
+
                 GoldGradientCtaButton(
                   label: 'Continue',
                   onPressed: controller.onContinue,
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 8.h),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildToggleBusesButton({
+    required bool isPartyBusView,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFF0C0C0C),
+          borderRadius: BorderRadius.circular(14.r),
+          border: Border.all(
+            color: const Color(0xFFB88E2F).withOpacity(0.35),
+            width: 1.w,
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              isPartyBusView
+                  ? Icons.group_rounded
+                  : Icons.directions_bus_filled_outlined,
+              color: const Color(0xFFC59341),
+              size: 24.sp,
+            ),
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    isPartyBusView
+                        ? 'Back to SUVs'
+                        : 'VIP Party Sprinter & Buses',
+                    style: AppTypography.geist(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    isPartyBusView
+                        ? 'View SUV options above'
+                        : 'View premium group options below',
+                    style: AppTypography.geist(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFFC59341),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              isPartyBusView
+                  ? Icons.keyboard_arrow_up_rounded
+                  : Icons.keyboard_arrow_down_rounded,
+              color: const Color(0xFFC59341),
+              size: 24.sp,
+            ),
+          ],
+        ),
       ),
     );
   }

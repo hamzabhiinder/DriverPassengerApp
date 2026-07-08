@@ -27,4 +27,6 @@ abstract final class AppColors {
   static const Color goldMid = Color(0xFFC9A227);
   static const Color goldLight = Color(0xFFE8D48B);
   static const Color goldRing = Color(0xFFD4AF37);
+   static const goldColor = Color(0xFFC59341);
+
 }

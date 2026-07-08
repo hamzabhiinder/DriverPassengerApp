@@ -102,7 +102,7 @@ class PassengerWhereToMapLayer extends GetView<PassengerWhereToController> {
           bottom: 8,
           child: IgnorePointer(
             child: Text(
-              '© OpenStreetMap contributors',
+              'Â© OpenStreetMap contributors',
               style: TextStyle(
                 color: AppColors.onSurfaceMuted.withValues(alpha: 0.65),
                 fontSize: 10,

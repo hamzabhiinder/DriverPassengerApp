@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_responsive.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/app_navigation_drawer.dart'
+    show AppNavigationDrawer;
 import '../../../routes/app_routes.dart';
 import '../controller/passenger_where_to_controller.dart';
 import '../widgets/passenger_where_to_bottom_panel.dart';
@@ -16,30 +17,75 @@ class PassengerWhereToScreen extends GetView<PassengerWhereToController> {
 
   @override
   Widget build(BuildContext context) {
-    final panelHeight = AppResponsive.whereToPanelHeight();
+    final panelHeight =
+        AppResponsive.whereToPanelHeight() +
+        30.h;
 
     return Scaffold(
       backgroundColor: AppColors.background,
       resizeToAvoidBottomInset: true,
+      drawer: const AppNavigationDrawer(),
       body: Stack(
         fit: StackFit.expand,
         children: [
           const PassengerWhereToMapLayer(),
-          SafeArea(
-            bottom: false,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _WelcomeGuestPill(),
-                  _ProfileButton(
-                    onPressed: () => _openProfileSheet(context),
-                  ),
-                ],
+
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Builder(
+                      builder: (scaffoldContext) {
+                        return GestureDetector(
+                          onTap: () {
+                            Scaffold.of(scaffoldContext).openDrawer();
+                          },
+                          child: Container(
+                            width: 44.w,
+                            height: 44.h,
+                            decoration: const BoxDecoration(
+                              color: Colors.transparent,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.menu_rounded,
+                              color: const Color(0xFFC59341),
+                              size: 28.sp,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+
+                    GestureDetector(
+                      onTap: controller.onRecenterMap,
+                      child: Container(
+                        width: 44.w,
+                        height: 44.h,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.4),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.gps_fixed_rounded,
+                          color: const Color(0xFFC59341),
+                          size: 22.sp,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+
           Positioned(
             left: 0,
             right: 0,
@@ -102,57 +148,6 @@ class PassengerWhereToScreen extends GetView<PassengerWhereToController> {
               },
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _WelcomeGuestPill extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.background.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(999.r),
-        border: Border.all(color: AppColors.outline),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-        child: Text(
-          'Welcome, Guest',
-          style: AppTypography.geist(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: AppColors.onBackgroundBright,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ProfileButton extends StatelessWidget {
-  const _ProfileButton({required this.onPressed});
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.background.withValues(alpha: 0.5),
-      shape: const CircleBorder(),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onPressed,
-        customBorder: const CircleBorder(),
-        child: Padding(
-          padding: EdgeInsets.all(12.w),
-          child: Icon(
-            Icons.person_rounded,
-            color: AppColors.onBackgroundBright,
-            size: 24.sp,
-          ),
         ),
       ),
     );
