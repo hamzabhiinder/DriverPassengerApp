@@ -36,20 +36,51 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
                 ),
               ),
 
-              SizedBox(height: 4.h),
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  text: 'Welcome to ',
+                  style: AppTypography.castoro(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: 'BlackX',
+                      style: AppTypography.castoro(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(
+                          0xFFC59341,
+                        ), // Golden brand highlight
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
+              SizedBox(height: 8.h),
+              GlowingDivider(
+                color: const Color(0xFFC59341),
+
+                glowColor: const Color(0xFFC59341).withOpacity(0.5),
+              ),
+              SizedBox(height: 8.h),
+
+              // 3. Spaced Subtitle
               Text(
                 'LUXURY ON DEMAND',
                 textAlign: TextAlign.center,
                 style: AppTypography.geist(
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.onSurface.withValues(alpha: 0.45),
-                  letterSpacing: 4.0,
+                  color: AppColors.onSurface,
+                  letterSpacing: 8.0,
                 ),
               ),
 
-              SizedBox(height: 48.h),
+              SizedBox(height: 38.h),
 
               Text(
                 'Welcome',
@@ -68,15 +99,15 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
                 color: Color(0xFFC59341).withOpacity(0.25),
               ),
 
-              SizedBox(height: 24.h),
+              SizedBox(height: 8.h),
 
               Text(
                 'Enter the 4-digit code\nwe sent to your phone',
                 textAlign: TextAlign.center,
                 style: AppTypography.geist(
-                  fontSize: 15.sp,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w300,
-                  color: AppColors.bodySecondary.withValues(alpha: 0.5),
+                  color: AppColors.bodySecondary.withValues(alpha: 0.9),
                   height: 1.4,
                 ),
               ),
@@ -89,9 +120,9 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
                   Text(
                     '+1 (555) 123-4567',
                     style: AppTypography.geist(
-                      fontSize: 15.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
-                      color: Colors.white.withOpacity(0.85),
+                      color: Colors.white.withOpacity(0.9),
                     ),
                   ),
                   SizedBox(width: 8.w),
@@ -455,10 +486,7 @@ class _OtpBox extends GetView<PassengerLoginController> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide(
-              color: Color(0xFFB88E2F),
-              width: 1.5.w,
-            ),
+            borderSide: BorderSide(color: Color(0xFFB88E2F), width: 1.5.w),
           ),
         ),
         onChanged: (value) {

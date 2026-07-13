@@ -6,8 +6,9 @@ import '../../passenger_where_to/controller/passenger_where_to_controller.dart';
 import '../models/vehicle_option.dart';
 
 class PassengerSelectVehicleController extends GetxController {
-  static const _car1 = 'assets/images/car_image.png';
+  static const _car1 = 'assets/images/bmw1.png';
   static const _car2 = 'assets/images/car2_image.png';
+  static const _car3 = 'assets/images/bmw2.png';
 
   final selectedIndex = Rxn<int>();
   final rxShowPartyBuses = false.obs;
@@ -17,7 +18,7 @@ class PassengerSelectVehicleController extends GetxController {
       categoryLabel: 'Executive Sedan',
       name: 'BMW i5 or Similar',
       luggageLabel: '2 large suitcases',
-      passengersLabel: 'Passengers: 1â€“3',
+      passengersLabel: 'Passengers: 1-3',
       priceLabel: '\$120',
       imageAsset: _car1,
     ),
@@ -25,15 +26,15 @@ class PassengerSelectVehicleController extends GetxController {
       categoryLabel: 'Elite SUV',
       name: 'Chevrolet Tahoe or Similar',
       luggageLabel: '4 large suitcases',
-      passengersLabel: 'Passengers: 1â€“6',
+      passengersLabel: 'Passengers: 1-6',
       priceLabel: '\$180',
-      imageAsset: _car2,
+      imageAsset: _car3,
     ),
     VehicleOption(
       categoryLabel: 'VIP SUV',
       name: 'Mercedes-Maybach GLS or Similar',
       luggageLabel: '4 large suitcases',
-      passengersLabel: 'Passengers: 1â€“4',
+      passengersLabel: 'Passengers: 1-4',
       priceLabel: '\$220',
       imageAsset: _car2,
     ),
@@ -44,16 +45,15 @@ class PassengerSelectVehicleController extends GetxController {
       categoryLabel: 'VIP Party Sprinter',
       name: 'Mercedes-Benz Sprinter',
       luggageLabel: 'Varies',
-      passengersLabel: 'Passengers: 6â€“14',
+      passengersLabel: 'Passengers: 6-14',
       priceLabel: '\$299',
-      imageAsset:
-          'assets/images/sprinter.png',
+      imageAsset: 'assets/images/sprinter2.png',
     ),
     VehicleOption(
       categoryLabel: 'Ultimate Party Bus',
       name: 'Luxury Party Bus',
       luggageLabel: 'Amenities included',
-      passengersLabel: 'Passengers: 12â€“22',
+      passengersLabel: 'Passengers: 12-22',
       priceLabel: '\$399',
       imageAsset: 'assets/images/sprinter.png',
     ),

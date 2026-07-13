@@ -192,32 +192,20 @@ class RoleSelectView extends GetView<RoleSelectController> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16.r),
             child: Stack(
+              clipBehavior: Clip.none,
               children: [
                 Positioned(
-                  right: 0,
-                  top: 0,
+                  left: 220,
+                  top: 50,
                   bottom: 0,
                   child: Stack(
                     children: [
                       Image.asset(
-                        'assets/images/passenger_role_bg.png',
-                        width: 170.w,
+                        'assets/images/car_image.png',
+
                         height: double.infinity,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fitWidth,
                         errorBuilder: (_, __, ___) => const SizedBox(),
-                      ),
-                      Container(
-                        width: 170.w,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              const Color(0xFF0C0C0C),
-                              const Color(0xFF0C0C0C).withOpacity(0.0),
-                            ],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                        ),
                       ),
                     ],
                   ),
@@ -388,7 +376,7 @@ class RoleSelectView extends GetView<RoleSelectController> {
             child: Stack(
               children: [
                 Positioned(
-                  right: 0,
+                  right: -40,
                   top: 0,
                   bottom: 0,
                   child: Stack(
@@ -397,21 +385,9 @@ class RoleSelectView extends GetView<RoleSelectController> {
                         'assets/images/driver_role_bg.png',
                         width: 170.w,
                         height: double.infinity,
+
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) => const SizedBox(),
-                      ),
-                      Container(
-                        width: 170.w,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              const Color(0xFF0C0C0C),
-                              const Color(0xFF0C0C0C).withOpacity(0.0),
-                            ],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                        ),
                       ),
                     ],
                   ),
@@ -436,8 +412,7 @@ class RoleSelectView extends GetView<RoleSelectController> {
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
-                              Icons
-                                  .person_pin_rounded,
+                              Icons.person_pin_rounded,
                               color: currentAccentColor,
                               size: 20.sp,
                             ),
@@ -497,11 +472,6 @@ class RoleSelectView extends GetView<RoleSelectController> {
                                 currentAccentColor,
                               ),
                             ],
-                          ),
-                          Icon(
-                            Icons.chevron_right_rounded,
-                            color: currentAccentColor,
-                            size: 24.sp,
                           ),
                         ],
                       ),

@@ -1,10 +1,10 @@
+import 'package:driver_passenger_app/app/core/widgets/glowing_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
-import '../../../core/widgets/glowing_divider.dart' show GlowingDivider;
 import '../controller/passenger_login_controller.dart';
 
 class PassengerLoginView extends GetView<PassengerLoginController> {
@@ -16,172 +16,163 @@ class PassengerLoginView extends GetView<PassengerLoginController> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Stack(
-        children: [
-          Positioned(
-            top: 130.h,
-            right: 0,
-            left: 0,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/passenger_role_bg.png',
-                  width: 1.sw,
-                  height: 280.h,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const SizedBox(),
-                ),
-                Container(
-                  width: 1.sw,
-                  height: 280.h,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.background,
-                        AppColors.background.withOpacity(0.0),
-                        AppColors.background.withOpacity(0.0),
-                        AppColors.background,
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: const [0.0, 0.2, 0.8, 1.0],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 16.h + bottomInset),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 8.h),
 
-          SafeArea(
-            child: SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              padding: EdgeInsets.fromLTRB(
-                24.w,
-                16.h,
-                24.w,
-                16.h + bottomInset,
+              Center(
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  height: 140.w,
+                  fit: BoxFit.contain,
+                ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: 8.h),
 
-                  Center(
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      height: 120.w,
-                      fit: BoxFit.contain,
-                    ),
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  text: 'Welcome to ',
+                  style: AppTypography.castoro(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
                   ),
-
-                  SizedBox(height: 4.h),
-
-                  Text(
-                    'LUXURY ON DEMAND',
-                    textAlign: TextAlign.center,
-                    style: AppTypography.geist(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.goldRing.withValues(alpha: 0.45),
-                      letterSpacing: 4.0,
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 140.h,
-                  ),
-                  Text(
-                    'Welcome',
-                    textAlign: TextAlign.center,
-                    style: AppTypography.castoro(
-                      fontSize: 38,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.onBackgroundBright,
-                    ),
-                  ),
-
-                  SizedBox(height: 8.h),
-
-                  GlowingDivider(
-                    color: AppColors.goldMid,
-                    glowColor: AppColors.goldRing,
-                  ),
-
-                  SizedBox(height: 18.h),
-
-                  Text(
-                    'Enter your phone number to continue',
-                    textAlign: TextAlign.center,
-                    style: AppTypography.geist(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w300,
-                      color: AppColors.bodySecondary.withValues(alpha: 0.5),
-                    ),
-                  ),
-
-                  SizedBox(height: 18.h),
-
-                  _buildCustomPhoneInputField(),
-
-                  SizedBox(height: 18.h),
-
-                  Row(
-                    children: [
-                      SizedBox(width: 8.w),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Icon(
-                            Icons.shield_outlined,
-                            color: const Color(0xFFB88E2F),
-                            size: 30.sp,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 0.h),
-                            child: Icon(
-                              Icons.lock_outline,
-                              color: const Color(0xFFB88E2F),
-                              size: 10.sp,
-                            ),
-                          ),
-                        ],
+                  children: [
+                    TextSpan(
+                      text: 'BlackX',
+                      style: AppTypography.castoro(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(
+                          0xFFC59341,
+                        ), // Golden brand highlight
                       ),
-                      SizedBox(width: 14.w),
-                      Expanded(
-                        child: Text(
-                          "We'll send you a one-time PIN code\nto securely sign you in.",
-                          style: AppTypography.geist(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w300,
-                            color: AppColors.bodySecondary.withValues(
-                              alpha: 0.5,
-                            ),
-                            height: 1.35,
-                          ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 8.h),
+              GlowingDivider(
+                color: const Color(0xFFC59341),
+
+                glowColor: const Color(0xFFC59341).withOpacity(0.5),
+              ),
+              SizedBox(height: 8.h),
+
+              // 3. Spaced Subtitle
+              Text(
+                'LUXURY ON DEMAND',
+                textAlign: TextAlign.center,
+                style: AppTypography.geist(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.onSurface,
+                  letterSpacing: 8.0,
+                ),
+              ),
+
+              SizedBox(height: 36.h),
+
+              // 4. Large Primary Welcome Title
+              Text(
+                'Welcome',
+                textAlign: TextAlign.center,
+                style: AppTypography.castoro(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.onBackgroundBright,
+                ),
+              ),
+
+              SizedBox(height: 8.h),
+
+              GlowingDivider(
+                color: const Color(0xFFC59341),
+                glowColor: const Color(0xFFC59341).withOpacity(0.5),
+              ),
+
+              SizedBox(height: 18.h),
+
+              // Input instructions subtext
+              Text(
+                'Enter your phone number to continue',
+                textAlign: TextAlign.center,
+                style: AppTypography.geist(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.onSurface.withValues(alpha: 0.8),
+                ),
+              ),
+
+              SizedBox(height: 50.h),
+
+              // 5. Custom Pill Phone Input Field (Placeholder updated)
+              _buildCustomPhoneInputField(),
+
+              SizedBox(height: 18.h),
+
+              // 6. Security Disclaimer Row
+              Row(
+                children: [
+                  SizedBox(width: 8.w),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(
+                        Icons.shield_outlined,
+                        color: const Color(0xFFB88E2F),
+                        size: 26.sp,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 2.h),
+                        child: Icon(
+                          Icons.lock_outline_rounded,
+                          color: const Color(0xFFB88E2F),
+                          size: 11.sp,
                         ),
                       ),
                     ],
                   ),
-
-                  SizedBox(height: 28.h),
-
-                  _buildContinueButton(),
-
-                  SizedBox(height: 48.h),
-
-                  _buildFooterSupportRow(),
-
-                  SizedBox(height: 12.h),
+                  SizedBox(width: 14.w),
+                  Expanded(
+                    child: Text(
+                      "We'll send you a one-time PIN code\nto secure sign you in.",
+                      style: AppTypography.geist(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w300,
+                        color: AppColors.bodySecondary.withValues(alpha: 0.5),
+                        height: 1.35,
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            ),
+
+              SizedBox(height: 28.h),
+
+              // 7. Gold Gradient CTA Continue Button with double right arrow
+              _buildContinueButton(),
+
+              SizedBox(height: 48.h),
+
+              // 8. Footer Contact Support element flanked by fading lines
+              _buildFooterSupportRow(),
+
+              SizedBox(height: 12.h),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
+  // Glowing center gold line divider
   Widget _buildGoldenDivider() {
     return Center(
       child: SizedBox(
@@ -224,25 +215,17 @@ class PassengerLoginView extends GetView<PassengerLoginController> {
     );
   }
 
+  // Phone input pill container
   Widget _buildCustomPhoneInputField() {
     return Container(
       height: 56.h,
       decoration: BoxDecoration(
         color: const Color(0xFF0F0F0F),
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(999.r), // Pill shape border radius
         border: Border.all(
-          color: const Color(
-            0xFFB88E2F,
-          ).withOpacity(0.35),
+          color: const Color(0xFFB88E2F).withOpacity(0.35),
           width: 1.w,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFB88E2F).withOpacity(0.2),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
       ),
       padding: EdgeInsets.symmetric(horizontal: 18.w),
       child: Row(
@@ -263,7 +246,7 @@ class PassengerLoginView extends GetView<PassengerLoginController> {
           ),
           Icon(
             Icons.arrow_drop_down_rounded,
-            color: Colors.white.withOpacity(0.4),
+            color: const Color(0xFFB88E2F), // Dropdown arrow colored gold
             size: 18.sp,
           ),
           SizedBox(width: 8.w),
@@ -284,7 +267,7 @@ class PassengerLoginView extends GetView<PassengerLoginController> {
                 color: Colors.white,
               ),
               decoration: InputDecoration(
-                hintText: '(555) 123-4567',
+                hintText: '+971 50 123 4567', // Exact mockup placeholder
                 hintStyle: AppTypography.geist(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
@@ -300,6 +283,7 @@ class PassengerLoginView extends GetView<PassengerLoginController> {
     );
   }
 
+  // Continue CTA Button (concontaining custom double right arrows >>)
   Widget _buildContinueButton() {
     return GestureDetector(
       onTap: controller.sendOtp,
@@ -343,7 +327,7 @@ class PassengerLoginView extends GetView<PassengerLoginController> {
               ),
               child: Icon(
                 Icons
-                    .arrow_forward_rounded,
+                    .keyboard_double_arrow_right_rounded, // Double arrow matches exactly
                 color: const Color(0xFFB88E2F),
                 size: 18.sp,
               ),
@@ -354,6 +338,7 @@ class PassengerLoginView extends GetView<PassengerLoginController> {
     );
   }
 
+  // Support elements flanked by fading dividers
   Widget _buildFooterSupportRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -371,11 +356,11 @@ class PassengerLoginView extends GetView<PassengerLoginController> {
           ),
         ),
         SizedBox(width: 16.w),
-
         Row(
           children: [
             Container(
-              padding: EdgeInsets.all(8.w),
+              width: 36.w,
+              height: 36.h,
               decoration: BoxDecoration(
                 border: Border.all(
                   color: const Color(0xFFB88E2F).withOpacity(0.4),
@@ -384,7 +369,7 @@ class PassengerLoginView extends GetView<PassengerLoginController> {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                Icons.headset_mic,
+                Icons.headset_mic_outlined,
                 color: const Color(0xFFB88E2F),
                 size: 18.sp,
               ),
@@ -424,7 +409,6 @@ class PassengerLoginView extends GetView<PassengerLoginController> {
           ],
         ),
         SizedBox(width: 16.w),
-
         Expanded(
           child: Container(
             height: 1.h,

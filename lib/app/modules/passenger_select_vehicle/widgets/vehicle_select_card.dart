@@ -19,7 +19,7 @@ class VehicleSelectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final carWidth = 0.5.sw;
+    final carWidth = 0.45.sw;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 12.h),
@@ -30,7 +30,9 @@ class VehicleSelectCard extends StatelessWidget {
             color: const Color(0xFF0C0C0C),
             borderRadius: BorderRadius.circular(18.r),
             border: Border.all(
-              color: selected ? const Color(0xFFB88E2F) : Colors.white.withOpacity(0.06),
+              color: selected
+                  ? const Color(0xFFB88E2F)
+                  : Colors.white.withOpacity(0.06),
               width: selected ? 1.5.w : 1.w,
             ),
           ),
@@ -44,12 +46,12 @@ class VehicleSelectCard extends StatelessWidget {
                   child: Image.asset(
                     option.imageAsset,
                     width: carWidth,
-                    height: 140.h,
+                    height: 120.h,
                     fit: BoxFit.contain,
                     errorBuilder: (_, __, ___) => const SizedBox(),
                   ),
                 ),
-                
+
                 Padding(
                   padding: EdgeInsets.all(16.w),
                   child: Column(
@@ -78,16 +80,18 @@ class VehicleSelectCard extends StatelessWidget {
                                 style: AppTypography.geist(
                                   fontSize: 9.sp,
                                   fontWeight: FontWeight.w300,
-                                  color: AppColors.bodySecondary.withValues(alpha: 0.5),
+                                  color: AppColors.bodySecondary.withValues(
+                                    alpha: 0.5,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ],
                       ),
-                      
+
                       SizedBox(height: 10.h),
-                      
+
                       Text(
                         option.name,
                         style: AppTypography.castoro(
@@ -96,9 +100,9 @@ class VehicleSelectCard extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                      
+
                       SizedBox(height: 4.h),
-                      
+
                       SizedBox(
                         width: 0.52.sw,
                         child: Text(
@@ -106,13 +110,15 @@ class VehicleSelectCard extends StatelessWidget {
                           style: AppTypography.geist(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w300,
-                            color: AppColors.bodySecondary.withValues(alpha: 0.5),
+                            color: AppColors.bodySecondary.withValues(
+                              alpha: 0.5,
+                            ),
                           ),
                         ),
                       ),
-                      
+
                       SizedBox(height: 18.h),
-                      
+
                       _buildVehicleSpecifications(),
                     ],
                   ),
@@ -127,12 +133,12 @@ class VehicleSelectCard extends StatelessWidget {
 
   Widget _buildVehicleSpecifications() {
     final name = option.name.toLowerCase();
-    
+
     if (name.contains('sprinter')) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSpecRow(Icons.person_rounded, '6 â€“ 14', 'Guests'),
+          _buildSpecRow(Icons.person_rounded, '6 - 14', 'Guests'),
           SizedBox(height: 10.h),
           _buildSpecRow(Icons.business_center_rounded, 'Luggage', 'Varies'),
           SizedBox(height: 10.h),
@@ -143,7 +149,7 @@ class VehicleSelectCard extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSpecRow(Icons.person_rounded, '12 â€“ 22', 'Guests'),
+          _buildSpecRow(Icons.person_rounded, '12 - 22', 'Guests'),
           SizedBox(height: 10.h),
           _buildSpecRow(Icons.music_note_rounded, 'Premium', 'Amenities'),
           SizedBox(height: 10.h),
@@ -156,7 +162,11 @@ class VehicleSelectCard extends StatelessWidget {
         children: [
           _buildSpecRow(Icons.person_rounded, option.passengersLabel, 'Guests'),
           SizedBox(height: 10.h),
-          _buildSpecRow(Icons.business_center_rounded, option.luggageLabel, 'Luggage'),
+          _buildSpecRow(
+            Icons.business_center_rounded,
+            option.luggageLabel,
+            'Luggage',
+          ),
         ],
       );
     }
@@ -166,11 +176,7 @@ class VehicleSelectCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(
-          icon,
-          color: const Color(0xFFC59341),
-          size: 20.sp,
-        ),
+        Icon(icon, color: const Color(0xFFC59341), size: 20.sp),
         SizedBox(width: 12.w),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
