@@ -1,55 +1,72 @@
-import 'package:driver_passenger_app/app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../theme/app_colors.dart';
+import '../theme/app_sizes.dart';
+
+/// Soft gold glow line used under titles (Welcome, etc.).
+/// Sizes come from [AppSizes.glowingDividerWidth] / [AppSizes.glowingDividerHeight].
 class GlowingDivider extends StatelessWidget {
   const GlowingDivider({
     super.key,
-    this.color = AppColors.onSurface,
-    this.glowColor = Colors.white,
-    this.width = 220,
-    this.height = 4,
-    this.dotSize = 6,
+    this.width = AppSizes.glowingDividerWidth,
+    this.height = AppSizes.glowingDividerHeight,
+    this.color = AppColors.goldColor,
+    this.showCenterDot = false,
   });
 
-  final Color color;
-  final Color glowColor;
   final double width;
   final double height;
-  final double dotSize;
+  final Color color;
+  final bool showCenterDot;
 
   @override
   Widget build(BuildContext context) {
+    final Widget line = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppSizes.buttonRadiusPill),
+            boxShadow: [
+              BoxShadow(
+                color: color.withValues(alpha: 0.55),
+                blurRadius: 18,
+                spreadRadius: 1,
+              ),
+            ],
+            gradient: LinearGradient(
+              colors: [
+                Colors.transparent,
+                color.withValues(alpha: 0.7),
+                Colors.transparent,
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+    if (!showCenterDot) {
+      return line;
+    }
     return SizedBox(
-      width: width.w,
+      width: width,
       child: Stack(
         alignment: Alignment.center,
         children: [
+          line,
           Container(
-            height: height.h,
+            width: 10,
+            height: 10,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.transparent,
-                  color.withValues(alpha: 0.25),
-                  color.withValues(alpha: 0.25),
-                  Colors.transparent,
-                ],
-                stops: const [0.0, 0.4, 0.6, 1.0],
-              ),
-            ),
-          ),
-          Container(
-            width: dotSize.w,
-            height: dotSize.h,
-            decoration: BoxDecoration(
-              color: glowColor,
+              color: color,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: glowColor,
-                  blurRadius: 6.r,
-                  spreadRadius: 1.5.r,
+                  color: color.withValues(alpha: 0.8),
+                  blurRadius: 6,
+                  spreadRadius: 1.5,
                 ),
               ],
             ),

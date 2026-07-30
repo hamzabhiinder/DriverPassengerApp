@@ -19,6 +19,8 @@ import '../modules/passenger_select_vehicle/binding/passenger_select_vehicle_bin
 import '../modules/passenger_select_vehicle/screen/passenger_select_vehicle_screen.dart';
 import '../modules/passenger_where_to/binding/passenger_where_to_binding.dart';
 import '../modules/passenger_where_to/screen/passenger_where_to_screen.dart';
+import '../modules/passenger_create_profile/binding/passenger_create_profile_binding.dart';
+import '../modules/passenger_create_profile/screen/passenger_create_profile_screen.dart';
 import '../modules/passenger_login/binding/passenger_login_binding.dart';
 import '../modules/passenger_login/binding/passenger_otp_binding.dart';
 import '../modules/passenger_login/screen/passenger_login_view.dart';
@@ -60,6 +62,11 @@ abstract final class AppPages {
       name: AppRoutes.passengerOtpScreen,
       page: PassengerOtpScreenView.new,
       binding: PassengerOtpBinding(),
+    ),
+    GetPage<void>(
+      name: AppRoutes.passengerCreateProfile,
+      page: PassengerCreateProfileScreen.new,
+      binding: PassengerCreateProfileBinding(),
     ),
     GetPage<void>(
       name: AppRoutes.passengerChauffeurAssigned,

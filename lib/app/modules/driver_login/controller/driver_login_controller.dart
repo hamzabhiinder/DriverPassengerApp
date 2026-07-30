@@ -9,9 +9,14 @@ class DriverLoginController extends GetxController {
 
   final rxIsPasswordVisible = false.obs;
   final rxIsLoading = false.obs;
+  final rxRememberMe = false.obs;
 
   void togglePasswordVisibility() {
     rxIsPasswordVisible.value = !rxIsPasswordVisible.value;
+  }
+
+  void toggleRememberMe() {
+    rxRememberMe.value = !rxRememberMe.value;
   }
 
   void signIn() {

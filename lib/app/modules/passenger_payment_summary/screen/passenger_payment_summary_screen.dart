@@ -1,11 +1,11 @@
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_sizes.dart';
 import '../../../core/theme/app_typography.dart';
-import '../../../core/widgets/gold_gradient_cta_button.dart';
+import '../../../core/widgets/app_primary_button.dart';
 import '../controller/passenger_payment_summary_controller.dart';
 
 class PassengerPaymentSummaryScreen
@@ -14,297 +14,470 @@ class PassengerPaymentSummaryScreen
 
   @override
   Widget build(BuildContext context) {
+    final double bottom = MediaQuery.paddingOf(context).bottom;
+    final a = controller.args;
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 22.w),
-          child: Column(
-            children: [
-              SizedBox(height: 12.h),
-              const _PaymentSuccessMark(),
-              SizedBox(height: 24.h),
-              _PaymentSummaryCard(controller: controller),
-              SizedBox(height: 20.h),
-              Obx(
-                () => _PaymentMethodBlock(
-                  controller: controller,
-                  selectedMethod: controller.method.value,
-                ),
-              ),
-              SizedBox(height: 12.h),
-              GoldGradientCtaButton(
-                label: 'Pay \$${controller.args.totalUsd}',
-                onPressed: controller.onPay,
-              ),
-              SizedBox(height: 16.h),
-            ],
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          onPressed: () => Get.back<void>(),
+          style: IconButton.styleFrom(
+            backgroundColor: AppColors.primaryContainer,
+            shape: const CircleBorder(),
           ),
+          icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 16.sp),
         ),
-      ),
-    );
-  }
-}
-
-class _PaymentSuccessMark extends StatelessWidget {
-  const _PaymentSuccessMark();
-
-  @override
-  Widget build(BuildContext context) {
-    final ringSpecs = [200.0, 168.0, 136.0, 108.0];
-
-    return SizedBox(
-      height: 220.h,
-      width: double.infinity,
-      child: Stack(
-        alignment: Alignment.center,
-        clipBehavior: Clip.none,
-        children: [
-          for (final d in ringSpecs)
-            IgnorePointer(
-              child: Container(
-                width: d.w,
-                height: d.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColors.outline.withValues(alpha: 0.35),
-                    width: 1,
+        title: Column(
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+               
+                Text(
+                  'Secure Checkout',
+                  style: AppTypography.castoro(
+                    fontSize: AppFontSize.title,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.onBackgroundBright,
                   ),
                 ),
+                SizedBox(width: 6.w),
+                 Icon(
+                  Icons.verified_user_outlined,
+                  color: AppColors.goldColor,
+                  size: 16.sp,
+                ),
+                
+              ],
+            ),
+            SizedBox(height: 2.h),
+            Text(
+              'Review and confirm your booking',
+              style: AppTypography.geist(
+                fontSize: AppFontSize.caption,
+                color: AppColors.bodySecondary.withValues(alpha: 0.75),
               ),
             ),
-          AvatarGlow(
-            animate: true,
-            repeat: true,
-            glowShape: BoxShape.circle,
-            glowColor: AppColors.goldMid.withValues(alpha: 0.5),
-            glowCount: 2,
-            glowRadiusFactor: 1.22,
-            duration: const Duration(milliseconds: 2400),
-            curve: Curves.easeInOutCubic,
-            child: SizedBox(
-              width: 88.w,
-              height: 88.w,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.goldRing,
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0x664A3D0A),
-                      blurRadius: 26.r,
-                      spreadRadius: 1,
+          ],
+        ),
+        centerTitle: true,
+      ),
+      body: ListView(
+        padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 20.h + bottom),
+        children: [
+          _card(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Trip Summary',
+                  style: AppTypography.geist(
+                    fontSize: AppFontSize.subtitle,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                _routeTimeline(
+                  pickupTitle: a.pickupLabel,
+                  pickupSubtitle: a.pickupAddress ?? "No Address",
+                  destinationTitle: a.destinationLabel,
+                  destinationSubtitle: a.destinationAddress,
+                ),
+                SizedBox(height: 18.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _meta(
+                        icon: Icons.directions_car_outlined,
+                        label: 'Ride Type',
+                        value: a.vehicleCategory,
+                      ),
+                    ),
+                    _metaDivider(),
+                    Expanded(
+                      child: _meta(
+                        icon: Icons.schedule,
+                        label: 'ETA',
+                        value: '${a.etaMinutes} min',
+                      ),
+                    ),
+                    _metaDivider(),
+                    Expanded(
+                      child: _meta(
+                        icon: Icons.person_outline,
+                        label: 'Chauffeur',
+                        value: 'Professional',
+                      ),
                     ),
                   ],
                 ),
-                child: Center(
-                  child: Icon(
-                    Icons.check_rounded,
-                    color: AppColors.background,
-                    size: 52.sp,
+              ],
+            ),
+          ),
+          SizedBox(height: 12.h),
+          _card(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Payment Summary',
+                  style: AppTypography.geist(
+                    fontSize: AppFontSize.subtitle,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 14.h),
+                _fareRow('Base Fare', '\$${a.baseFareUsd}'),
+                SizedBox(height: 10.h),
+                _fareRow('Service Fee', '\$${a.serviceFeeUsd}'),
+                SizedBox(height: 12.h),
+                Divider(color: Colors.white.withValues(alpha: 0.12), height: 1),
+                SizedBox(height: 12.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total',
+                      style: AppTypography.geist(
+                        fontSize: AppFontSize.subtitle,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.goldColor,
+                      ),
+                    ),
+                    Text(
+                      '\$${a.totalUsd}',
+                      style: AppTypography.geist(
+                        fontSize: AppFontSize.titleSmall,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.goldColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 12.h),
+          _card(
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.local_offer_outlined,
+                  color: AppColors.goldColor,
+                  size: 20.sp,
+                ),
+                SizedBox(width: 10.w),
+                Expanded(
+                  child: Text(
+                    'Promo Code',
+                    style: AppTypography.geist(
+                      fontSize: AppFontSize.body,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Text(
+                  'Add Code',
+                  style: AppTypography.geist(
+                    fontSize: AppFontSize.label,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.goldColor,
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: AppColors.goldColor,
+                  size: 18.sp,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 12.h),
+          Obx(
+            () => Column(
+              children: [
+                _methodTile(
+                  selected:
+                      controller.method.value == PassengerPaymentMethod.card,
+                  onTap: controller.selectCard,
+                  icon: Icons.credit_card,
+                  title: 'Credit Card',
+                  subtitle: 'VISA ${a.cardMask}',
+                  trailing: 'Change',
+                  onTrailing: controller.onChangeCard,
+                ),
+                SizedBox(height: 10.h),
+                _methodTile(
+                  selected:
+                      controller.method.value == PassengerPaymentMethod.wallet,
+                  onTap: controller.selectWallet,
+                  icon: Icons.account_balance_wallet_outlined,
+                  title: 'Wallet',
+                  subtitle:
+                      'Balance: \$${a.walletBalanceUsd.toStringAsFixed(2)}',
+                  showChevron: true,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 16.h),
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(Icons.lock_outline, color: AppColors.goldColor, size: 14.sp),
+              SizedBox(width: 8.w),
+              Container(
+                width: 0.7.sw,
+                child: Text.rich(
+                  textAlign: TextAlign.center,
+                  TextSpan(
+                    style: AppTypography.geist(
+                      fontSize: AppFontSize.overline,
+                      color: AppColors.bodySecondary.withValues(alpha: 0.7),
+                      height: 1.35,
+                    ),
+                    children: [
+                      const TextSpan(text: 'Your '),
+                      TextSpan(
+                        text: 'payment is securely',
+                        style: AppTypography.geist(
+                          fontSize: AppFontSize.overline,
+                          color: AppColors.bodySecondary.withValues(alpha: 0.9),
+                          height: 1.35,
+                        ).copyWith(decoration: TextDecoration.underline),
+                      ),
+                      const TextSpan(
+                        text: " encrypted. You won't be charged ",
+                      ),
+                      TextSpan(
+                        text: 'until your ride is confirmed.',
+                        style: AppTypography.geist(
+                          fontSize: AppFontSize.overline,
+                          color: AppColors.bodySecondary.withValues(alpha: 0.9),
+                          height: 1.35,
+                        ).copyWith(decoration: TextDecoration.underline),
+                      ),
+                    ],
                   ),
                 ),
               ),
+            
+              ],
             ),
+          ),
+          SizedBox(height: 20.h),
+          AppPrimaryButton(
+            label: 'Confirm & Pay \$${a.totalUsd}',
+            onPressed: controller.onPay,
           ),
         ],
       ),
     );
   }
-}
 
-class _PaymentSummaryCard extends StatelessWidget {
-  const _PaymentSummaryCard({required this.controller});
-
-  final PassengerPaymentSummaryController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    final a = controller.args;
-    TextStyle label() => AppTypography.geist(
-      fontSize: 15,
-      fontWeight: FontWeight.w400,
-      color: AppColors.bodySecondary,
-    );
-    TextStyle value() => AppTypography.geist(
-      fontSize: 15,
-      fontWeight: FontWeight.w500,
-      color: AppColors.onBackgroundBright,
-    );
-
-    return DecoratedBox(
+  Widget _card({required Widget child, EdgeInsetsGeometry? padding}) {
+    return Container(
+      width: double.infinity,
+      padding: padding ?? EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: AppColors.paymentSummaryCard,
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: AppColors.outline.withValues(alpha: 0.6)),
+        borderRadius: BorderRadius.circular(AppSizes.cardRadius),
       ),
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 18.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: child,
+    );
+  }
+
+  Widget _routeTimeline({
+    required String pickupTitle,
+    required String pickupSubtitle,
+    required String destinationTitle,
+    required String destinationSubtitle,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
           children: [
-            Text(
-              'Payment Summary',
-              style: AppTypography.geist(
-                fontSize: 17,
-                fontWeight: FontWeight.w600,
-                color: AppColors.onBackgroundBright,
+            Container(
+              width: 14.w,
+              height: 14.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: AppColors.goldColor, width: 1.8),
               ),
             ),
-            SizedBox(height: 18.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Base Fare', style: label()),
-                Text('\$${a.baseFareUsd}', style: value()),
-              ],
-            ),
-            SizedBox(height: 12.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Service Fee', style: label()),
-                Text('\$${a.serviceFeeUsd}', style: value()),
-              ],
-            ),
-            SizedBox(height: 16.h),
             Container(
-              height: 1,
-              color: AppColors.goldRing.withValues(alpha: 0.75),
+              width: 1.5,
+              height: 36.h,
+              margin: EdgeInsets.symmetric(vertical: 2.h),
+              decoration: BoxDecoration(
+                border: Border(
+                  left: BorderSide(
+                    color: AppColors.goldColor.withValues(alpha: 0.55),
+                    width: 1.5,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+              ),
+              child: CustomPaint(
+                painter: _DashedLinePainter(
+                  color: AppColors.goldColor.withValues(alpha: 0.55),
+                ),
+              ),
             ),
-            SizedBox(height: 16.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Total',
-                  style: AppTypography.geist(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.onBackgroundBright,
-                  ),
-                ),
-                Text(
-                  '\$${a.totalUsd}',
-                  style: AppTypography.geist(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.goldRing,
-                  ),
-                ),
-              ],
+            Icon(
+              Icons.location_on,
+              color: AppColors.goldColor,
+              size: 16.sp,
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _PaymentMethodBlock extends StatelessWidget {
-  const _PaymentMethodBlock({
-    required this.controller,
-    required this.selectedMethod,
-  });
-
-  final PassengerPaymentSummaryController controller;
-  final PassengerPaymentMethod selectedMethod;
-
-  @override
-  Widget build(BuildContext context) {
-    final m = selectedMethod;
-    final a = controller.args;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _PaymentMethodTile(
-          selected: m == PassengerPaymentMethod.card,
-          onTap: controller.selectCard,
-          leading: Image.asset(
-            'assets/icons/card_icon.png',
-            width: 28.w,
-            height: 28.w,
+        SizedBox(width: 12.w),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                pickupTitle,
+                style: AppTypography.geist(
+                  fontSize: AppFontSize.bodySmall,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 2.h),
+              Text(
+                pickupSubtitle,
+                style: AppTypography.geist(
+                  fontSize: AppFontSize.overline,
+                  color: AppColors.bodySecondary.withValues(alpha: 0.7),
+                ),
+              ),
+              SizedBox(height: 18.h),
+              Text(
+                destinationTitle,
+                style: AppTypography.geist(
+                  fontSize: AppFontSize.bodySmall,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 2.h),
+              Text(
+                destinationSubtitle,
+                style: AppTypography.geist(
+                  fontSize: AppFontSize.overline,
+                  color: AppColors.bodySecondary.withValues(alpha: 0.7),
+                ),
+              ),
+            ],
           ),
-          title: 'Credit Card',
-          subtitle: a.cardMask,
-          trailing: m == PassengerPaymentMethod.card
-              ? TextButton(
-                  onPressed: controller.onChangeCard,
-                  style: TextButton.styleFrom(
-                    foregroundColor: AppColors.goldRing,
-                    padding: EdgeInsets.symmetric(horizontal: 8.w),
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  child: Text(
-                    'Change',
-                    style: AppTypography.geist(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.goldRing,
-                    ),
-                  ),
-                )
-              : null,
-        ),
-        SizedBox(height: 12.h),
-        _PaymentMethodTile(
-          selected: m == PassengerPaymentMethod.wallet,
-          onTap: controller.selectWallet,
-          leading: Icon(
-            Icons.account_balance_wallet_rounded,
-            color: AppColors.goldRing,
-            size: 28.sp,
-          ),
-          title: 'Wallet',
-          subtitle: 'Balance: \$${a.walletBalanceUsd.toStringAsFixed(2)}',
-          trailing: null,
         ),
       ],
     );
   }
-}
 
-class _PaymentMethodTile extends StatelessWidget {
-  const _PaymentMethodTile({
-    required this.selected,
-    required this.onTap,
-    required this.leading,
-    required this.title,
-    required this.subtitle,
-    this.trailing,
-  });
+  Widget _meta({
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
+    return Column(
+      children: [
+        Icon(icon, color: AppColors.goldColor, size: 18.sp),
+        SizedBox(height: 4.h),
+        Text(
+          label,
+          style: AppTypography.geist(
+            fontSize: AppFontSize.micro,
+            color: AppColors.bodySecondary.withValues(alpha: 0.7),
+          ),
+        ),
+        SizedBox(height: 2.h),
+        Text(
+          value,
+          textAlign: TextAlign.center,
+          style: AppTypography.geist(
+            fontSize: AppFontSize.overline,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
 
-  final bool selected;
-  final VoidCallback onTap;
-  final Widget leading;
-  final String title;
-  final String subtitle;
-  final Widget? trailing;
+  Widget _metaDivider() {
+    return Container(
+      width: 1,
+      height: 42.h,
+      color: Colors.white.withValues(alpha: 0.1),
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _fareRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: AppTypography.geist(
+            fontSize: AppFontSize.bodySmall,
+            color: AppColors.bodySecondary,
+          ),
+        ),
+        Text(
+          value,
+          style: AppTypography.geist(
+            fontSize: AppFontSize.bodySmall,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _methodTile({
+    required bool selected,
+    required VoidCallback onTap,
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    String? trailing,
+    VoidCallback? onTrailing,
+    bool showChevron = false,
+  }) {
     return Material(
-      color: AppColors.transparent,
+      color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(18.r),
+        borderRadius: BorderRadius.circular(AppSizes.buttonRadius),
         child: Ink(
           decoration: BoxDecoration(
             color: AppColors.paymentSummaryCard,
-            borderRadius: BorderRadius.circular(18.r),
+            borderRadius: BorderRadius.circular(AppSizes.buttonRadius),
             border: Border.all(
-              color: selected ? AppColors.goldRing : AppColors.outline,
+              color: selected
+                  ? AppColors.goldColor
+                  : Colors.white.withValues(alpha: 0.08),
               width: selected ? 1.5 : 1,
             ),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
             child: Row(
               children: [
-                SizedBox(width: 36.w, child: Center(child: leading)),
+                Icon(icon, color: AppColors.goldColor, size: 22.sp),
                 SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
@@ -313,24 +486,50 @@ class _PaymentMethodTile extends StatelessWidget {
                       Text(
                         title,
                         style: AppTypography.geist(
-                          fontSize: 16,
+                          fontSize: AppFontSize.body,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.onBackgroundBright,
+                          color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 4.h),
+                      SizedBox(height: 2.h),
                       Text(
                         subtitle,
                         style: AppTypography.geist(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
+                          fontSize: AppFontSize.caption,
                           color: AppColors.bodySecondary,
                         ),
                       ),
                     ],
                   ),
                 ),
-                if (trailing != null) trailing!,
+                if (trailing != null)
+                  GestureDetector(
+                    onTap: onTrailing,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          trailing,
+                          style: AppTypography.geist(
+                            fontSize: AppFontSize.label,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.goldColor,
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right_rounded,
+                          color: AppColors.goldColor,
+                          size: 18.sp,
+                        ),
+                      ],
+                    ),
+                  )
+                else if (showChevron)
+                  Icon(
+                    Icons.chevron_right_rounded,
+                    color: Colors.white.withValues(alpha: 0.35),
+                    size: 20.sp,
+                  ),
               ],
             ),
           ),
@@ -338,4 +537,33 @@ class _PaymentMethodTile extends StatelessWidget {
       ),
     );
   }
+}
+
+class _DashedLinePainter extends CustomPainter {
+  _DashedLinePainter({required this.color});
+
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = color
+      ..strokeWidth = 1.5
+      ..style = PaintingStyle.stroke;
+    const double dashHeight = 3;
+    const double dashSpace = 3;
+    double startY = 0;
+    while (startY < size.height) {
+      canvas.drawLine(
+        Offset(size.width / 2, startY),
+        Offset(size.width / 2, startY + dashHeight),
+        paint,
+      );
+      startY += dashHeight + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _DashedLinePainter oldDelegate) =>
+      oldDelegate.color != color;
 }

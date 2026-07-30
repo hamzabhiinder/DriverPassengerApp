@@ -150,7 +150,7 @@ class PassengerSelectVehicleScreen
                         ? 'Back to SUVs'
                         : 'VIP Party Sprinter & Buses',
                     style: AppTypography.geist(
-                      fontSize: 15.sp,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -161,7 +161,7 @@ class PassengerSelectVehicleScreen
                         ? 'View SUV options above'
                         : 'View premium group options below',
                     style: AppTypography.geist(
-                      fontSize: 11.sp,
+                      fontSize: 11,
                       fontWeight: FontWeight.w400,
                       color: const Color(0xFFC59341),
                     ),

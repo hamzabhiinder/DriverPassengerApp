@@ -33,18 +33,13 @@ class PassengerPaymentSummaryController extends GetxController {
 
   void onPay() {
     Get.offNamed<void>(
-      AppRoutes.passengerRateRide,
+      AppRoutes.passengerChauffeurAssigned,
       arguments: <String, dynamic>{
-        'chauffeurName': args.chauffeurName,
+        'vehicleModel': args.vehicleCategory,
+        'baseFareUsd': args.baseFareUsd,
+        'serviceFeeUsd': args.serviceFeeUsd,
+        'cardMask': args.cardMask,
       },
     );
-    Future<void>.delayed(const Duration(milliseconds: 400), () {
-      Get.snackbar(
-        'Payment',
-        'Ride paid successfully.',
-        snackPosition: SnackPosition.BOTTOM,
-        margin: const EdgeInsets.all(16),
-      );
-    });
   }
 }

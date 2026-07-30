@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/app_input_field.dart';
 import '../../../core/widgets/gold_gradient_cta_button.dart';
 import '../controller/passenger_rate_ride_controller.dart';
 
@@ -87,45 +88,12 @@ class PassengerRateRideScreen extends GetView<PassengerRateRideController> {
                       ),
                     ),
                     SizedBox(height: 10.h),
-                    TextField(
+                    AppInputField(
                       controller: controller.feedbackController,
+                      hint: 'Tell us about your experience....',
                       maxLines: 5,
-                      style: AppTypography.geist(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.onBackgroundBright,
-                      ),
-                      cursorColor: AppColors.goldMid,
-                      decoration: InputDecoration(
-                        hintText: 'Tell us about your experience....',
-                        hintStyle: AppTypography.geist(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.onSurfaceMuted,
-                        ),
-                        filled: true,
-                        fillColor: AppColors.paymentSummaryCard,
-                        contentPadding: EdgeInsets.all(16.w),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.r),
-                          borderSide: BorderSide(
-                            color: AppColors.outline.withValues(alpha: 0.9),
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.r),
-                          borderSide: BorderSide(
-                            color: AppColors.outline.withValues(alpha: 0.9),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.r),
-                          borderSide: const BorderSide(
-                            color: AppColors.goldRing,
-                            width: 1.2,
-                          ),
-                        ),
-                      ),
+                      fillColor: AppColors.paymentSummaryCard,
+                      borderColor: AppColors.outline.withValues(alpha: 0.9),
                     ),
                     SizedBox(height: 18.h),
                     Obx(() {

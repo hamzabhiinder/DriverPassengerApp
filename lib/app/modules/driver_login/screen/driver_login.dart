@@ -3,7 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_sizes.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/app_input_field.dart';
+import '../../../core/widgets/app_primary_button.dart';
+import '../../../core/widgets/black_x_brand_header.dart';
+import '../../../core/widgets/glowing_divider.dart';
 import '../controller/driver_login_controller.dart';
 
 class DriverLoginView extends GetView<DriverLoginController> {
@@ -11,241 +16,249 @@ class DriverLoginView extends GetView<DriverLoginController> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.paddingOf(context).bottom;
-
+    final double bottomInset = MediaQuery.paddingOf(context).bottom;
+    final double topInset = MediaQuery.paddingOf(context).top;
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          padding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 24.h + bottomInset),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 24.h),
-
-              Center(
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  width: 110.w,
-                  height: 110.h,
-                  fit: BoxFit.contain,
-                ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Positioned(
+            top: topInset + 70.h,
+            right: -160.w,
+            left: 60.w,
+            height: 0.36.sh,
+            child: Image.asset(
+              'assets/images/chauffeur_portrait.png',
+              fit: BoxFit.contain,
+              alignment: Alignment.centerRight,
+              errorBuilder: (_, __, ___) => Image.asset(
+                'assets/images/escalade.png',
+                fit: BoxFit.contain,
+                alignment: Alignment.centerRight,
+                errorBuilder: (_, __, ___) => const SizedBox(),
               ),
-
-              SizedBox(height: 40.h),
-
-              Text(
-                'Driver Login',
-                textAlign: TextAlign.center,
-                style: AppTypography.castoro(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.onBackgroundBright,
-                  height: 1.15,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Text(
-                'Sign in to start your shift',
-                textAlign: TextAlign.center,
-                style: AppTypography.geist(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w200,
-                  color: AppColors.bodySecondary,
-                  height: 1.4,
-                ),
-              ),
-
-              SizedBox(height: 40.h),
-
-              Text(
-                'Email Address',
-                style: AppTypography.geist(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.bodySecondary,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              _buildTextField(
-                controller: controller.emailController,
-                hintText: 'driver@blackline.com',
-                keyboardType: TextInputType.emailAddress,
-                prefixIcon: Icons.email_outlined,
-              ),
-
-              SizedBox(height: 20.h),
-
-              Text(
-                'Password',
-                style: AppTypography.geist(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.bodySecondary,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Obx(
-                () => _buildTextField(
-                  controller: controller.passwordController,
-                  hintText: '••••••••••••••••',
-                  obscureText: !controller.rxIsPasswordVisible.value,
-                  prefixIcon: Icons.lock_outline_rounded,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      controller.rxIsPasswordVisible.value
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                      color: AppColors.hint,
-                      size: 20.sp,
-                    ),
-                    onPressed: controller.togglePasswordVisibility,
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 40.h),
-
-              _buildSignInButton(),
-
-              SizedBox(height: 28.h),
-
-              GestureDetector(
-                onTap: controller.changeNumber,
-                child: Text(
-                  'Change Number',
-                  textAlign: TextAlign.center,
-                  style: AppTypography.geist(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFFC59341),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 24.h),
-            ],
+            ),
           ),
-        ),
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColors.background.withValues(alpha: 0.15),
+                    AppColors.background.withValues(alpha: 0.55),
+                    AppColors.background.withValues(alpha: 0.92),
+                    AppColors.background,
+                  ],
+                  stops: const [0.0, 0.28, 0.48, 0.62],
+                ),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(24.w, 8.h, 24.w, 12.h + bottomInset),
+              child: Column(
+                children: [
+                  SizedBox(height: 4.h),
+                  const BlackXBrandHeader(
+                    logoHeight: 210,
+                    compact: true,
+                  ),
+                  const Spacer(flex: 2),
+                  Text(
+                    'Driver Portal',
+                    textAlign: TextAlign.center,
+                    style: AppTypography.display(
+                      color: AppColors.onBackgroundBright,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  const GlowingDivider(),
+                  SizedBox(height: 14.h),
+                  Text(
+                    'Accept trips. Track earnings. Manage your day.',
+                    textAlign: TextAlign.center,
+                    style: AppTypography.label(
+                      color: AppColors.onSurface.withValues(alpha: 0.75),
+                    ),
+                  ),
+                  SizedBox(height: 28.h),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Company Email',
+                      style: AppTypography.label(
+                        color: AppColors.bodySecondary,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  _buildTextField(
+                    controller: controller.emailController,
+                    hint: 'you@blackxchauffeurs.com',
+                    keyboardType: TextInputType.emailAddress,
+                    prefixIcon: Icons.email_outlined,
+                  ),
+                  SizedBox(height: 14.h),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Password',
+                      style: AppTypography.label(
+                        color: AppColors.bodySecondary,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Obx(
+                    () => _buildTextField(
+                      controller: controller.passwordController,
+                      hint: '••••••••••••••••',
+                      obscureText: !controller.rxIsPasswordVisible.value,
+                      prefixIcon: Icons.lock_outline_rounded,
+                      suffix: IconButton(
+                        icon: Icon(
+                          controller.rxIsPasswordVisible.value
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                          color: AppColors.hint,
+                          size: AppSizes.inputIconSize,
+                        ),
+                        onPressed: controller.togglePasswordVisibility,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 14.h),
+                  Row(
+                    children: [
+                      Obx(
+                        () => SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: Checkbox(
+                            value: controller.rxRememberMe.value,
+                            onChanged: (_) => controller.toggleRememberMe(),
+                            activeColor: AppColors.goldColor,
+                            side: BorderSide(
+                              color: AppColors.goldColor.withValues(alpha: 0.6),
+                            ),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 8.w),
+                      Text(
+                        'Remember Me',
+                        style: AppTypography.label(
+                          color: AppColors.bodySecondary,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        'Forgot Password?',
+                        style: AppTypography.label(
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.goldColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 28.h),
+                  Obx(
+                    () => AppPrimaryButton(
+                      label: 'Sign In',
+                      onPressed: controller.signIn,
+                      isLoading: controller.rxIsLoading.value,
+                    ),
+                  ),
+                  const Spacer(flex: 2),
+                  _buildSupportFooter(),
+                  SizedBox(height: 8.h),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildTextField({
     required TextEditingController controller,
-    required String hintText,
+    required String hint,
     required IconData prefixIcon,
     bool obscureText = false,
     TextInputType keyboardType = TextInputType.text,
-    Widget? suffixIcon,
+    Widget? suffix,
   }) {
-    return TextField(
+    return AppInputField(
       controller: controller,
-      obscureText: obscureText,
+      hint: hint,
+      prefixIcon: prefixIcon,
       keyboardType: keyboardType,
-      autocorrect: false,
-      style: AppTypography.geist(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        color: AppColors.onSurface,
-      ),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: AppColors.primaryContainer,
-        hintText: hintText,
-        hintStyle: AppTypography.geist(
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-          color: AppColors.hint,
-        ),
-        prefixIcon: Padding(
-          padding: EdgeInsets.only(left: 16.w, right: 12.w),
-          child: Icon(prefixIcon, color: AppColors.onSurface, size: 22.sp),
-        ),
-        suffixIcon: suffixIcon,
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(999.r),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(999.r),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(999.r),
-          borderSide: const BorderSide(color: AppColors.outline),
-        ),
-      ),
+      obscureText: obscureText,
+      suffix: suffix,
+      isPill: true,
     );
   }
 
-  Widget _buildSignInButton() {
-    return Obx(() {
-      final isLoading = controller.rxIsLoading.value;
-      return GestureDetector(
-        onTap: isLoading ? null : controller.signIn,
-        child: Container(
-          height: 56.h,
+  Widget _buildSupportFooter() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 40.w,
+          height: 40.h,
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [
-                Color(0xFFB88E2F),
-                Color(0xFF966C2D),
-              ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-            borderRadius: BorderRadius.circular(999.r),
+            shape: BoxShape.circle,
             border: Border.all(
-              color: const Color(0xFFF1D18A).withOpacity(0.3),
-              width: 1.w,
+              color: AppColors.goldColor.withValues(alpha: 0.55),
+              width: 1.2.w,
             ),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(width: 42.w),
-              Expanded(
-                child: Center(
-                  child: isLoading
-                      ? SizedBox(
-                          height: 20.h,
-                          width: 20.h,
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.black,
-                          ),
-                        )
-                      : Text(
-                          'Sign In',
-                          style: AppTypography.geist(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                ),
-              ),
-              Container(
-                width: 42.w,
-                height: 42.h,
-                decoration: const BoxDecoration(
-                  color: Colors.black,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.keyboard_double_arrow_right_rounded,
-                  color: const Color(0xFFB88E2F),
-                  size: 20.sp,
-                ),
-              ),
-            ],
+          child: Icon(
+            Icons.headset_mic_outlined,
+            color: AppColors.goldColor,
+            size: 18.sp,
           ),
         ),
-      );
-    });
+        SizedBox(width: 12.w),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Need help?',
+              style: AppTypography.geist(
+                fontSize: 12,
+                fontWeight: FontWeight.w300,
+                color: AppColors.onSurface.withValues(alpha: 0.7),
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  'Driver Support',
+                  style: AppTypography.geist(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.goldColor,
+                  ),
+                ),
+                SizedBox(width: 2.w),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: AppColors.goldColor,
+                  size: 16.sp,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

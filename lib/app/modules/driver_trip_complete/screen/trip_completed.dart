@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_sizes.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/app_primary_button.dart';
 import '../controller/trip_completed_controller.dart';
 
 class TripCompletedView extends StatelessWidget {
@@ -29,10 +31,10 @@ class TripCompletedView extends StatelessWidget {
               SizedBox(height: 24.h),
 
               Text(
-                'Trip Completed!',
+                'Trip Completed Successfully',
                 textAlign: TextAlign.center,
                 style: AppTypography.castoro(
-                  fontSize: 32,
+                  fontSize: 28,
                   fontWeight: FontWeight.w400,
                   color: AppColors.onBackgroundBright,
                 ),
@@ -42,7 +44,7 @@ class TripCompletedView extends StatelessWidget {
                 'Great job on this ride',
                 textAlign: TextAlign.center,
                 style: AppTypography.geist(
-                  fontSize: 16.sp,
+                  fontSize: 16,
                   fontWeight: FontWeight.w300,
                   color: AppColors.bodySecondary.withOpacity(0.5),
                 ),
@@ -60,33 +62,59 @@ class TripCompletedView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 18.r,
+                          backgroundColor: AppColors.primaryContainer,
+                          child: Icon(Icons.person, color: AppColors.goldColor, size: 18.sp),
+                        ),
+                        SizedBox(width: 10.w),
+                        Text(
+                          'Sarah Johnson',
+                          style: AppTypography.geist(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 14.h),
+                    _buildInvoiceRow('Trip Earnings', '\$120.00'),
+                    _buildInvoiceRow('Tip', '\$25.00'),
+                    SizedBox(height: 8.h),
+                    Divider(color: Colors.white.withOpacity(0.06), height: 1),
+                    SizedBox(height: 8.h),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'You Earned',
+                          'Total Earnings',
                           style: AppTypography.geist(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
                             color: Colors.white,
                           ),
                         ),
                         Text(
-                          '\$120',
+                          '\$145.00',
                           style: AppTypography.geist(
-                            fontSize: 20.sp,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: const Color(0xFFC59341),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 12.h),
-                    Divider(color: Colors.white.withOpacity(0.06), height: 1),
-                    SizedBox(height: 12.h),
-                    _buildInvoiceRow('Distance', '18.5km'),
-                    _buildInvoiceRow('Duration', '25min'),
-                    _buildInvoiceRow('Base Fee', '\$100'),
-                    _buildInvoiceRow('Distance Fee', '\$50'),
+                    SizedBox(height: 14.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _miniStat('Trip Time', '32 min'),
+                        _miniStat('Distance', '18.5 km'),
+                        _miniStat('Completed', '1:28 PM'),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -191,7 +219,7 @@ class TripCompletedView extends StatelessWidget {
           Text(
             label,
             style: AppTypography.geist(
-              fontSize: 14.sp,
+              fontSize: 14,
               fontWeight: FontWeight.w400,
               color: AppColors.bodySecondary.withOpacity(0.4),
             ),
@@ -199,13 +227,35 @@ class TripCompletedView extends StatelessWidget {
           Text(
             value,
             style: AppTypography.geist(
-              fontSize: 14.sp,
+              fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _miniStat(String label, String value) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: AppTypography.geist(
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          label,
+          style: AppTypography.geist(
+            fontSize: 10,
+            color: AppColors.bodySecondary,
+          ),
+        ),
+      ],
     );
   }
 
@@ -228,7 +278,7 @@ class TripCompletedView extends StatelessWidget {
           Text(
             value,
             style: AppTypography.geist(
-              fontSize: 16.sp,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
@@ -237,7 +287,7 @@ class TripCompletedView extends StatelessWidget {
           Text(
             label,
             style: AppTypography.geist(
-              fontSize: 11.sp,
+              fontSize: 11,
               fontWeight: FontWeight.w300,
               color: AppColors.bodySecondary.withOpacity(0.5),
             ),
@@ -248,58 +298,10 @@ class TripCompletedView extends StatelessWidget {
   }
 
   Widget _buildContinueButton({required VoidCallback onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 56.h,
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFFB88E2F),
-              Color(0xFF966C2D),
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          borderRadius: BorderRadius.circular(999.r),
-          border: Border.all(
-            color: const Color(0xFFF1D18A).withOpacity(0.3),
-            width: 1.w,
-          ),
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 8.w),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(width: 42.w),
-            Expanded(
-              child: Center(
-                child: Text(
-                  'Continue Driving',
-                  style: AppTypography.geist(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              width: 42.w,
-              height: 42.h,
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.keyboard_double_arrow_right_rounded,
-                color: const Color(0xFFB88E2F),
-                size: 18.sp,
-              ),
-            ),
-          ],
-        ),
-      ),
+    return AppPrimaryButton(
+      label: 'Return to Dashboard',
+      onPressed: onTap,
+      height: AppSizes.buttonHeightLarge,
     );
   }
 }

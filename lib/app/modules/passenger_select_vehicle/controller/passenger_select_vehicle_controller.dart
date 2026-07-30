@@ -6,9 +6,9 @@ import '../../passenger_where_to/controller/passenger_where_to_controller.dart';
 import '../models/vehicle_option.dart';
 
 class PassengerSelectVehicleController extends GetxController {
-  static const _car1 = 'assets/images/bmw1.png';
-  static const _car2 = 'assets/images/car2_image.png';
-  static const _car3 = 'assets/images/bmw2.png';
+  static const _sedan = 'assets/images/executive_sedan.png';
+  static const _suv = 'assets/images/suburban.png';
+  static const _vip = 'assets/images/bmw_x7.png';
 
   final selectedIndex = Rxn<int>();
   final rxShowPartyBuses = false.obs;
@@ -20,7 +20,7 @@ class PassengerSelectVehicleController extends GetxController {
       luggageLabel: '2 large suitcases',
       passengersLabel: 'Passengers: 1-3',
       priceLabel: '\$120',
-      imageAsset: _car1,
+      imageAsset: _sedan,
     ),
     VehicleOption(
       categoryLabel: 'Elite SUV',
@@ -28,7 +28,7 @@ class PassengerSelectVehicleController extends GetxController {
       luggageLabel: '4 large suitcases',
       passengersLabel: 'Passengers: 1-6',
       priceLabel: '\$180',
-      imageAsset: _car3,
+      imageAsset: _suv,
     ),
     VehicleOption(
       categoryLabel: 'VIP SUV',
@@ -36,7 +36,7 @@ class PassengerSelectVehicleController extends GetxController {
       luggageLabel: '4 large suitcases',
       passengersLabel: 'Passengers: 1-4',
       priceLabel: '\$220',
-      imageAsset: _car2,
+      imageAsset: _vip,
     ),
   ];
 
@@ -47,7 +47,7 @@ class PassengerSelectVehicleController extends GetxController {
       luggageLabel: 'Varies',
       passengersLabel: 'Passengers: 6-14',
       priceLabel: '\$299',
-      imageAsset: 'assets/images/sprinter2.png',
+      imageAsset: 'assets/images/sprinter_van.png',
     ),
     VehicleOption(
       categoryLabel: 'Ultimate Party Bus',
@@ -55,7 +55,7 @@ class PassengerSelectVehicleController extends GetxController {
       luggageLabel: 'Amenities included',
       passengersLabel: 'Passengers: 12-22',
       priceLabel: '\$399',
-      imageAsset: 'assets/images/sprinter.png',
+      imageAsset: 'assets/images/blackx_coach.png',
     ),
   ];
 

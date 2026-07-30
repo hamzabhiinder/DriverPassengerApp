@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_sizes.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/app_primary_button.dart';
 import '../controller/going_to_pickup_controller.dart';
 
 class GoingToPickupView extends StatelessWidget {
@@ -92,7 +94,7 @@ class GoingToPickupView extends StatelessWidget {
                     Text(
                       _getStepperStatusText(state),
                       style: AppTypography.geist(
-                        fontSize: 16.sp,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                       ),
@@ -167,18 +169,31 @@ class GoingToPickupView extends StatelessWidget {
                               Text(
                                 'Sarah Johnson',
                                 style: AppTypography.geist(
-                                  fontSize: 18.sp,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
-                              SizedBox(height: 2.h),
-                              Text(
-                                'Premium Member',
-                                style: AppTypography.geist(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w300,
-                                  color: AppColors.bodySecondary,
+                              SizedBox(height: 4.h),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 8.w,
+                                  vertical: 2.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.goldColor.withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(999.r),
+                                  border: Border.all(
+                                    color: AppColors.goldColor.withValues(alpha: 0.5),
+                                  ),
+                                ),
+                                child: Text(
+                                  'BLACKX VIP MEMBER',
+                                  style: AppTypography.geist(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.goldColor,
+                                  ),
                                 ),
                               ),
                             ],
@@ -196,18 +211,72 @@ class GoingToPickupView extends StatelessWidget {
                       ],
                     ),
 
-                    SizedBox(height: 20.h),
+                    SizedBox(height: 16.h),
                     Divider(color: Colors.white.withOpacity(0.06), height: 1),
-                    SizedBox(height: 20.h),
+                    SizedBox(height: 12.h),
 
                     _buildSpecDetailRow(
                       _getDynamicLabel(state),
                       '12280 Westheimer Rd #5',
                     ),
-                    _buildSpecDetailRow('Distance', '18.5 km'),
-                    _buildSpecDetailRow('Earnings', '\$120', isGoldValue: true),
+                    _buildSpecDetailRow('Distance', '1.8 km — 5 min away'),
+                    _buildSpecDetailRow('Earnings', '\$120.00', isGoldValue: true),
+                    if (state == TripState.goingToPickup ||
+                        state == TripState.waitingForPassenger) ...[
+                      SizedBox(height: 8.h),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Trip Notes',
+                          style: AppTypography.geist(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '• Hotel pickup at Grand Hyatt\n• Client has 2 checked bags\n• Meet at valet entrance',
+                        style: AppTypography.geist(
+                          fontSize: 11,
+                          color: AppColors.bodySecondary,
+                          height: 1.35,
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Row(
+                        children: [
+                          Text(
+                            'Gate Code: ',
+                            style: AppTypography.geist(
+                              fontSize: 12,
+                              color: AppColors.bodySecondary,
+                            ),
+                          ),
+                          Text(
+                            '4321',
+                            style: AppTypography.geist(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.goldColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                    if (state == TripState.passengerOnboard) ...[
+                      SizedBox(height: 8.h),
+                      Text(
+                        'Drop-Off Notes\n• Please drop off at the front entrance\n• Client prefers quiet environment',
+                        style: AppTypography.geist(
+                          fontSize: 11,
+                          color: AppColors.bodySecondary,
+                          height: 1.35,
+                        ),
+                      ),
+                    ],
 
-                    SizedBox(height: 28.h),
+                    SizedBox(height: 20.h),
 
                     _buildDynamicActionButton(
                       text: _getDynamicButtonText(state),
@@ -220,7 +289,7 @@ class GoingToPickupView extends StatelessWidget {
                         children: [
                           Expanded(
                             child: _buildSecondaryButton(
-                              'Open GPS',
+                              'Open Navigation',
                               onTap: controller.openGPS,
                             ),
                           ),
@@ -229,6 +298,26 @@ class GoingToPickupView extends StatelessWidget {
                             child: _buildSecondaryButton(
                               'Call Customer',
                               onTap: controller.callCustomer,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                    if (state == TripState.waitingForPassenger) ...[
+                      SizedBox(height: 16.h),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildSecondaryButton(
+                              'Notify Passenger',
+                              onTap: controller.messageCustomer,
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          Expanded(
+                            child: _buildSecondaryButton(
+                              'Report No-Show',
+                              onTap: () {},
                             ),
                           ),
                         ],
@@ -276,7 +365,7 @@ class GoingToPickupView extends StatelessWidget {
       child: Text(
         step,
         style: AppTypography.geist(
-          fontSize: 13.sp,
+          fontSize: 13,
           fontWeight: FontWeight.bold,
           color: isActive ? Colors.black : const Color(0xFFA0A0A0),
         ),
@@ -320,7 +409,7 @@ class GoingToPickupView extends StatelessWidget {
           Text(
             label,
             style: AppTypography.geist(
-              fontSize: 14.sp,
+              fontSize: 14,
               fontWeight: FontWeight.w400,
               color: AppColors.bodySecondary.withOpacity(0.5),
             ),
@@ -328,7 +417,7 @@ class GoingToPickupView extends StatelessWidget {
           Text(
             value,
             style: AppTypography.geist(
-              fontSize: 15.sp,
+              fontSize: 15,
               fontWeight: FontWeight.w600,
               color: isGoldValue ? const Color(0xFFC59341) : Colors.white,
             ),
@@ -342,91 +431,31 @@ class GoingToPickupView extends StatelessWidget {
     required String text,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 56.h,
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFFB88E2F), Color(0xFF966C2D)],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          borderRadius: BorderRadius.circular(999.r),
-          border: Border.all(
-            color: const Color(0xFFF1D18A).withOpacity(0.3),
-            width: 1.w,
-          ),
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 8.w),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(width: 42.w),
-            Expanded(
-              child: Center(
-                child: Text(
-                  text,
-                  style: AppTypography.geist(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              width: 42.w,
-              height: 42.h,
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.keyboard_double_arrow_right_rounded,
-                color: const Color(0xFFB88E2F),
-                size: 18.sp,
-              ),
-            ),
-          ],
-        ),
-      ),
+    return AppPrimaryButton(
+      label: text,
+      onPressed: onTap,
+      height: AppSizes.buttonHeightLarge,
     );
   }
 
   Widget _buildSecondaryButton(String text, {required VoidCallback onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 52.h,
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(999.r),
-          border: Border.all(color: Colors.white.withOpacity(0.12), width: 1.w),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: AppTypography.geist(
-            fontSize: 15.sp,
-            fontWeight: FontWeight.w600,
-            color: Colors.white.withOpacity(0.85),
-          ),
-        ),
-      ),
+    return AppSecondaryButton(
+      label: text,
+      onPressed: onTap,
+      isPill: true,
     );
   }
 
   String _getStepperStatusText(TripState state) {
     switch (state) {
       case TripState.goingToPickup:
-        return 'Going to Pickup';
+        return 'En Route to Pickup';
       case TripState.waitingForPassenger:
         return 'Waiting for Passenger';
       case TripState.passengerOnboard:
-        return 'Passenger Onboard';
+        return 'Trip in Progress';
       case TripState.arrivedAtDestination:
-        return 'Arrived at Destination';
+        return 'Trip Complete';
     }
   }
 
@@ -434,7 +463,7 @@ class GoingToPickupView extends StatelessWidget {
     switch (state) {
       case TripState.goingToPickup:
       case TripState.waitingForPassenger:
-        return 'Pickup';
+        return 'Pickup Location';
       case TripState.passengerOnboard:
         return 'Destination';
       case TripState.arrivedAtDestination:
@@ -445,13 +474,13 @@ class GoingToPickupView extends StatelessWidget {
   String _getDynamicButtonText(TripState state) {
     switch (state) {
       case TripState.goingToPickup:
-        return 'Arrived at Pickup';
+        return "I've Arrived";
       case TripState.waitingForPassenger:
-        return 'Start Pickup';
+        return 'Passenger Onboard';
       case TripState.passengerOnboard:
         return 'Complete Trip';
       case TripState.arrivedAtDestination:
-        return 'Finish';
+        return 'Return to Dashboard';
     }
   }
 }

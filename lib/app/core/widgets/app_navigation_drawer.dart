@@ -1,3 +1,4 @@
+import 'package:driver_passenger_app/app/core/theme/app_sizes.dart';
 import 'package:driver_passenger_app/app/core/theme/app_typography.dart'
     show AppTypography;
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class AppNavigationDrawer extends StatelessWidget {
                     child: Text(
                       userInitials,
                       style: AppTypography.geist(
-                        fontSize: 20.sp,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFFC59341),
                       ),
@@ -74,7 +75,7 @@ class AppNavigationDrawer extends StatelessWidget {
                         Text(
                           userName,
                           style: AppTypography.geist(
-                            fontSize: 18.sp,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
@@ -91,7 +92,7 @@ class AppNavigationDrawer extends StatelessWidget {
                             Text(
                               userRating,
                               style: AppTypography.geist(
-                                fontSize: 14.sp,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.white.withOpacity(0.6),
                               ),
@@ -163,7 +164,7 @@ class AppNavigationDrawer extends StatelessWidget {
                       child: Text(
                         'App Current Version: 4.51',
                         style: AppTypography.geist(
-                          fontSize: 12.sp,
+                          fontSize: 12,
                           fontWeight: FontWeight.w300,
                           color: Colors.white.withOpacity(0.3),
                         ),
@@ -193,7 +194,7 @@ class AppNavigationDrawer extends StatelessWidget {
       title: Text(
         title,
         style: AppTypography.geist(
-          fontSize: 16.sp,
+          fontSize: 16,
           fontWeight: FontWeight.w400,
           color: Colors.white,
         ),
@@ -224,9 +225,9 @@ class AppNavigationDrawer extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(12.r),
         child: Container(
-          height: 52.h,
+          height: AppSizes.buttonHeight,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.r),
+            borderRadius: BorderRadius.circular(AppSizes.buttonRadius),
             border: Border.all(
               color: const Color(0xFFB88E2F).withOpacity(0.35),
               width: 1.w,
@@ -244,7 +245,7 @@ class AppNavigationDrawer extends StatelessWidget {
               Text(
                 'Logout Account',
                 style: AppTypography.geist(
-                  fontSize: 15.sp,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFFC59341),
                 ),

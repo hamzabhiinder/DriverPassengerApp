@@ -26,13 +26,17 @@ class PassengerConfirmRideController extends GetxController {
   }
 
   void onConfirmBooking() {
-    Get.offNamed<void>(
-      AppRoutes.passengerChauffeurAssigned,
+    Get.toNamed<void>(
+      AppRoutes.passengerPaymentSummary,
       arguments: <String, dynamic>{
         'vehicleModel': args.vehicleName,
         'baseFareUsd': args.baseFareUsd,
         'serviceFeeUsd': args.serviceFeeUsd,
         'cardMask': paymentMask,
+        'pickupLabel': args.pickupLabel,
+        'destinationLabel': args.destinationLabel,
+        'vehicleCategory': args.vehicleCategory,
+        'etaMinutes': args.etaMinutes,
       },
     );
   }

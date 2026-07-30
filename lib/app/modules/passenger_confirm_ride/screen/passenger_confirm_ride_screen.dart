@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/app_input_field.dart';
 import '../../../core/widgets/gold_gradient_cta_button.dart';
 import '../controller/passenger_confirm_ride_controller.dart';
 
@@ -83,6 +84,8 @@ class PassengerConfirmRideScreen
             ),
           ),
           SizedBox(height: 12.h),
+          const _SpecialInstructionsCard(),
+          SizedBox(height: 12.h),
           _SectionCard(
             child: _FareBreakdown(
               baseFare: a.baseFareUsd,
@@ -96,7 +99,7 @@ class PassengerConfirmRideScreen
           ),
           SizedBox(height: 24.h),
           GoldGradientCtaButton(
-            label: 'Confirm Booking',
+            label: 'Continue to Payment',
             onPressed: controller.onConfirmBooking,
           ),
         ],
@@ -116,6 +119,98 @@ class _SectionCard extends StatelessWidget {
       color: AppColors.primaryContainer,
       borderRadius: BorderRadius.circular(18.r),
       child: Padding(padding: EdgeInsets.all(18.w), child: child),
+    );
+  }
+}
+
+class _SpecialInstructionsCard extends StatefulWidget {
+  const _SpecialInstructionsCard();
+
+  @override
+  State<_SpecialInstructionsCard> createState() =>
+      _SpecialInstructionsCardState();
+}
+
+class _SpecialInstructionsCardState extends State<_SpecialInstructionsCard> {
+  bool _isExpanded = true;
+  final TextEditingController _notesController = TextEditingController();
+  static const int _maxChars = 250;
+
+  @override
+  void dispose() {
+    _notesController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.primaryContainer,
+      borderRadius: BorderRadius.circular(18.r),
+      child: Padding(
+        padding: EdgeInsets.all(16.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            GestureDetector(
+              onTap: () => setState(() => _isExpanded = !_isExpanded),
+              behavior: HitTestBehavior.opaque,
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.chat_bubble_outline_rounded,
+                    color: AppColors.goldColor,
+                    size: 18.sp,
+                  ),
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: Text(
+                      'Special Instructions (Optional)',
+                      style: AppTypography.geist(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.onBackgroundBright,
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    _isExpanded
+                        ? Icons.keyboard_arrow_up_rounded
+                        : Icons.keyboard_arrow_down_rounded,
+                    color: AppColors.bodySecondary,
+                    size: 22.sp,
+                  ),
+                ],
+              ),
+            ),
+            if (_isExpanded) ...[
+              SizedBox(height: 12.h),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  AppInputField(
+                    controller: _notesController,
+                    hint:
+                        'Add gate code, meet at valet, flight number, special requests, etc.',
+                    maxLength: _maxChars,
+                    maxLines: 3,
+                    showBorder: false,
+                    onChanged: (_) => setState(() {}),
+                  ),
+                  SizedBox(height: 6.h),
+                  Text(
+                    '${_notesController.text.length}/$_maxChars',
+                    style: AppTypography.geist(
+                      fontSize: 11,
+                      color: AppColors.hint,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }

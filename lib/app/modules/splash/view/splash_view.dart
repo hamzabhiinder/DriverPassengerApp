@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
-import '../../../core/widgets/glowing_divider.dart';
+import '../../../core/widgets/black_x_brand_header.dart';
 import '../controller/splash_controller.dart';
 import '../widgets/start_ride_cta_button.dart';
 
@@ -13,8 +13,7 @@ class SplashView extends GetView<SplashController> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.paddingOf(context).bottom;
-
+    final double bottomInset = MediaQuery.paddingOf(context).bottom;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Obx(
@@ -39,64 +38,12 @@ class _BlackIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logoWidth = (0.85.sw).clamp(260.0, 420.0);
-
-    return ColoredBox(
+    return const ColoredBox(
       color: AppColors.background,
       child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset('assets/images/logo.png', width: logoWidth),
-
-            SizedBox(height: 12.h),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 36.w,
-                  height: 0.8.h,
-                  color: AppColors.onSurface.withValues(alpha: 0.15),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: Text(
-                    'CHAUFFEUR CO.',
-                    textAlign: TextAlign.center,
-                    style: AppTypography.geist(
-                      color: AppColors.onSurface.withValues(alpha: 0.45),
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 3,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 36.w,
-                  height: 0.8.h,
-                  color: AppColors.onSurface.withValues(alpha: 0.15),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 24.h),
-
-            Text(
-              'LUXURY ON DEMAND.',
-              textAlign: TextAlign.center,
-              style: AppTypography.geist(
-                color: AppColors.onSurface.withValues(alpha: 0.65),
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 4.5,
-              ),
-            ),
-
-            SizedBox(height: 28.h),
-
-            GlowingDivider(),
-          ],
+        child: BlackXBrandHeader(
+          logoHeight: 140,
+          compact: true,
         ),
       ),
     );
@@ -110,100 +57,112 @@ class _PremiumSplashContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<SplashController>();
-
+    final SplashController controller = Get.find<SplashController>();
     return Stack(
       fit: StackFit.expand,
       children: [
+        // Full-bleed Escalade night hero (mockup After)
         Image.asset(
-          'assets/images/splash_background.png',
-          fit: BoxFit.contain,
-
+          'assets/images/splash_escalade_night.png',
+          fit: BoxFit.cover,
           alignment: Alignment.center,
-          errorBuilder: (_, __, ___) =>
-              const ColoredBox(color: AppColors.background),
+          errorBuilder: (_, __, ___) => Image.asset(
+            'assets/images/escalade.png',
+            fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) =>
+                const ColoredBox(color: AppColors.background),
+          ),
         ),
-
-        Positioned.fill(
+        // Top fade for logo readability
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 0.28.sh,
           child: DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  AppColors.background.withValues(
-                    alpha: 0.65,
-                  ),
-                  AppColors.transparent,
-                  AppColors.background.withValues(alpha: 0.3),
-                  AppColors.background.withValues(
-                    alpha: 0.95,
-                  ),
+                  AppColors.background.withValues(alpha: 0.75),
+                  AppColors.background.withValues(alpha: 0.25),
+                  Colors.transparent,
                 ],
-                stops: const [0.0, 0.35, 0.55, 1.0],
               ),
             ),
           ),
         ),
-
+        // Bottom fade so headline + CTA sit on solid black like mockup
         Positioned(
-          top: 30.h,
-          left: 12.w,
-          right: 12.w,
-          child: Center(
-            child: Image.asset(
-              'assets/images/logo.png',
-              width: (0.2.sw).clamp(220.0, 320.0),
-              fit: BoxFit.contain,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 0.48.sh,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  AppColors.background.withValues(alpha: 0.55),
+                  AppColors.background.withValues(alpha: 0.92),
+                  AppColors.background,
+                ],
+                stops: const [0.0, 0.35, 0.7, 1.0],
+              ),
             ),
           ),
         ),
-
+        // Brand lockup — X / BLACK X / CHAUFFEUR CO. (no luxury tagline on splash)
         Positioned(
-          bottom: 24.h + bottomInset,
+          top: MediaQuery.paddingOf(context).top + 12.h,
           left: 24.w,
           right: 24.w,
+          child: const BlackXBrandHeader(
+            logoHeight: 200,
+            showLuxuryTagline: false,
+            compact: true,
+          ),
+        ),
+        // Lower content matching mockup
+        Positioned(
+          left: 24.w,
+          right: 24.w,
+          bottom: 28.h + bottomInset,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'Luxury On Demand',
                 textAlign: TextAlign.center,
-                style: AppTypography.castoro(
-                  color: AppColors.onSurface,
-                  fontSize: 40,
+                style: AppTypography.display(
+                  color: AppColors.onBackgroundBright,
+                  // fontSize: 33,
                   fontWeight: FontWeight.w400,
-                  height: 1.15,
-                  letterSpacing: 0.5,
+                  
                 ),
               ),
-
-              SizedBox(height: 12.h),
-
+              SizedBox(height: 14.h),
               Center(
                 child: Container(
-                  width: 52.w,
-                  height: 1.2.h,
-                  color: const Color(0xFFC59341),
+                  width: 48.w,
+                  height: 1.5.h,
+                  color: AppColors.goldColor,
                 ),
               ),
-
               SizedBox(height: 16.h),
-
               Text(
                 'Professional chauffeurs.\nPremium vehicles. Seamless booking.',
                 textAlign: TextAlign.center,
-                style: AppTypography.geist(
-                  color: AppColors.onSurface.withValues(alpha: 0.8),
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w300,
-                  height: 1.4,
-                  letterSpacing: 0.15,
+                style: AppTypography.label(
+                  color: AppColors.onSurface.withValues(alpha: 0.85),
+                  
                 ),
               ),
-
-              SizedBox(height: 32.h),
-
+              SizedBox(height: 28.h),
               StartRideCtaButton(onPressed: controller.onStartRide),
             ],
           ),

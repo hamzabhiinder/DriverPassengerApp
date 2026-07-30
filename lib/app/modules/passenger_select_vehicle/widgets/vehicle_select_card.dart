@@ -78,7 +78,7 @@ class VehicleSelectCard extends StatelessWidget {
                               Text(
                                 'Estimated Price',
                                 style: AppTypography.geist(
-                                  fontSize: 9.sp,
+                                  fontSize: 9,
                                   fontWeight: FontWeight.w300,
                                   color: AppColors.bodySecondary.withValues(
                                     alpha: 0.5,
@@ -95,7 +95,7 @@ class VehicleSelectCard extends StatelessWidget {
                       Text(
                         option.name,
                         style: AppTypography.castoro(
-                          fontSize: 21.sp,
+                          fontSize: 21,
                           fontWeight: FontWeight.w400,
                           color: Colors.white,
                         ),
@@ -108,7 +108,7 @@ class VehicleSelectCard extends StatelessWidget {
                         child: Text(
                           _getVehicleDescription(option.name),
                           style: AppTypography.geist(
-                            fontSize: 12.sp,
+                            fontSize: 12,
                             fontWeight: FontWeight.w300,
                             color: AppColors.bodySecondary.withValues(
                               alpha: 0.5,
@@ -185,7 +185,7 @@ class VehicleSelectCard extends StatelessWidget {
             Text(
               value,
               style: AppTypography.geist(
-                fontSize: 13.sp,
+                fontSize: 13,
                 fontWeight: FontWeight.bold,
                 color: Colors.white.withOpacity(0.9),
                 height: 1.1,
@@ -194,7 +194,7 @@ class VehicleSelectCard extends StatelessWidget {
             Text(
               label,
               style: AppTypography.geist(
-                fontSize: 10.sp,
+                fontSize: 10,
                 fontWeight: FontWeight.w300,
                 color: AppColors.bodySecondary.withValues(alpha: 0.5),
                 height: 1.1,
@@ -238,7 +238,7 @@ class _CategoryChip extends StatelessWidget {
       child: Text(
         label.toUpperCase(),
         style: AppTypography.geist(
-          fontSize: 9.sp,
+          fontSize: 9,
           fontWeight: FontWeight.w600,
           color: const Color(0xFFC59341),
           letterSpacing: 0.5,

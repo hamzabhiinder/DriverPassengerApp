@@ -7,6 +7,7 @@ abstract final class AppRoutes {
   static const passengerLogin = '/passenger/login';
   static const passengerHome = '/passenger/home';
   static const passengerOtpScreen = '/passenger/otp';
+  static const passengerCreateProfile = '/passenger/create-profile';
   static const passengerChauffeurAssigned = '/passenger/chauffeur-assigned';
   static const passengerPaymentSummary = '/passenger/payment-summary';
   static const passengerRateRide = '/passenger/rate-ride';

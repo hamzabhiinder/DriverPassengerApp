@@ -21,7 +21,8 @@ class SplashController extends GetxController {
   Future<void> _runIntroSequence() async {
     final context = Get.context;
     if (context != null && context.mounted) {
-      precacheImage(const AssetImage('assets/images/car_image.png'), context);
+      precacheImage(const AssetImage('assets/images/splash_escalade_night.png'), context);
+      precacheImage(const AssetImage('assets/images/escalade.png'), context);
     }
     await Future<void>.delayed(const Duration(milliseconds: 900));
     showPremiumSplash.value = true;

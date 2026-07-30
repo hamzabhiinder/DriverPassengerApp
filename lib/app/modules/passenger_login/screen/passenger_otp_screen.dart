@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/app_primary_button.dart';
 import '../../../core/widgets/glowing_divider.dart';
 import '../controller/passenger_login_controller.dart';
 
@@ -61,11 +62,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
               ),
 
               SizedBox(height: 8.h),
-              GlowingDivider(
-                color: const Color(0xFFC59341),
-
-                glowColor: const Color(0xFFC59341).withOpacity(0.5),
-              ),
+              const GlowingDivider(),
               SizedBox(height: 8.h),
 
               // 3. Spaced Subtitle
@@ -94,10 +91,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
 
               SizedBox(height: 8.h),
 
-              GlowingDivider(
-                glowColor: const Color(0xFFC59341),
-                color: Color(0xFFC59341).withOpacity(0.25),
-              ),
+              const GlowingDivider(),
 
               SizedBox(height: 8.h),
 
@@ -105,7 +99,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
                 'Enter the 4-digit code\nwe sent to your phone',
                 textAlign: TextAlign.center,
                 style: AppTypography.geist(
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: FontWeight.w300,
                   color: AppColors.bodySecondary.withValues(alpha: 0.9),
                   height: 1.4,
@@ -120,7 +114,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
                   Text(
                     '+1 (555) 123-4567',
                     style: AppTypography.geist(
-                      fontSize: 12.sp,
+                      fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: Colors.white.withOpacity(0.9),
                     ),
@@ -170,7 +164,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
                   'Change Number',
                   textAlign: TextAlign.center,
                   style: AppTypography.geist(
-                    fontSize: 15.sp,
+                    fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFFC59341),
                   ),
@@ -193,48 +187,6 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
     );
   }
 
-  Widget _buildGoldenDivider() {
-    return Center(
-      child: SizedBox(
-        width: 130.w,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              height: 1.h,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.transparent,
-                    const Color(0xFFC59341).withOpacity(0.25),
-                    const Color(0xFFC59341).withOpacity(0.25),
-                    Colors.transparent,
-                  ],
-                  stops: const [0.0, 0.4, 0.6, 1.0],
-                ),
-              ),
-            ),
-            Container(
-              width: 3.w,
-              height: 3.h,
-              decoration: const BoxDecoration(
-                color: Color(0xFFFFD479),
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0xFFFFD479),
-                    blurRadius: 4,
-                    spreadRadius: 1,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildOrDivider() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -249,7 +201,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
           child: Text(
             'OR',
             style: AppTypography.geist(
-              fontSize: 12.sp,
+              fontSize: 12,
               fontWeight: FontWeight.w400,
               color: Colors.white.withOpacity(0.3),
             ),
@@ -265,55 +217,9 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
   }
 
   Widget _buildContinueButton() {
-    return GestureDetector(
-      onTap: controller.verify,
-      child: Container(
-        height: 56.h,
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFFB88E2F), Color(0xFF966C2D)],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          borderRadius: BorderRadius.circular(999.r),
-          border: Border.all(
-            color: const Color(0xFFF1D18A).withOpacity(0.3),
-            width: 1.w,
-          ),
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 8.w),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(width: 42.w),
-            Expanded(
-              child: Center(
-                child: Text(
-                  'Continue',
-                  style: AppTypography.geist(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              width: 42.w,
-              height: 42.h,
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.arrow_forward_rounded,
-                color: const Color(0xFFB88E2F),
-                size: 18.sp,
-              ),
-            ),
-          ],
-        ),
-      ),
+    return AppPrimaryButton(
+      label: 'Continue',
+      onPressed: controller.verify,
     );
   }
 
@@ -359,7 +265,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
                 Text(
                   'Need help?',
                   style: AppTypography.geist(
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     fontWeight: FontWeight.w300,
                     color: AppColors.onSurface.withValues(alpha: 0.5),
                   ),
@@ -369,7 +275,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
                     Text(
                       'Contact Support',
                       style: AppTypography.geist(
-                        fontSize: 13.sp,
+                        fontSize: 13,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFFC59341),
                       ),
@@ -410,7 +316,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
           "Didn't receive a code?",
           textAlign: TextAlign.center,
           style: AppTypography.geist(
-            fontSize: 14.sp,
+            fontSize: 14,
             fontWeight: FontWeight.w300,
             color: Colors.white.withOpacity(0.4),
           ),
@@ -422,7 +328,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
             Text(
               'Resend in ',
               style: AppTypography.geist(
-                fontSize: 14.sp,
+                fontSize: 14,
                 fontWeight: FontWeight.w300,
                 color: Colors.white.withOpacity(0.4),
               ),
@@ -430,7 +336,7 @@ class PassengerOtpScreenView extends GetView<PassengerLoginController> {
             Text(
               '00:28',
               style: AppTypography.geist(
-                fontSize: 14.sp,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFFC59341),
               ),
@@ -467,7 +373,7 @@ class _OtpBox extends GetView<PassengerLoginController> {
         cursorColor: const Color(0xFFB88E2F),
         style: AppTypography.geist(
           color: Colors.white,
-          fontSize: 22.sp,
+          fontSize: 22,
           fontWeight: FontWeight.w600,
         ),
         decoration: InputDecoration(
