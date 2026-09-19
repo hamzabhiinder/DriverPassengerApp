@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "179782025617",
+    "project_id": "blackx-b8e87",
+    "storage_bucket": "blackx-b8e87.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179782025617:android:dde9e01027bd09b40d1a30",
+        "android_client_info": {
+          "package_name": "com.app.blacklines"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCvMEvhj5YVWR5vIdTCKfyEmkxBABc1A0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

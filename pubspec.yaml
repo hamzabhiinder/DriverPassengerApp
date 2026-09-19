@@ -14,20 +14,23 @@ dependencies:
   cupertino_icons: ^1.0.8
   get: ^4.7.3
   shared_preferences: ^2.5.3
-  google_fonts: ^6.3.2
+  google_fonts: ^8.2.1
   flutter_map: ^8.1.1
-  latlong2: ^0.9.1
+  latlong2: ^0.10.1
   avatar_glow: ^3.0.1
   flutter_screenutil: ^5.9.3
   geolocator: ^14.0.2
   url_launcher: ^6.3.2
-  lucide_icons: ^0.257.0
+  firebase_core: ^4.15.0
+  firebase_auth: ^6.7.0
+  cloud_firestore: ^6.10.0
+  lucide_icons_flutter: ^3.1.20
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.2
 
 flutter_launcher_icons:

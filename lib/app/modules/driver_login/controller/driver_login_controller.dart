@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../data/services/firebase_auth_service.dart';
 import '../../../routes/app_routes.dart';
 
 class DriverLoginController extends GetxController {
@@ -19,7 +20,7 @@ class DriverLoginController extends GetxController {
     rxRememberMe.value = !rxRememberMe.value;
   }
 
-  void signIn() {
+  Future<void> signIn() async {
     final email = emailController.text.trim();
     final password = passwordController.text;
 
@@ -35,11 +36,19 @@ class DriverLoginController extends GetxController {
     }
 
     rxIsLoading.value = true;
-
-    Future.delayed(const Duration(seconds: 1), () {
+    
+    try {
+      final authService = Get.find<FirebaseAuthService>();
+      final userCredential = await authService.signInWithEmailPassword(email, password);
+      
+      if (userCredential != null) {
+        Get.offNamed(AppRoutes.driverHome);
+      }
+    } catch (e) {
+      print('Login error: \$e');
+    } finally {
       rxIsLoading.value = false;
-      Get.offNamed(AppRoutes.driverHome);
-    });
+    }
   }
 
   void changeNumber() {
