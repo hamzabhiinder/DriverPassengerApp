@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:driver_passenger_app/app/core/theme/app_sizes.dart';
 import 'package:driver_passenger_app/app/core/theme/app_typography.dart'
     show AppTypography;
+import 'package:driver_passenger_app/app/data/services/firebase_auth_service.dart';
+import 'package:driver_passenger_app/app/data/services/firestore_service.dart';
+import 'package:driver_passenger_app/app/data/services/session_service.dart';
+import 'package:driver_passenger_app/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -36,6 +41,63 @@ class AppNavigationDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String? uid = Get.isRegistered<FirebaseAuthService>()
+        ? Get.find<FirebaseAuthService>().currentUser?.uid
+        : null;
+    final Stream<DocumentSnapshot<Map<String, dynamic>>>? profileStream =
+        uid == null || !Get.isRegistered<FirestoreService>()
+        ? null
+        : Get.find<FirestoreService>().watchPassengerDoc(uid);
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      stream: profileStream,
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot,
+      ) {
+        if (snapshot.hasError || !snapshot.hasData) {
+          return _drawer(
+            context,
+            name: userName,
+            rating: userRating,
+            initials: userInitials,
+          );
+        }
+        final Map<String, dynamic> data =
+            snapshot.data?.data() ?? <String, dynamic>{};
+        final String name = data['displayName'] as String? ?? userName;
+        final String rating =
+            (data['rating'] as num?)?.toStringAsFixed(2) ?? userRating;
+        return _drawer(
+          context,
+          name: name,
+          rating: rating,
+          initials: _initials(name),
+        );
+      },
+    );
+  }
+
+  String _initials(String name) {
+    final List<String> parts = name
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((String part) => part.isNotEmpty)
+        .toList();
+    if (parts.isEmpty) {
+      return userInitials;
+    }
+    if (parts.length == 1) {
+      return parts.first.substring(0, 1).toUpperCase();
+    }
+    return '${parts.first[0]}${parts.last[0]}'.toUpperCase();
+  }
+
+  Widget _drawer(
+    BuildContext context, {
+    required String name,
+    required String rating,
+    required String initials,
+  }) {
     return Drawer(
       width: 0.82.sw,
       backgroundColor: const Color(0xFF070707),
@@ -59,7 +121,7 @@ class AppNavigationDrawer extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      userInitials,
+                      initials,
                       style: AppTypography.geist(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -73,7 +135,7 @@ class AppNavigationDrawer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          userName,
+                          name,
                           style: AppTypography.geist(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -90,7 +152,7 @@ class AppNavigationDrawer extends StatelessWidget {
                             ),
                             SizedBox(width: 4.w),
                             Text(
-                              userRating,
+                              rating,
                               style: AppTypography.geist(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -117,44 +179,63 @@ class AppNavigationDrawer extends StatelessWidget {
                     _buildDrawerItem(
                       icon: Icons.home_outlined,
                       title: 'Home',
-                      onTap:
-                          onHomeTap ??
-                          () => Get.back(),
+                      onTap: onHomeTap ??
+                          () => _open(context, AppRoutes.passengerWhereTo),
                     ),
                     _buildDrawerItem(
                       icon: Icons.notifications_none_rounded,
                       title: 'Notifications',
-                      onTap: onNotificationsTap ?? () {},
+                      onTap: onNotificationsTap ??
+                          () => _open(context, AppRoutes.passengerNotifications),
                     ),
                     _buildDrawerItem(
                       icon: Icons.calendar_today_outlined,
                       title: 'Scheduled Rides',
-                      onTap: onScheduledRidesTap ?? () {},
+                      onTap: onScheduledRidesTap ??
+                          () => _open(context, AppRoutes.passengerScheduledRides),
                     ),
                     _buildDrawerItem(
                       icon: Icons.directions_car_outlined,
                       title: 'Ride History',
-                      onTap: onRideHistoryTap ?? () {},
+                      onTap: onRideHistoryTap ??
+                          () => _open(context, AppRoutes.passengerRideHistory),
+                    ),
+                    _buildDrawerItem(
+                      icon: Icons.place_outlined,
+                      title: 'Saved Places',
+                      onTap: () => _open(context, AppRoutes.passengerSavedPlaces),
+                    ),
+                    _buildDrawerItem(
+                      icon: Icons.account_balance_wallet_outlined,
+                      title: 'Wallet',
+                      onTap: () => _open(context, AppRoutes.passengerWallet),
+                    ),
+                    _buildDrawerItem(
+                      icon: Icons.support_agent,
+                      title: 'Support',
+                      onTap: () => _open(context, AppRoutes.passengerSupport),
                     ),
 
                     _buildDivider(),
                     SizedBox(height: 8.h),
 
                     _buildDrawerItem(
-                      icon: Icons
-                          .autorenew_rounded,
+                      icon: Icons.autorenew_rounded,
                       title: 'Account Settings',
-                      onTap: onSettingsTap ?? () {},
+                      onTap: onSettingsTap ??
+                          () => _open(context, AppRoutes.passengerAccount),
                     ),
                     _buildDrawerItem(
                       icon: Icons.assignment_outlined,
                       title: 'Terms & Conditions',
-                      onTap: onTermsTap ?? () {},
+                      onTap: onTermsTap ??
+                          () => _open(context, AppRoutes.passengerTerms),
                     ),
                     _buildDrawerItem(
                       icon: Icons.credit_card_rounded,
                       title: 'My Cards',
-                      onTap: onMyCardsTap ?? () {},
+                      onTap: onMyCardsTap ??
+                          () => _open(context, AppRoutes.passengerCards),
                     ),
 
                     _buildDivider(),
@@ -175,12 +256,32 @@ class AppNavigationDrawer extends StatelessWidget {
               ),
             ),
 
-            _buildLogoutButton(onLogoutTap ?? () {}),
+            _buildLogoutButton(onLogoutTap ?? () => _logout(context)),
             SizedBox(height: 24.h),
           ],
         ),
       ),
     );
+  }
+
+  void _open(BuildContext context, String route) {
+    Navigator.of(context).pop();
+    if (route == AppRoutes.passengerWhereTo) {
+      if (Get.currentRoute != AppRoutes.passengerWhereTo) {
+        Get.offNamed<void>(AppRoutes.passengerWhereTo);
+      }
+      return;
+    }
+    Get.toNamed<void>(route);
+  }
+
+  Future<void> _logout(BuildContext context) async {
+    Navigator.of(context).pop();
+    if (Get.isRegistered<SessionService>()) {
+      await Get.find<SessionService>().logout();
+      return;
+    }
+    Get.offAllNamed<void>(AppRoutes.roleSelect);
   }
 
   Widget _buildDrawerItem({

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../data/services/firebase_auth_service.dart';
+import '../../../data/services/firestore_service.dart';
 import '../../../routes/app_routes.dart';
 import '../models/rate_ride_args.dart';
 
@@ -39,7 +41,18 @@ class PassengerRateRideController extends GetxController {
     }
   }
 
-  void onSubmitRating() {
+  Future<void> onSubmitRating() async {
+    final String rideId = args.rideId;
+    final String? passengerId = Get.find<FirebaseAuthService>().currentUser?.uid;
+    if (rideId.isNotEmpty && rideId != 'general' && passengerId != null) {
+      await Get.find<FirestoreService>().submitRideRating(
+        rideId: rideId,
+        passengerId: passengerId,
+        rating: rating.value,
+        feedback: feedbackController.text.trim(),
+        tags: selectedTags.toList(),
+      );
+    }
     Get.offAllNamed<void>(AppRoutes.passengerWhereTo);
     Future<void>.delayed(const Duration(milliseconds: 300), () {
       Get.snackbar(

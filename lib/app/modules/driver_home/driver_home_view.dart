@@ -6,9 +6,13 @@ import 'package:get/get.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_sizes.dart';
 import '../../core/theme/app_typography.dart';
+import '../../core/widgets/app_map_tile_layer.dart';
 import '../../core/widgets/app_primary_button.dart';
 import '../../core/widgets/black_x_brand_header.dart';
 import '../../core/widgets/driver_navigation_drawer.dart';
+import '../driver_account/driver_account_view.dart';
+import '../driver_earnings/driver_earnings_view.dart';
+import '../driver_trips/driver_trips_view.dart';
 import 'driver_home_controller.dart';
 
 class DriverHomeView extends GetView<DriverHomeController> {
@@ -20,19 +24,32 @@ class DriverHomeView extends GetView<DriverHomeController> {
       backgroundColor: AppColors.background,
       drawer: const DriverNavigationDrawer(),
       body: SafeArea(
-        child: Obx(() {
-          final bool isOnline = controller.rxIsOnline.value;
-          return Column(
-            children: [
-              Expanded(
-                child: isOnline
-                    ? _buildOnlineBody(context)
-                    : _buildOfflineBody(context),
-              ),
-              const _BottomNav(selectedIndex: 0),
-            ],
-          );
-        }),
+        child: Column(
+          children: [
+            Expanded(
+              child: Obx(() {
+                final int tab = controller.rxTabIndex.value;
+                return IndexedStack(
+                  index: tab,
+                  children: [
+                    Obx(() {
+                      final bool isOnline = controller.rxIsOnline.value;
+                      return isOnline
+                          ? _buildOnlineBody(context)
+                          : _buildOfflineBody(context);
+                    }),
+                    const DriverTripsView(embedded: true),
+                    const DriverEarningsView(embedded: true),
+                    const DriverAccountView(embedded: true),
+                  ],
+                );
+              }),
+            ),
+            Obx(
+              () => _BottomNav(selectedIndex: controller.rxTabIndex.value),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -46,7 +63,7 @@ class DriverHomeView extends GetView<DriverHomeController> {
           _header(context),
           SizedBox(height: 6.h),
           Text(
-            'Welcome back, Driver',
+            'Welcome back, ${controller.displayName}',
             style: AppTypography.castoro(
               fontSize: AppFontSize.titleSmall,
               fontWeight: FontWeight.w400,
@@ -114,7 +131,7 @@ class DriverHomeView extends GetView<DriverHomeController> {
           _header(context),
           SizedBox(height: 6.h),
           Text(
-            'Good afternoon, Justin',
+            'Good afternoon, ${controller.displayName}',
             style: AppTypography.castoro(
               fontSize: AppFontSize.titleSmall,
               color: Colors.white,
@@ -166,12 +183,7 @@ class DriverHomeView extends GetView<DriverHomeController> {
                   initialZoom: 13.5,
                 ),
                 children: [
-                  TileLayer(
-                    urlTemplate:
-                        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-                    subdomains: const ['a', 'b', 'c', 'd'],
-                    userAgentPackageName: 'com.blackx.driver',
-                  ),
+                  const AppMapTileLayer(),
                   MarkerLayer(
                     markers: [
                       Marker(
@@ -264,9 +276,13 @@ class DriverHomeView extends GetView<DriverHomeController> {
   Widget _header(BuildContext context) {
     return Row(
       children: [
-        IconButton(
-          onPressed: () => Scaffold.of(context).openDrawer(),
-          icon: Icon(Icons.menu, color: AppColors.goldColor, size: 24.sp),
+        Builder(
+          builder: (BuildContext scaffoldContext) {
+            return IconButton(
+              onPressed: () => Scaffold.of(scaffoldContext).openDrawer(),
+              icon: Icon(Icons.menu, color: AppColors.goldColor, size: 24.sp),
+            );
+          },
         ),
         const Expanded(
           child: BlackXBrandHeader(
@@ -281,36 +297,44 @@ class DriverHomeView extends GetView<DriverHomeController> {
   }
 
   Widget _statsRow() {
-    return Row(
-      children: [
-        Expanded(
-          child: _statCard(
-            icon: Icons.attach_money,
-            label: "Today's Earnings",
-            value: controller.rxEarnings.value,
-            link: 'View breakdown >',
+    return Obx(() {
+      return Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: controller.openEarnings,
+              child: _statCard(
+                icon: Icons.attach_money,
+                label: "Today's Earnings",
+                value: controller.earningsLabel,
+                link: 'View breakdown >',
+              ),
+            ),
           ),
-        ),
-        SizedBox(width: 8.w),
-        Expanded(
-          child: _statCard(
-            icon: Icons.directions_car_outlined,
-            label: "Today's Trips",
-            value: controller.rxRidesCompleted.value,
-            link: 'View trips >',
+          SizedBox(width: 8.w),
+          Expanded(
+            child: GestureDetector(
+              onTap: controller.openTrips,
+              child: _statCard(
+                icon: Icons.directions_car_outlined,
+                label: "Today's Trips",
+                value: controller.ridesLabel,
+                link: 'View trips >',
+              ),
+            ),
           ),
-        ),
-        SizedBox(width: 8.w),
-        Expanded(
-          child: _statCard(
-            icon: Icons.star_outline,
-            label: 'Acceptance Rate',
-            value: '98%',
-            link: 'Learn more >',
+          SizedBox(width: 8.w),
+          Expanded(
+            child: _statCard(
+              icon: Icons.star_outline,
+              label: 'Acceptance Rate',
+              value: controller.acceptanceLabel,
+              link: 'Live stats',
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   Widget _statCard({
@@ -757,6 +781,17 @@ class DriverHomeView extends GetView<DriverHomeController> {
             label: 'Go Online',
             onPressed: controller.toggleOnlineStatus,
           ),
+          SizedBox(height: 10.h),
+          TextButton(
+            onPressed: controller.simulateIncomingRide,
+            child: Text(
+              'Simulate ride request (test)',
+              style: AppTypography.geist(
+                fontSize: 12,
+                color: AppColors.goldColor,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -866,6 +901,7 @@ class _BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DriverHomeController controller = Get.find<DriverHomeController>();
     final List<(IconData, String)> items = [
       (Icons.speed, 'Dashboard'),
       (Icons.directions_car_outlined, 'Trips'),
@@ -884,27 +920,30 @@ class _BottomNav extends StatelessWidget {
         children: [
           for (int i = 0; i < items.length; i++)
             Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    items[i].$1,
-                    color: i == selectedIndex
-                        ? AppColors.goldColor
-                        : AppColors.hint,
-                    size: 22.sp,
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    items[i].$2,
-                    style: AppTypography.geist(
-                      fontSize: 10,
+              child: InkWell(
+                onTap: () => controller.selectTab(i),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      items[i].$1,
                       color: i == selectedIndex
                           ? AppColors.goldColor
                           : AppColors.hint,
+                      size: 22.sp,
                     ),
-                  ),
-                ],
+                    SizedBox(height: 2.h),
+                    Text(
+                      items[i].$2,
+                      style: AppTypography.geist(
+                        fontSize: 10,
+                        color: i == selectedIndex
+                            ? AppColors.goldColor
+                            : AppColors.hint,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
         ],

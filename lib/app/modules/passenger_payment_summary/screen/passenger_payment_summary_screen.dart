@@ -209,7 +209,7 @@ class PassengerPaymentSummaryScreen
                   onTap: controller.selectCard,
                   icon: Icons.credit_card,
                   title: 'Credit Card',
-                  subtitle: 'VISA ${a.cardMask}',
+                  subtitle: 'VISA ${controller.rxCardMask.value}',
                   trailing: 'Change',
                   onTrailing: controller.onChangeCard,
                 ),
@@ -221,7 +221,7 @@ class PassengerPaymentSummaryScreen
                   icon: Icons.account_balance_wallet_outlined,
                   title: 'Wallet',
                   subtitle:
-                      'Balance: \$${a.walletBalanceUsd.toStringAsFixed(2)}',
+                      'Balance: \$${controller.rxWalletBalance.value.toStringAsFixed(2)}',
                   showChevron: true,
                 ),
               ],

@@ -12,6 +12,15 @@ class PassengerSelectVehicleController extends GetxController {
 
   final selectedIndex = Rxn<int>();
   final rxShowPartyBuses = false.obs;
+  String pickupLabel = '';
+  String destinationLabel = '';
+  String tripType = 'Point to Point';
+  bool isScheduled = false;
+  String? scheduledAtIso;
+  double? pickupLat;
+  double? pickupLng;
+  double? destinationLat;
+  double? destinationLng;
 
   final List<VehicleOption> _standardSUVs = const [
     VehicleOption(
@@ -66,6 +75,18 @@ class PassengerSelectVehicleController extends GetxController {
   void onInit() {
     super.onInit();
     selectedIndex.value = null;
+    final Object? raw = Get.arguments;
+    if (raw is Map) {
+      pickupLabel = raw['pickupLabel'] as String? ?? '';
+      destinationLabel = raw['destinationLabel'] as String? ?? '';
+      tripType = raw['tripType'] as String? ?? tripType;
+      isScheduled = raw['isScheduled'] == true;
+      scheduledAtIso = raw['scheduledAt'] as String?;
+      pickupLat = (raw['pickupLat'] as num?)?.toDouble();
+      pickupLng = (raw['pickupLng'] as num?)?.toDouble();
+      destinationLat = (raw['destinationLat'] as num?)?.toDouble();
+      destinationLng = (raw['destinationLng'] as num?)?.toDouble();
+    }
   }
 
   void selectVehicle(int index) {
@@ -102,10 +123,11 @@ class PassengerSelectVehicleController extends GetxController {
     final v = activeVehicles[index];
     final base = _parseUsdFromLabel(v.priceLabel);
 
-    String pickup = 'Current Location';
-    String destination = '12280 Westheimer Rd #5';
+    String pickup = pickupLabel.isEmpty ? 'Current Location' : pickupLabel;
+    String destination =
+        destinationLabel.isEmpty ? '12280 Westheimer Rd #5' : destinationLabel;
 
-    if (Get.isRegistered<PassengerWhereToController>()) {
+    if (pickupLabel.isEmpty && Get.isRegistered<PassengerWhereToController>()) {
       final w = Get.find<PassengerWhereToController>();
       final p = w.pickupController.text.trim();
       final d = w.destinationController.text.trim();
@@ -128,6 +150,13 @@ class PassengerSelectVehicleController extends GetxController {
         'baseFareUsd': base,
         'serviceFeeUsd': 5,
         'etaMinutes': 5,
+        'tripType': tripType,
+        'isScheduled': isScheduled,
+        'scheduledAt': scheduledAtIso,
+        'pickupLat': pickupLat,
+        'pickupLng': pickupLng,
+        'destinationLat': destinationLat,
+        'destinationLng': destinationLng,
       },
     );
   }

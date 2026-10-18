@@ -3,6 +3,20 @@ abstract final class AppRoutes {
   static const roleSelect = '/role';
   static const driverLogin = '/driver/login';
   static const driverHome = '/driver/home';
+  static const driverNewRideRequest = '/driver/new-ride-request';
+  static const driverGoingToPickup = '/driver/going-to-pickup';
+  static const driverTripCompleted = '/driver/trip-completed';
+  static const driverTrips = '/driver/trips';
+  static const driverEarnings = '/driver/earnings';
+  static const driverAccount = '/driver/account';
+  static const driverDocuments = '/driver/documents';
+  static const driverNotifications = '/driver/notifications';
+  static const driverSupport = '/driver/support';
+  static const driverWallet = '/driver/wallet';
+  static const driverPerformance = '/driver/performance';
+  static const driverSettings = '/driver/settings';
+  static const driverVehicle = '/driver/vehicle';
+  static const rideChat = '/chat';
 
   static const passengerLogin = '/passenger/login';
   static const passengerHome = '/passenger/home';
@@ -14,4 +28,14 @@ abstract final class AppRoutes {
   static const passengerConfirmRide = '/passenger/confirm-ride';
   static const passengerSelectVehicle = '/passenger/select-vehicle';
   static const passengerWhereTo = '/passenger/where-to';
+  static const passengerSchedule = '/passenger/schedule';
+  static const passengerSavedPlaces = '/passenger/saved-places';
+  static const passengerNotifications = '/passenger/notifications';
+  static const passengerRideHistory = '/passenger/ride-history';
+  static const passengerAccount = '/passenger/account';
+  static const passengerCards = '/passenger/cards';
+  static const passengerTerms = '/passenger/terms';
+  static const passengerScheduledRides = '/passenger/scheduled-rides';
+  static const passengerSupport = '/passenger/support';
+  static const passengerWallet = '/passenger/wallet';
 }

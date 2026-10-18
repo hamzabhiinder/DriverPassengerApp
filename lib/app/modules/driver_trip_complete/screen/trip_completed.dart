@@ -97,7 +97,7 @@ class TripCompletedView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '\$145.00',
+                          controller.fareLabel,
                           style: AppTypography.geist(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -110,9 +110,12 @@ class TripCompletedView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        _miniStat('Trip Time', '32 min'),
-                        _miniStat('Distance', '18.5 km'),
-                        _miniStat('Completed', '1:28 PM'),
+                        _miniStat(
+                          'Distance',
+                          '${(controller.ride.distanceKm ?? 0).toStringAsFixed(1)} km',
+                        ),
+                        _miniStat('Trip', controller.ride.tripType),
+                        _miniStat('Code', controller.ride.displayBookingCode),
                       ],
                     ),
                   ],
@@ -120,45 +123,6 @@ class TripCompletedView extends StatelessWidget {
               ),
 
               const Spacer(),
-
-              Text(
-                "Today's Progress",
-                style: AppTypography.castoro(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.onBackgroundBright,
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: Obx(() => _buildProgressStat(
-                      icon: Icons.directions_car_filled_outlined,
-                      value: controller.rxTodayTrips.value,
-                      label: 'Trips',
-                    )),
-                  ),
-                  SizedBox(width: 12.w),
-                  Expanded(
-                    child: Obx(() => _buildProgressStat(
-                      icon: Icons.attach_money_rounded,
-                      value: controller.rxTodayEarned.value,
-                      label: 'Earned',
-                    )),
-                  ),
-                  SizedBox(width: 12.w),
-                  Expanded(
-                    child: Obx(() => _buildProgressStat(
-                      icon: Icons.power_settings_new_rounded,
-                      value: controller.rxTodayOnlineHours.value,
-                      label: 'Online',
-                    )),
-                  ),
-                ],
-              ),
-
-              const Spacer(flex: 2),
 
               _buildContinueButton(onTap: controller.continueDriving),
 
@@ -256,44 +220,6 @@ class TripCompletedView extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildProgressStat({
-    required IconData icon,
-    required String value,
-    required String label,
-  }) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 14.h),
-      decoration: BoxDecoration(
-        color: const Color(0xFF121212),
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: const Color(0xFFC59341), size: 22.sp),
-          SizedBox(height: 16.h),
-          Text(
-            value,
-            style: AppTypography.geist(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            label,
-            style: AppTypography.geist(
-              fontSize: 11,
-              fontWeight: FontWeight.w300,
-              color: AppColors.bodySecondary.withOpacity(0.5),
-            ),
-          ),
-        ],
-      ),
     );
   }
 

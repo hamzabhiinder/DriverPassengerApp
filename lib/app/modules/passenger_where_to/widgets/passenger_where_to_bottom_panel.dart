@@ -100,6 +100,15 @@ class PassengerWhereToBottomPanel extends GetView<PassengerWhereToController> {
                   color: AppColors.goldColor,
                   size: AppSizes.inputIconSize.sp,
                 ),
+                suffixIcon: IconButton(
+                  onPressed: controller.onSavedTap,
+                  icon: Icon(
+                    Icons.bookmark_outline,
+                    color: AppColors.goldColor,
+                    size: 18.sp,
+                  ),
+                ),
+                onSubmitted: (_) => controller.previewRouteIfPossible(),
               ),
               SizedBox(height: 14.h),
               Expanded(
@@ -122,7 +131,7 @@ class PassengerWhereToBottomPanel extends GetView<PassengerWhereToController> {
                         label: 'Hourly\nService',
                         subtext: 'By the hour.',
                         tint: const Color(0xFF221A28),
-                        onTap: () {},
+                        onTap: controller.onHourlyTap,
                       ),
                     ),
                     SizedBox(width: 8.w),
@@ -132,7 +141,7 @@ class PassengerWhereToBottomPanel extends GetView<PassengerWhereToController> {
                         label: 'Round\nTrip',
                         subtext: 'Seamless and\nreliable.',
                         tint: const Color(0xFF1A2420),
-                        onTap: () {},
+                        onTap: controller.onRoundTripTap,
                       ),
                     ),
                     SizedBox(width: 8.w),
@@ -225,12 +234,14 @@ class _LocationField extends StatelessWidget {
     required this.hint,
     required this.prefixIcon,
     this.suffixIcon,
+    this.onSubmitted,
   });
 
   final TextEditingController controller;
   final String hint;
   final Widget prefixIcon;
   final Widget? suffixIcon;
+  final ValueChanged<String>? onSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -242,6 +253,8 @@ class _LocationField extends StatelessWidget {
       isPill: true,
       showBorder: false,
       fillColor: const Color(0xFF141414),
+      textInputAction: TextInputAction.done,
+      onSubmitted: onSubmitted,
     );
   }
 }

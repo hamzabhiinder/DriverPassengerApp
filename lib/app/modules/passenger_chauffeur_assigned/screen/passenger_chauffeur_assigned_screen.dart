@@ -85,21 +85,25 @@ class PassengerChauffeurAssignedScreen
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  controller.chauffeurName,
-                                  style: AppTypography.geist(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.onBackgroundBright,
+                                Obx(
+                                  () => Text(
+                                    controller.rxChauffeurName.value,
+                                    style: AppTypography.geist(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.onBackgroundBright,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(height: 4.h),
-                                Text(
-                                  controller.vehicleModel,
-                                  style: AppTypography.geist(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.onBackgroundBright,
+                                Obx(
+                                  () => Text(
+                                    controller.rxVehicleModel.value,
+                                    style: AppTypography.geist(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.onBackgroundBright,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(height: 8.h),
@@ -118,13 +122,14 @@ class PassengerChauffeurAssignedScreen
                                       ),
                                     ),
                                     SizedBox(width: 10.w),
-                                    Text(
-                                      PassengerChauffeurAssignedController
-                                          .plate,
-                                      style: AppTypography.geist(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors.onSurfaceMuted,
+                                    Obx(
+                                      () => Text(
+                                        controller.rxPlate.value,
+                                        style: AppTypography.geist(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColors.onSurfaceMuted,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -156,9 +161,15 @@ class PassengerChauffeurAssignedScreen
                         ],
                       ),
                       SizedBox(height: 22.h),
-                      GoldGradientCtaButton(
-                        label: 'Ride complete',
-                        onPressed: controller.onRideComplete,
+                      Obx(
+                        () => GoldGradientCtaButton(
+                          label: controller.rxStatus.value == 'completed'
+                              ? 'Rate your ride'
+                              : 'Ride complete',
+                          onPressed: () {
+                            controller.onRideComplete();
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -172,10 +183,11 @@ class PassengerChauffeurAssignedScreen
   }
 }
 
-class _StatusPill extends StatelessWidget {
+class _StatusPill extends GetView<PassengerChauffeurAssignedController> {
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return Obx(
+      () => DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.primaryContainer.withValues(alpha: 0.92),
         borderRadius: BorderRadius.circular(999.r),
@@ -196,7 +208,7 @@ class _StatusPill extends StatelessWidget {
             ),
             SizedBox(width: 10.w),
             Text(
-              'Chauffeur Assigned',
+              controller.statusLabel,
               style: AppTypography.geist(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -205,6 +217,7 @@ class _StatusPill extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

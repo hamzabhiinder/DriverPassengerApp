@@ -541,28 +541,32 @@ class _PaymentRow extends StatelessWidget {
             ),
             SizedBox(width: 12.w),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    PassengerConfirmRideController.paymentSummary,
-                    style: AppTypography.geist(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.onBackgroundBright,
+              child: Obx(() {
+                final PassengerConfirmRideController c =
+                    Get.find<PassengerConfirmRideController>();
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      c.paymentSummary,
+                      style: AppTypography.geist(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.onBackgroundBright,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    PassengerConfirmRideController.paymentMask,
-                    style: AppTypography.geist(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.onSurfaceMuted,
+                    SizedBox(height: 2.h),
+                    Text(
+                      c.paymentMask,
+                      style: AppTypography.geist(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.onSurfaceMuted,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                );
+              }),
             ),
             TextButton(
               onPressed: onChange,

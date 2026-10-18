@@ -18,8 +18,10 @@ class DriverLoginView extends GetView<DriverLoginController> {
   Widget build(BuildContext context) {
     final double bottomInset = MediaQuery.paddingOf(context).bottom;
     final double topInset = MediaQuery.paddingOf(context).top;
+    final double keyboardInset = MediaQuery.viewInsetsOf(context).bottom;
     return Scaffold(
       backgroundColor: AppColors.background,
+      resizeToAvoidBottomInset: true,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -58,128 +60,144 @@ class DriverLoginView extends GetView<DriverLoginController> {
             ),
           ),
           SafeArea(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(24.w, 8.h, 24.w, 12.h + bottomInset),
-              child: Column(
-                children: [
-                  SizedBox(height: 4.h),
-                  const BlackXBrandHeader(
-                    logoHeight: 210,
-                    compact: true,
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return SingleChildScrollView(
+                  padding: EdgeInsets.fromLTRB(
+                    24.w,
+                    8.h,
+                    24.w,
+                    12.h + bottomInset + keyboardInset,
                   ),
-                  const Spacer(flex: 2),
-                  Text(
-                    'Driver Portal',
-                    textAlign: TextAlign.center,
-                    style: AppTypography.display(
-                      color: AppColors.onBackgroundBright,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight - 8.h,
                     ),
-                  ),
-                  SizedBox(height: 8.h),
-                  const GlowingDivider(),
-                  SizedBox(height: 14.h),
-                  Text(
-                    'Accept trips. Track earnings. Manage your day.',
-                    textAlign: TextAlign.center,
-                    style: AppTypography.label(
-                      color: AppColors.onSurface.withValues(alpha: 0.75),
-                    ),
-                  ),
-                  SizedBox(height: 28.h),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Company Email',
-                      style: AppTypography.label(
-                        color: AppColors.bodySecondary,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  _buildTextField(
-                    controller: controller.emailController,
-                    hint: 'you@blackxchauffeurs.com',
-                    keyboardType: TextInputType.emailAddress,
-                    prefixIcon: Icons.email_outlined,
-                  ),
-                  SizedBox(height: 14.h),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Password',
-                      style: AppTypography.label(
-                        color: AppColors.bodySecondary,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Obx(
-                    () => _buildTextField(
-                      controller: controller.passwordController,
-                      hint: '••••••••••••••••',
-                      obscureText: !controller.rxIsPasswordVisible.value,
-                      prefixIcon: Icons.lock_outline_rounded,
-                      suffix: IconButton(
-                        icon: Icon(
-                          controller.rxIsPasswordVisible.value
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
-                          color: AppColors.hint,
-                          size: AppSizes.inputIconSize,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 4.h),
+                        BlackXBrandHeader(
+                          logoHeight: keyboardInset > 0 ? 100.h : 140.h,
+                          compact: true,
                         ),
-                        onPressed: controller.togglePasswordVisibility,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 14.h),
-                  Row(
-                    children: [
-                      Obx(
-                        () => SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: Checkbox(
-                            value: controller.rxRememberMe.value,
-                            onChanged: (_) => controller.toggleRememberMe(),
-                            activeColor: AppColors.goldColor,
-                            side: BorderSide(
-                              color: AppColors.goldColor.withValues(alpha: 0.6),
-                            ),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
+                        SizedBox(height: keyboardInset > 0 ? 12.h : 24.h),
+                        Text(
+                          'Driver Portal',
+                          textAlign: TextAlign.center,
+                          style: AppTypography.display(
+                            color: AppColors.onBackgroundBright,
                           ),
                         ),
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'Remember Me',
-                        style: AppTypography.label(
-                          color: AppColors.bodySecondary,
+                        SizedBox(height: 8.h),
+                        const GlowingDivider(),
+                        SizedBox(height: 12.h),
+                        Text(
+                          'Demo: driver@blackx.com / Driver123!',
+                          textAlign: TextAlign.center,
+                          style: AppTypography.label(
+                            color: AppColors.onSurface.withValues(alpha: 0.75),
+                          ),
                         ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        'Forgot Password?',
-                        style: AppTypography.label(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.goldColor,
+                        SizedBox(height: 20.h),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Company Email',
+                            style: AppTypography.label(
+                              color: AppColors.bodySecondary,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 28.h),
-                  Obx(
-                    () => AppPrimaryButton(
-                      label: 'Sign In',
-                      onPressed: controller.signIn,
-                      isLoading: controller.rxIsLoading.value,
+                        SizedBox(height: 8.h),
+                        _buildTextField(
+                          controller: controller.emailController,
+                          hint: 'you@blackxchauffeurs.com',
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIcon: Icons.email_outlined,
+                        ),
+                        SizedBox(height: 14.h),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Password',
+                            style: AppTypography.label(
+                              color: AppColors.bodySecondary,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        Obx(
+                          () => _buildTextField(
+                            controller: controller.passwordController,
+                            hint: '••••••••••••••••',
+                            obscureText: !controller.rxIsPasswordVisible.value,
+                            prefixIcon: Icons.lock_outline_rounded,
+                            suffix: IconButton(
+                              icon: Icon(
+                                controller.rxIsPasswordVisible.value
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                                color: AppColors.hint,
+                                size: AppSizes.inputIconSize,
+                              ),
+                              onPressed: controller.togglePasswordVisibility,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 14.h),
+                        Row(
+                          children: [
+                            Obx(
+                              () => SizedBox(
+                                width: 22,
+                                height: 22,
+                                child: Checkbox(
+                                  value: controller.rxRememberMe.value,
+                                  onChanged: (_) =>
+                                      controller.toggleRememberMe(),
+                                  activeColor: AppColors.goldColor,
+                                  side: BorderSide(
+                                    color: AppColors.goldColor
+                                        .withValues(alpha: 0.6),
+                                  ),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 8.w),
+                            Text(
+                              'Remember Me',
+                              style: AppTypography.label(
+                                color: AppColors.bodySecondary,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              'Forgot Password?',
+                              style: AppTypography.label(
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.goldColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 24.h),
+                        Obx(
+                          () => AppPrimaryButton(
+                            label: 'Sign In',
+                            onPressed: controller.signIn,
+                            isLoading: controller.rxIsLoading.value,
+                          ),
+                        ),
+                        SizedBox(height: 28.h),
+                        _buildSupportFooter(),
+                        SizedBox(height: 8.h),
+                      ],
                     ),
                   ),
-                  const Spacer(flex: 2),
-                  _buildSupportFooter(),
-                  SizedBox(height: 8.h),
-                ],
-              ),
+                );
+              },
             ),
           ),
         ],

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/demo_credentials.dart';
 import '../../../data/services/firebase_auth_service.dart';
+import '../../../data/services/firestore_service.dart';
 import '../../../routes/app_routes.dart';
 
 class DriverLoginController extends GetxController {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final emailController = TextEditingController(text: DemoCredentials.driverEmail);
+  final passwordController = TextEditingController(text: DemoCredentials.driverPassword);
 
   final rxIsPasswordVisible = false.obs;
   final rxIsLoading = false.obs;
@@ -42,10 +44,16 @@ class DriverLoginController extends GetxController {
       final userCredential = await authService.signInWithEmailPassword(email, password);
       
       if (userCredential != null) {
+        final FirestoreService firestore = Get.find<FirestoreService>();
+        await firestore.ensureDriverProfile(
+          driverId: userCredential.user!.uid,
+          email: email,
+          displayName: email.split('@').first,
+        );
         Get.offNamed(AppRoutes.driverHome);
       }
     } catch (e) {
-      print('Login error: \$e');
+      print('Login error: $e');
     } finally {
       rxIsLoading.value = false;
     }

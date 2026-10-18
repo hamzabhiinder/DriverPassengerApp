@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_sizes.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/app_map_tile_layer.dart';
 import '../../../core/widgets/app_primary_button.dart';
 import '../controller/going_to_pickup_controller.dart';
 
@@ -30,12 +31,7 @@ class GoingToPickupView extends StatelessWidget {
                 maxZoom: 18.0,
               ),
               children: [
-                TileLayer(
-                  urlTemplate:
-                      'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-                  subdomains: const ['a', 'b', 'c', 'd'],
-                  userAgentPackageName: 'com.blackx.driver',
-                ),
+                const AppMapTileLayer(),
                 MarkerLayer(
                   markers: [
                     Marker(
@@ -167,7 +163,7 @@ class GoingToPickupView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Sarah Johnson',
+                                controller.ride.passengerName,
                                 style: AppTypography.geist(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -217,10 +213,17 @@ class GoingToPickupView extends StatelessWidget {
 
                     _buildSpecDetailRow(
                       _getDynamicLabel(state),
-                      '12280 Westheimer Rd #5',
+                      controller.ride.destinationLabel,
                     ),
-                    _buildSpecDetailRow('Distance', '1.8 km — 5 min away'),
-                    _buildSpecDetailRow('Earnings', '\$120.00', isGoldValue: true),
+                    _buildSpecDetailRow(
+                      'Distance',
+                      '${(controller.ride.distanceKm ?? 0).toStringAsFixed(1)} km — ${controller.ride.etaMinutes} min',
+                    ),
+                    _buildSpecDetailRow(
+                      'Earnings',
+                      '\$${controller.ride.fareUsd.toStringAsFixed(2)}',
+                      isGoldValue: true,
+                    ),
                     if (state == TripState.goingToPickup ||
                         state == TripState.waitingForPassenger) ...[
                       SizedBox(height: 8.h),
@@ -236,7 +239,7 @@ class GoingToPickupView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '• Hotel pickup at Grand Hyatt\n• Client has 2 checked bags\n• Meet at valet entrance',
+                        controller.ride.notes ?? 'No special notes for this trip.',
                         style: AppTypography.geist(
                           fontSize: 11,
                           color: AppColors.bodySecondary,
@@ -317,7 +320,7 @@ class GoingToPickupView extends StatelessWidget {
                           Expanded(
                             child: _buildSecondaryButton(
                               'Report No-Show',
-                              onTap: () {},
+                              onTap: controller.reportNoShow,
                             ),
                           ),
                         ],

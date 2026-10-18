@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/demo_credentials.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_sizes.dart';
 import '../../../core/theme/app_typography.dart';
@@ -77,7 +78,7 @@ class PassengerLoginView extends GetView<PassengerLoginController> {
                   const GlowingDivider(),
                   SizedBox(height: 14.h),
                   Text(
-                    'Enter your phone number to continue',
+                    'Demo rider: ${DemoCredentials.riderPhone} · OTP ${DemoCredentials.riderOtp}',
                     textAlign: TextAlign.center,
                     style: AppTypography.label(
                       

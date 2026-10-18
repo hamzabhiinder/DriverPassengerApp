@@ -11,11 +11,13 @@ class RoleSelectController extends GetxController {
 
   Future<void> pickDriver() async {
     rxSelectedRole.value = 'driver';
+    await _roleService.setRole(UserRole.driver);
     Get.offAllNamed<void>(AppRoutes.driverLogin);
   }
 
   Future<void> pickPassenger() async {
     rxSelectedRole.value = 'passenger';
+    await _roleService.setRole(UserRole.passenger);
     Get.offAllNamed<void>(AppRoutes.passengerLogin);
   }
 }

@@ -8,6 +8,13 @@ class ConfirmRideArgs {
     required this.baseFareUsd,
     required this.serviceFeeUsd,
     required this.etaMinutes,
+    this.tripType = 'Point to Point',
+    this.isScheduled = false,
+    this.scheduledAtIso,
+    this.pickupLat,
+    this.pickupLng,
+    this.destinationLat,
+    this.destinationLng,
   });
 
   final String pickupLabel;
@@ -18,6 +25,13 @@ class ConfirmRideArgs {
   final int baseFareUsd;
   final int serviceFeeUsd;
   final int etaMinutes;
+  final String tripType;
+  final bool isScheduled;
+  final String? scheduledAtIso;
+  final double? pickupLat;
+  final double? pickupLng;
+  final double? destinationLat;
+  final double? destinationLng;
 
   int get totalUsd => baseFareUsd + serviceFeeUsd;
 
@@ -37,6 +51,13 @@ class ConfirmRideArgs {
         baseFareUsd: (raw['baseFareUsd'] as num?)?.toInt() ?? 120,
         serviceFeeUsd: (raw['serviceFeeUsd'] as num?)?.toInt() ?? 5,
         etaMinutes: (raw['etaMinutes'] as num?)?.toInt() ?? 5,
+        tripType: raw['tripType'] as String? ?? 'Point to Point',
+        isScheduled: raw['isScheduled'] == true,
+        scheduledAtIso: raw['scheduledAt'] as String?,
+        pickupLat: (raw['pickupLat'] as num?)?.toDouble(),
+        pickupLng: (raw['pickupLng'] as num?)?.toDouble(),
+        destinationLat: (raw['destinationLat'] as num?)?.toDouble(),
+        destinationLng: (raw['destinationLng'] as num?)?.toDouble(),
       );
     }
     return const ConfirmRideArgs(

@@ -103,7 +103,7 @@ class NewRideRequestView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '#BL-5678',
+                          controller.ride.displayBookingCode,
                           style: AppTypography.geist(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -136,7 +136,7 @@ class NewRideRequestView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Sarah Johnson',
+                                controller.ride.passengerName,
                                 style: AppTypography.geist(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -186,7 +186,7 @@ class NewRideRequestView extends StatelessWidget {
                               Icon(Icons.flight, color: AppColors.goldColor, size: 14.sp),
                               SizedBox(width: 4.w),
                               Text(
-                                'Airport Transfer',
+                                controller.ride.tripType,
                                 style: AppTypography.geist(
                                   fontSize: 10,
                                   color: AppColors.goldColor,
@@ -242,7 +242,7 @@ class NewRideRequestView extends StatelessWidget {
                               ),
                               SizedBox(height: 2.h),
                               Text(
-                                'Current Location',
+                                controller.ride.pickupLabel,
                                 style: AppTypography.geist(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
@@ -250,7 +250,7 @@ class NewRideRequestView extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                'Pickup ETA: 5 min',
+                                'Pickup ETA: ${controller.ride.etaMinutes} min',
                                 style: AppTypography.geist(
                                   fontSize: 11,
                                   color: AppColors.goldColor,
@@ -271,7 +271,7 @@ class NewRideRequestView extends StatelessWidget {
                               ),
                               SizedBox(height: 2.h),
                               Text(
-                                '12280 Westheimer Rd #5, Houston, TX 77077',
+                                controller.ride.destinationLabel,
                                 style: AppTypography.geist(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
@@ -291,7 +291,7 @@ class NewRideRequestView extends StatelessWidget {
                         Expanded(
                           child: _buildRideStat(
                             icon: Icons.attach_money_rounded,
-                            value: '\$120.00',
+                            value: '\$${controller.ride.fareUsd.toStringAsFixed(2)}',
                             label: 'Earnings',
                           ),
                         ),
