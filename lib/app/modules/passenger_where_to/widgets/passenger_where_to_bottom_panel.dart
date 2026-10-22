@@ -108,8 +108,38 @@ class PassengerWhereToBottomPanel extends GetView<PassengerWhereToController> {
                     size: 18.sp,
                   ),
                 ),
+                onChanged: (_) => controller.scheduleRoutePreview(),
                 onSubmitted: (_) => controller.previewRouteIfPossible(),
               ),
+              Obx(() {
+                final String eta = controller.rxEtaLabel.value;
+                if (eta.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+                return Padding(
+                  padding: EdgeInsets.only(top: 8.h),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.alt_route,
+                        size: 16.sp,
+                        color: AppColors.goldColor,
+                      ),
+                      SizedBox(width: 6.w),
+                      Expanded(
+                        child: Text(
+                          eta,
+                          style: AppTypography.geist(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.goldColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
               SizedBox(height: 14.h),
               Expanded(
                 child: Row(
@@ -234,6 +264,7 @@ class _LocationField extends StatelessWidget {
     required this.hint,
     required this.prefixIcon,
     this.suffixIcon,
+    this.onChanged,
     this.onSubmitted,
   });
 
@@ -241,6 +272,7 @@ class _LocationField extends StatelessWidget {
   final String hint;
   final Widget prefixIcon;
   final Widget? suffixIcon;
+  final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
 
   @override
@@ -254,6 +286,7 @@ class _LocationField extends StatelessWidget {
       showBorder: false,
       fillColor: const Color(0xFF141414),
       textInputAction: TextInputAction.done,
+      onChanged: onChanged,
       onSubmitted: onSubmitted,
     );
   }

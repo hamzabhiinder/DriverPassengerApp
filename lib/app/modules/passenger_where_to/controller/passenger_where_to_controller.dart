@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
@@ -10,6 +12,7 @@ import '../../../data/services/firestore_service.dart';
 import '../../../data/services/push_notification_service.dart';
 import '../../../data/services/session_service.dart';
 import '../../../routes/app_routes.dart';
+import '../../passenger_trip_options/passenger_trip_options_view.dart';
 
 class PassengerWhereToController extends GetxController {
   PassengerWhereToController() {
@@ -20,19 +23,24 @@ class PassengerWhereToController extends GetxController {
   static final LatLng mapInitialCenter = LatLng(29.4241, -98.4936);
 
   static const double mapInitialZoom = 14;
+  static const Duration _routePreviewDebounce = Duration(milliseconds: 650);
 
   final MapController mapController = MapController();
   final Rxn<LatLng> rxUserLocation = Rxn<LatLng>();
   final Rxn<LatLng> rxDestinationLocation = Rxn<LatLng>();
   final RxList<LatLng> rxRoutePoints = <LatLng>[].obs;
   final RxString rxEtaLabel = ''.obs;
+  final RxBool rxIsPreviewingRoute = false.obs;
 
   late final TextEditingController pickupController;
   late final TextEditingController destinationController;
+  Timer? _routePreviewTimer;
+  int _previewRequestId = 0;
 
   @override
   void onInit() {
     super.onInit();
+    destinationController.addListener(_onDestinationChanged);
     _bootstrap();
   }
 
@@ -62,6 +70,31 @@ class PassengerWhereToController extends GetxController {
     }
   }
 
+  void _onDestinationChanged() {
+    scheduleRoutePreview();
+  }
+
+  void scheduleRoutePreview() {
+    _routePreviewTimer?.cancel();
+    final String destination = destinationController.text.trim();
+    if (destination.length < 4) {
+      if (destination.isEmpty) {
+        clearRoutePreview();
+      }
+      return;
+    }
+    _routePreviewTimer = Timer(_routePreviewDebounce, () {
+      previewRouteIfPossible();
+    });
+  }
+
+  void clearRoutePreview() {
+    rxRoutePoints.clear();
+    rxDestinationLocation.value = null;
+    rxEtaLabel.value = '';
+    rxIsPreviewingRoute.value = false;
+  }
+
   Future<void> locateUser() async {
     final LatLng? point =
         await Get.find<DriverLocationService>().getCurrentLatLng();
@@ -89,8 +122,12 @@ class PassengerWhereToController extends GetxController {
     final String pickup = pickupController.text.trim();
     final String destination = destinationController.text.trim();
     if (destination.isEmpty) {
+      clearRoutePreview();
       return;
     }
+    final int requestId = ++_previewRequestId;
+    rxIsPreviewingRoute.value = true;
+    rxEtaLabel.value = 'Finding route…';
     final DirectionsService directions = Get.find<DirectionsService>();
     LatLng? origin = rxUserLocation.value;
     if (origin == null) {
@@ -102,7 +139,12 @@ class PassengerWhereToController extends GetxController {
       }
     }
     final LatLng? dest = await directions.geocode(destination);
+    if (requestId != _previewRequestId) {
+      return;
+    }
     if (origin == null || dest == null) {
+      rxIsPreviewingRoute.value = false;
+      rxEtaLabel.value = 'Address not found';
       return;
     }
     rxDestinationLocation.value = dest;
@@ -110,6 +152,10 @@ class PassengerWhereToController extends GetxController {
       origin: origin,
       destination: dest,
     );
+    if (requestId != _previewRequestId) {
+      return;
+    }
+    rxIsPreviewingRoute.value = false;
     if (route == null || route.points.length < 2) {
       rxRoutePoints.assignAll(<LatLng>[origin, dest]);
       rxEtaLabel.value = 'Route ready';
@@ -132,14 +178,17 @@ class PassengerWhereToController extends GetxController {
     );
   }
 
+  String get _resolvedPickup {
+    final String pickup = pickupController.text.trim();
+    return pickup.isEmpty ? 'Current Location' : pickup;
+  }
+
   Future<void> onSelectVehicle() async {
     await previewRouteIfPossible();
     Get.toNamed<void>(
       AppRoutes.passengerSelectVehicle,
       arguments: <String, dynamic>{
-        'pickupLabel': pickupController.text.trim().isEmpty
-            ? 'Current Location'
-            : pickupController.text.trim(),
+        'pickupLabel': _resolvedPickup,
         'destinationLabel': destinationController.text.trim().isEmpty
             ? 'Hotel Emma'
             : destinationController.text.trim(),
@@ -164,55 +213,31 @@ class PassengerWhereToController extends GetxController {
   }
 
   void onAirportTap() {
-    pickupController.text = pickupController.text.trim().isEmpty
-        ? 'Current Location'
-        : pickupController.text.trim();
-    destinationController.text = 'San Antonio International Airport';
     Get.toNamed(
-      AppRoutes.passengerSelectVehicle,
+      AppRoutes.passengerTripOptions,
       arguments: <String, dynamic>{
-        'pickupLabel': pickupController.text,
-        'destinationLabel': destinationController.text,
-        'tripType': 'Airport Transfer',
-        'pickupLat': rxUserLocation.value?.latitude,
-        'pickupLng': rxUserLocation.value?.longitude,
+        'tripKind': PassengerTripKind.airport,
+        'pickupLabel': _resolvedPickup,
       },
     );
   }
 
   void onHourlyTap() {
-    pickupController.text = pickupController.text.trim().isEmpty
-        ? 'Current Location'
-        : pickupController.text.trim();
-    destinationController.text = 'Hourly chauffeur service';
     Get.toNamed(
-      AppRoutes.passengerSelectVehicle,
+      AppRoutes.passengerTripOptions,
       arguments: <String, dynamic>{
-        'pickupLabel': pickupController.text,
-        'destinationLabel': destinationController.text,
-        'tripType': 'Hourly Service',
-        'pickupLat': rxUserLocation.value?.latitude,
-        'pickupLng': rxUserLocation.value?.longitude,
+        'tripKind': PassengerTripKind.hourly,
+        'pickupLabel': _resolvedPickup,
       },
     );
   }
 
   void onRoundTripTap() {
-    final String destination = destinationController.text.trim().isEmpty
-        ? 'Hotel Emma'
-        : destinationController.text.trim();
-    pickupController.text = pickupController.text.trim().isEmpty
-        ? 'Current Location'
-        : pickupController.text.trim();
-    destinationController.text = '$destination (Round trip)';
     Get.toNamed(
-      AppRoutes.passengerSelectVehicle,
+      AppRoutes.passengerTripOptions,
       arguments: <String, dynamic>{
-        'pickupLabel': pickupController.text,
-        'destinationLabel': destinationController.text,
-        'tripType': 'Round Trip',
-        'pickupLat': rxUserLocation.value?.latitude,
-        'pickupLng': rxUserLocation.value?.longitude,
+        'tripKind': PassengerTripKind.roundTrip,
+        'pickupLabel': _resolvedPickup,
       },
     );
   }
@@ -223,6 +248,8 @@ class PassengerWhereToController extends GetxController {
 
   @override
   void onClose() {
+    _routePreviewTimer?.cancel();
+    destinationController.removeListener(_onDestinationChanged);
     mapController.dispose();
     pickupController.dispose();
     destinationController.dispose();

@@ -19,6 +19,9 @@ class PaymentSummaryArgs {
     this.destinationLng,
     this.pickupAddress = '9800 Airport Blvd, San Antonio, TX 78216',
     this.destinationAddress = '136 E Grayson St, San Antonio, TX 78215',
+    this.flightNumber,
+    this.hours,
+    this.returnDestination,
   });
 
   final int baseFareUsd;
@@ -40,6 +43,9 @@ class PaymentSummaryArgs {
   final double? pickupLng;
   final double? destinationLat;
   final double? destinationLng;
+  final String? flightNumber;
+  final int? hours;
+  final String? returnDestination;
 
   int get totalUsd => baseFareUsd + serviceFeeUsd;
 
@@ -70,6 +76,9 @@ class PaymentSummaryArgs {
       pickupLng: (raw['pickupLng'] as num?)?.toDouble(),
       destinationLat: (raw['destinationLat'] as num?)?.toDouble(),
       destinationLng: (raw['destinationLng'] as num?)?.toDouble(),
+      flightNumber: raw['flightNumber'] as String?,
+      hours: (raw['hours'] as num?)?.toInt(),
+      returnDestination: raw['returnDestination'] as String?,
     );
   }
 }

@@ -127,6 +127,10 @@ class PassengerConfirmRideController extends GetxController {
         'pickupLng': args.pickupLng,
         'destinationLat': args.destinationLat,
         'destinationLng': args.destinationLng,
+        if (args.flightNumber != null) 'flightNumber': args.flightNumber,
+        if (args.hours != null) 'hours': args.hours,
+        if (args.returnDestination != null)
+          'returnDestination': args.returnDestination,
       },
     );
   }

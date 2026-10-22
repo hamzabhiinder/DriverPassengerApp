@@ -7,6 +7,7 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_input_field.dart';
 import '../../../core/widgets/gold_gradient_cta_button.dart';
 import '../controller/passenger_confirm_ride_controller.dart';
+import '../models/confirm_ride_args.dart';
 
 class PassengerConfirmRideScreen
     extends GetView<PassengerConfirmRideController> {
@@ -74,6 +75,10 @@ class PassengerConfirmRideScreen
               destination: a.destinationLabel,
             ),
           ),
+          if (a.hasTripDetails) ...[
+            SizedBox(height: 12.h),
+            _SectionCard(child: _TripDetailsSummary(args: a)),
+          ],
           SizedBox(height: 12.h),
           _SectionCard(
             child: _VehicleSummary(
@@ -119,6 +124,77 @@ class _SectionCard extends StatelessWidget {
       color: AppColors.primaryContainer,
       borderRadius: BorderRadius.circular(18.r),
       child: Padding(padding: EdgeInsets.all(18.w), child: child),
+    );
+  }
+}
+
+class _TripDetailsSummary extends StatelessWidget {
+  const _TripDetailsSummary({required this.args});
+
+  final ConfirmRideArgs args;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Trip details',
+          style: AppTypography.geist(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            color: AppColors.onBackgroundBright,
+          ),
+        ),
+        SizedBox(height: 10.h),
+        _detailRow('Service', args.tripType),
+        if (args.flightNumber != null && args.flightNumber!.isNotEmpty)
+          _detailRow('Flight', args.flightNumber!),
+        if (args.hours != null)
+          _detailRow(
+            'Duration',
+            '${args.hours} hour${args.hours == 1 ? '' : 's'}',
+          ),
+        if (args.returnDestination != null &&
+            args.returnDestination!.isNotEmpty)
+          _detailRow('Return to', args.returnDestination!),
+        if (args.isScheduled && args.scheduledAtIso != null)
+          _detailRow(
+            'Scheduled',
+            args.scheduledAtIso!.replaceFirst('T', ' ').substring(0, 16),
+          ),
+      ],
+    );
+  }
+
+  Widget _detailRow(String label, String value) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 8.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 88.w,
+            child: Text(
+              label,
+              style: AppTypography.geist(
+                fontSize: 13,
+                color: AppColors.bodySecondary,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: AppTypography.geist(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: AppColors.onBackgroundBright,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

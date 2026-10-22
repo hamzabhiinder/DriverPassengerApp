@@ -38,4 +38,5 @@ abstract final class AppRoutes {
   static const passengerScheduledRides = '/passenger/scheduled-rides';
   static const passengerSupport = '/passenger/support';
   static const passengerWallet = '/passenger/wallet';
+  static const passengerTripOptions = '/passenger/trip-options';
 }

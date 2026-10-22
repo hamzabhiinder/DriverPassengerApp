@@ -15,6 +15,9 @@ class ConfirmRideArgs {
     this.pickupLng,
     this.destinationLat,
     this.destinationLng,
+    this.flightNumber,
+    this.hours,
+    this.returnDestination,
   });
 
   final String pickupLabel;
@@ -32,8 +35,17 @@ class ConfirmRideArgs {
   final double? pickupLng;
   final double? destinationLat;
   final double? destinationLng;
+  final String? flightNumber;
+  final int? hours;
+  final String? returnDestination;
 
   int get totalUsd => baseFareUsd + serviceFeeUsd;
+
+  bool get hasTripDetails =>
+      flightNumber != null ||
+      hours != null ||
+      (returnDestination != null && returnDestination!.isNotEmpty) ||
+      isScheduled;
 
   static ConfirmRideArgs fromArgs(dynamic raw) {
     if (raw is ConfirmRideArgs) {
@@ -58,6 +70,9 @@ class ConfirmRideArgs {
         pickupLng: (raw['pickupLng'] as num?)?.toDouble(),
         destinationLat: (raw['destinationLat'] as num?)?.toDouble(),
         destinationLng: (raw['destinationLng'] as num?)?.toDouble(),
+        flightNumber: raw['flightNumber'] as String?,
+        hours: (raw['hours'] as num?)?.toInt(),
+        returnDestination: raw['returnDestination'] as String?,
       );
     }
     return const ConfirmRideArgs(

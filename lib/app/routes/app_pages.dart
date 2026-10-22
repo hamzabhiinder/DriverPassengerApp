@@ -28,6 +28,7 @@ import '../modules/passenger_notifications/passenger_notifications_view.dart';
 import '../modules/passenger_scheduled/passenger_scheduled_view.dart';
 import '../modules/passenger_support/passenger_support_view.dart';
 import '../modules/passenger_terms/passenger_terms_view.dart';
+import '../modules/passenger_trip_options/passenger_trip_options_view.dart';
 import '../modules/passenger_wallet/passenger_wallet_view.dart';
 import '../modules/passenger_home/passenger_home_view.dart';
 import '../modules/passenger_chauffeur_assigned/binding/passenger_chauffeur_assigned_binding.dart';
@@ -207,6 +208,11 @@ abstract final class AppPages {
       name: AppRoutes.passengerWallet,
       controller: PassengerWalletController.new,
       page: () => const PassengerWalletView(),
+    ),
+    _putPage(
+      name: AppRoutes.passengerTripOptions,
+      controller: PassengerTripOptionsController.new,
+      page: () => const PassengerTripOptionsView(),
     ),
     GetPage<void>(
       name: AppRoutes.passengerLogin,

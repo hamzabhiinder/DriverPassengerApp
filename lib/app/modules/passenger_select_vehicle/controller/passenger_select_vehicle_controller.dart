@@ -21,6 +21,9 @@ class PassengerSelectVehicleController extends GetxController {
   double? pickupLng;
   double? destinationLat;
   double? destinationLng;
+  String? flightNumber;
+  int? hours;
+  String? returnDestination;
 
   final List<VehicleOption> _standardSUVs = const [
     VehicleOption(
@@ -86,6 +89,9 @@ class PassengerSelectVehicleController extends GetxController {
       pickupLng = (raw['pickupLng'] as num?)?.toDouble();
       destinationLat = (raw['destinationLat'] as num?)?.toDouble();
       destinationLng = (raw['destinationLng'] as num?)?.toDouble();
+      flightNumber = raw['flightNumber'] as String?;
+      hours = (raw['hours'] as num?)?.toInt();
+      returnDestination = raw['returnDestination'] as String?;
     }
   }
 
@@ -157,6 +163,9 @@ class PassengerSelectVehicleController extends GetxController {
         'pickupLng': pickupLng,
         'destinationLat': destinationLat,
         'destinationLng': destinationLng,
+        if (flightNumber != null) 'flightNumber': flightNumber,
+        if (hours != null) 'hours': hours,
+        if (returnDestination != null) 'returnDestination': returnDestination,
       },
     );
   }

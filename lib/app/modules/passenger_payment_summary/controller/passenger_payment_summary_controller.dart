@@ -139,6 +139,8 @@ class PassengerPaymentSummaryController extends GetxController {
         double distanceKm,
         int etaMinutes,
       }) coords = await _resolveTripCoordinates();
+      final String paymentNote =
+          payWithWallet ? 'Paid via wallet' : 'Paid via ${rxCardMask.value}';
       final String rideId = await firestore.createRideRequest(
         ride: RideRequestModel(
           id: '',
@@ -155,7 +157,7 @@ class PassengerPaymentSummaryController extends GetxController {
           tripType: args.tripType,
           status: scheduledAt == null ? 'pending' : 'scheduled',
           createdAt: DateTime.now(),
-          notes: payWithWallet ? 'Paid via wallet' : 'Paid via ${rxCardMask.value}',
+          notes: _buildRideNotes(paymentNote),
           bookingCode: '#BL-${DateTime.now().millisecondsSinceEpoch % 10000}',
           distanceKm: coords.distanceKm,
           scheduledAt: scheduledAt,
@@ -222,6 +224,21 @@ class PassengerPaymentSummaryController extends GetxController {
     } finally {
       rxIsPaying.value = false;
     }
+  }
+
+  String _buildRideNotes(String paymentNote) {
+    final List<String> parts = <String>[paymentNote];
+    if (args.flightNumber != null && args.flightNumber!.isNotEmpty) {
+      parts.add('Flight ${args.flightNumber}');
+    }
+    if (args.hours != null) {
+      parts.add('${args.hours} hour${args.hours == 1 ? '' : 's'}');
+    }
+    if (args.returnDestination != null &&
+        args.returnDestination!.isNotEmpty) {
+      parts.add('Return: ${args.returnDestination}');
+    }
+    return parts.join(' · ');
   }
 
   Future<
